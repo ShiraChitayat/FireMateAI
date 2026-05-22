@@ -1,0 +1,115 @@
+/* הסרת אלמנטים מובנים של Streamlit למראה אתר נקי */
+[data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
+#MainMenu, footer, header { visibility: hidden !important; }
+
+/* הגדרות אפליקציה כלליות */
+.stApp {
+    background-color: #0A0D14 !important;
+    color: #F7FAFC !important;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* התאמת העמוד כולו לכיווניות עברית תקנית */
+.block-container {
+    direction: RTL !important;
+    text-align: right !important;
+    padding-top: 3rem !important;
+    padding-bottom: 7rem !important;
+    max-width: 750px !important;
+}
+
+/* עיצוב כותרת הפרויקט הראשי */
+.brand-title {
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #FF4B4B 0%, #FF7A00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center !important;
+    margin-bottom: 8px;
+}
+
+.brand-subtitle {
+    font-size: 16px;
+    color: #718096;
+    text-align: center !important;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+/* כותרת לשאלות לדוגמה */
+.sample-heading {
+    font-size: 14px !important;
+    color: #A0AEC0 !important;
+    font-weight: 600;
+    margin-top: 25px !important;
+    margin-bottom: 10px !important;
+}
+
+/* עיצוב כפתורי הקיצור הדינמיים */
+div.stButton > button {
+    width: 100% !important;
+    background-color: #121622 !important;
+    color: #E2E8F0 !important;
+    border: 1px solid #1A202C !important;
+    border-radius: 10px !important;
+    padding: 12px 10px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+div.stButton > button:hover {
+    background: linear-gradient(135deg, #FF4B4B 0%, #FF6B00 100%) !important;
+    color: #FFFFFF !important;
+    border-color: transparent !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 15px rgba(255, 75, 75, 0.25) !important;
+}
+
+/* עיצוב בועות הצ'אט והפיכתן למעוגלות ויוקרתיות */
+[data-testid="stChatMessage"] {
+    direction: RTL !important;
+    text-align: right !important;
+    background-color: #121723 !important;
+    border: 1px solid #1A2235 !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* התאמה מיוחדת לבועת המשתמש לעומת הבוט */
+[data-testid="stChatMessage"]:nth-child(even) {
+    background-color: #161B26 !important;
+}
+
+/* עיצוב שדה הזנת הנתונים קבוע בתחתית */
+[data-testid="stChatInput"] {
+    direction: RTL !important;
+    text-align: right !important;
+    border-radius: 12px !important;
+}
+
+/* פוטר קבוע ומעוגן יוקרתי בתחתית הדף */
+.custom-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(11, 14, 21, 0.95);
+    backdrop-filter: blur(8px);
+    color: #A0AEC0;
+    text-align: center;
+    padding: 15px 10px;
+    font-size: 13px;
+    border-top: 1px solid #1A202C;
+    z-index: 9999;
+    direction: RTL;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+}
+.custom-footer b {
+    color: #FF4B4B;
+} 
