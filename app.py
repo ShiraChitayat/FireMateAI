@@ -6,21 +6,21 @@ from sklearn.metrics.pairwise import cosine_similarity
 # 1. Page Configuration
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
 
-# 2. Load the external CSS and Inject Sticky Header
+# 2. Load external CSS
 try:
     with open("style.css", "r", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 except Exception:
     pass
 
-# Custom Sticky Header Injection
+# Custom Sticky Header
 st.markdown("""
     <div class="custom-header">
         <span class="header-logo">🔥 FireMate AI</span>
     </div>
 """, unsafe_allow_html=True)
 
-# 3. Connection to the 3 processed Google Sheets
+# 3. Connection to Google Sheets (Data Anchors)
 SHEET_ID = "1vx7Q1C8rYhiOYYI_IDsNYqHpyAKcs3-z2MJUD09i_QU"
 GIDS = {
     "wildfire_dataset": "1727648073",
@@ -40,6 +40,7 @@ def load_all_processed_sheets():
         df_c = pd.read_csv(URL_CUMULATIVE, timeout=5)
         return df_f, df_w, df_c, False
     except Exception:
+        # Fallback simulation to prevent crashes
         df_f = pd.DataFrame({
             'fire_radiative_power_mw': [35.4, 120.2, 15.1, 88.6, 210.5] * 50,
             'confidence_pct': [80, 95, 60, 88, 99] * 50
@@ -56,16 +57,26 @@ class FireMateIntelligenceEngine:
         self.df_fires = df_fires
         self.df_weekly = df_weekly
         self.df_cumulative = df_cumulative
-        self.domain_keywords = ['fire', 'wildfire', 'שריפה', 'אש', 'עשן', 'פינוי', 'חומרים', 'חמ"ל', 'רוח', 'קוצים', 'יער', 'להבות', 'כיבוי', 'כבאים', 'ציוד', 'חום', 'להבה', 'הצלה', 'שרפה', 'שרפות', 'דליקה']
+        
+        # Guardrail Keywords
+        self.operational_keywords = ['fire', 'wildfire', 'שריפה', 'אש', 'עשן', 'פינוי', 'חומרים', 'חמ"ל', 'רוח', 'קוצים', 'יער', 'להבות', 'כיבוי', 'כבאים', 'דליקה', 'דיווח', 'מתקרבת', 'פרצה']
+        self.trivia_keywords = ['מה ה', 'איפה', 'מתי', 'הכי', 'גדולה', 'בישראל', 'בשנה האחרונה', 'היסטוריה', 'מי', 'איך קוראים']
+        
+        # Columns
         self.frp_col = 'fire_radiative_power_mw'
         self.conf_col = 'confidence_pct'
         self.weekly_area_col = 'Weekly_Area'
 
-    def check_boundaries(self, query):
-        query_lower = query.lower()
-        return any(keyword in query_lower for keyword in self.domain_keywords)
+    def is_trivia_question(self, query):
+        """Check if user is asking general trivia instead of reporting an incident"""
+        return any(word in query.lower() for word in self.trivia_keywords)
+
+    def has_operational_context(self, query):
+        """Check if user provided fire-related context"""
+        return any(word in query.lower() for word in self.operational_keywords)
 
     def compute_similarity(self):
+        """Cosine Similarity Engine"""
         historical_matrix = self.df_fires[[self.frp_col, self.conf_col]].fillna(0).values
         live_incident_vector = np.array([[85.0, 95.0]]) 
         similarities = cosine_similarity(historical_matrix, live_incident_vector)
@@ -73,6 +84,7 @@ class FireMateIntelligenceEngine:
         return self.df_fires.iloc[max_idx], float(similarities[max_idx][0])
 
     def run_anomaly_detection(self):
+        """Z-Score Anomaly Detection"""
         if self.weekly_area_col not in self.df_weekly.columns:
             return False, 0.0
         weekly_values = self.df_weekly[self.weekly_area_col].dropna().values
@@ -84,15 +96,30 @@ class FireMateIntelligenceEngine:
         return z_score > 1.8, z_score
 
     def generate_tactical_response(self, text):
-        if not self.check_boundaries(text):
-            return "❌ **מחוץ לגבולות הגזרה**\n\nאני סוכן שמומחה לניהול שריפות ומשברים בזמן אמת. השאלה שלך לא קשורה לתחום המבצעי שלי. איך אוכל לעזור לך עם אירוע חירום?"
+        # 1. Guardrail for Trivia / General Knowledge
+        if self.is_trivia_question(text):
+            return "❌ **[מחוץ לגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית תומכת החלטה המיועדת אך ורק לאירועי חירום פעילים. איני אנציקלופדיה לשאלות היסטוריות או טריוויה. תפקידי לספק המלצות על סמך אזור השריפה (מגורים, תעשייה, או שטח פתוח). אנא הזן דיווח מבצעי כדי שאוכל לסייע."
         
+        # 2. Guardrail for Irrelevant Topics
+        if not self.has_operational_context(text):
+            return "❌ **[מחוץ לגבולות הגזרה]**\n\nאני סוכן שמומחה לניהול שריפות ומשברים בזמן אמת. השאלה שלך לא קשורה לתחום המבצעי שלי. אנא דווח על אירוע חירום באחד משלושת האזורים המוגדרים."
+        
+        # Extract location to ensure agent stays focused
+        is_residential = any(word in text for word in ["מגורים", "שכונה", "בתים"])
+        is_industrial = any(word in text for word in ["תעשייה", "מחסן", "מפעל", "חומרים"])
+        is_open = any(word in text for word in ["פתוח", "יער", "חורש", "קוצים"])
+
+        if not (is_residential or is_industrial or is_open):
+            return "⚠️ **[חסר מידע מיקום מבצעי]**\n\nזיהיתי דיווח על אירוע אש, אך חסר לי סוג תוואי השטח כדי להפיק פרוטוקול. אנא ציין האם האירוע מתרחש ב**אזור מיושב**, **אזור תעשייה**, או **שטח פתוח**."
+
+        # Run ML Analysis
         twin_case, sim_score = self.compute_similarity()
         is_anomaly, z_score = self.run_anomaly_detection()
         hist_frp_val = twin_case.get(self.frp_col, "N/A")
         
+        # Build Response
         res = f"### 🤖 ניתוח סוכן חכם - FireMate AI\n\n"
-        res += f"🧬 **זיהוי דמיון (ML):** האירוע הושווה מול רשומות NASA. נמצאה שריפה תאומה עם **{sim_score*100:.1f}% אחוז דמיון** (עוצמת FRP היסטורית: {hist_frp_val}).\n"
+        res += f"🧬 **זיהוי דמיון (ML):** האירוע הושווה מול היסטוריית NASA. נמצאה שריפה תאומה מהעבר עם **{sim_score*100:.1f}% אחוז דמיון** (עוצמת FRP היסטורית: {hist_frp_val}).\n"
         
         if is_anomaly:
             res += f"⚠️ **התרעת חריגות:** מדד ההתפשטות חורג מהמגמה השבועית! **(Z-Score: {z_score:.2f})** - סכנת יובש קטסטרופלית.\n\n"
@@ -101,40 +128,41 @@ class FireMateIntelligenceEngine:
             
         res += "--- \n\n### 📋 פרוטוקול פעולה מומלץ לכוחות:\n"
         
-        if "מגורים" in text or "שכונה" in text or "בתים" in text:
+        if is_residential:
             res += "🚨 **פרופיל: אזור מיושב עירוני**\n"
             res += "* **פינוי מיידי:** הפעלת מערכות כריזה ופינוי קו הבתים המאוים.\n"
-            res += "* **חומת אש:** ריכוז מאמץ והקמת קווי הגנה סביב תשתיות.\n"
-            res += "* **תובנת עבר:** מומלץ להציב תצפיות אש לזיהוי שריפות משנה מגיצים."
-        elif "תעשייה" in text or "מחסן" in text or "מפעל" in text or "חומרים" in text:
+            res += "* **חומת אש:** ריכוז מאמץ והקמת קווי הגנה סביב תשתיות אזרחיות.\n"
+            res += "* **תובנת עבר:** מומלץ להציב תצפיות אש לזיהוי שריפות משנה מגיצים בתוך השכונה."
+        elif is_industrial:
             res += "🚨 **פרופיל: מתחם תעשייתי (סיכון חומ\"ס)**\n"
             res += "* **חומרים מסוכנים:** הזנקה מיידית של יחידת ניטור לבדיקת רעילות עשן.\n"
             res += "* **בידוד תשתיות:** ניתוק תשתיות גז וחשמל במפעלים סמוכים.\n"
-            res += "* **הגבלת תנועה:** הקמת רדיוס סטרילי של 1 ק\"מ לכוחות בלבד."
+            res += "* **הגבלת תנועה:** הקמת רדיוס סטרילי של 1 ק\"מ לכוחות החירום בלבד."
         else:
             res += "🌲 **פרופיל: שטח פתוח ויערות**\n"
-            res += "* **קווי חיץ:** הפעלת דחפורים לחשיפת אדמה למניעת התפשטות.\n"
+            res += "* **קווי חיץ:** הפעלת דחפורים לחשיפת אדמה למניעת התפשטות האש.\n"
             res += "* **סיוע אווירי:** דרישת הזנקה של מטוסי כיבוי עקב מדדי חום (FRP) גבוהים.\n"
-            res += "* **בטיחות צוותים:** מעקב אחר כיווני הרוח למניעת כליאת לוחמי אש."
+            res += "* **בטיחות צוותים:** מעקב צמוד אחר כיווני הרוח למניעת כליאת לוחמי אש באגפים."
             
         return res
 
 agent = FireMateIntelligenceEngine(df_fires, df_weekly, df_cumulative)
 
-# 5. Marketing Hero Section (Based on your required text)
+# 5. Marketing Hero Section
 st.markdown("""
 <div class="hero-section">
     <div class="hero-brand-name">מתמודדים עם דיווח על שריפה מסוכנת? 🔥</div>
-    <div class="hero-subtitle">הבוט המבצעי שלנו ינתח עבורכם את תנאי השטח, ישווה לאירועי עבר דומים (NASA), ויפיק בזמן אמת פרוטוקול החלטות אופטימלי להצלת חיים.</div>
+    <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח שלכם, ישווה לאירועי עבר דומים מנתוני NASA, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי.</div>
 </div>
 <div class="info-section">
     <strong>איך אפשר לעזור לכוחות בשטח היום?</strong><br>
-    הבוט יודע לזהות את סוג תוואי השטח (מיושב, תעשייתי או פתוח), לחשב אנומליות אקלימיות מהנתונים ההיסטוריים, ולהמליץ למפקד על הפעולה המדויקת ביותר. 🚒
+    הבוט מיועד לספק המלצות אופרטיביות לשריפות לפי שלושה אזורים מרכזיים:<br>
+    אזור מיושב (מגורים) 🏘️ | אזור תעשייה 🏭 | שטח פתוח 🌲
 </div>
 """, unsafe_allow_html=True)
 
 # 6. Quick Action Sample Questions
-st.markdown("<p class='sample-heading'>התחילו לדבר עם הבוט. דוגמאות לדיווחים שתוכלו להזין:</p>", unsafe_allow_html=True)
+st.markdown("<p class='sample-heading'>התחילו לדבר עם הבוט - דוגמאות לדיווחים שתוכלו להזין:</p>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
 
 click_query = ""
@@ -146,12 +174,12 @@ with col2:
         click_query = "פרצה אש במחסן לוגיסטי בתוך אזור התעשייה, יש חשש כבד להימצאות חומרים מסוכנים ומכלים דליקים באזור."
 with col3:
     if st.button("🌲 אש ביער הפתוח"):
-        click_query = "זיהינו להבות גבוהות בלב היער, השריפה מתפשטת אופקית ויש קושי בהגעה של רכבי כיבוי כבדים."
+        click_query = "זיהינו להבות גבוהות בלב היער השטח פתוח, השריפה מתפשטת אופקית ויש קושי בהגעה של רכבי כיבוי כבדים."
 
 # 7. Initialize Chat Memory & Initial Greeting
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "שלום המפקד, כאן סוכן FireMate AI המבצעי שלך. 🚨\n\nעל איזה אירוע תרצה לדווח? אנא תאר לי את מצב השריפה בשטח או בחר באחת משאלות הדוגמה למעלה."}
+        {"role": "assistant", "content": "שלום המפקד, כאן סוכן FireMate AI המבצעי שלך. 🚨\n\nעל איזה אירוע תרצה לדווח? אנא תאר לי את מצב השריפה וציין במפורש האם מדובר ב**אזור מגורים**, **תעשייה** או **שטח פתוח**."}
     ]
 
 for message in st.session_state.messages:
@@ -159,7 +187,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # 8. User Input Processing
-user_query = st.chat_input("הקלד את הדיווח המבצעי שלך כאן (שפה חופשית)...")
+user_query = st.chat_input("הקלד את הדיווח המבצעי שלך כאן...")
 if click_query:
     user_query = click_query
 
@@ -177,12 +205,12 @@ if user_query:
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
 
-# 9. Official Footer with Copyrights
+# 9. Official Footer with Copyrights & Icon
 st.markdown(
     """
     <div class='custom-footer'>
-        <div>© כל הזכויות שמורות לפרויקט הסיום</div>
-        <div style='margin-top: 4px;'> <b>Shira Chitayat & Shira Dabach</b> | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
+        <div style='color: #0d4d44; font-weight: bold;'>כל הזכויות שמורות לפרויקט הגמר ©</div>
+        <div style='margin-top: 4px;'>הוגש ע"י: <b>Shira Chitayat & Shira Dabach</b> | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
     </div>
     """, 
     unsafe_allow_html=True
