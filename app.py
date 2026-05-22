@@ -32,7 +32,7 @@ def load_local_csv_files():
         # Fallback simulation if files are missing
         df_f = pd.DataFrame({
             'fire_radiative_power_mw': [35.4, 120.2, 15.1, 88.6, 210.5] * 50,
-            'confidence': [80, 95, 60, 88, 99] * 50
+            'confidence': ['high', 'high', 'low', 'nominal', 'high'] * 50
         })
         df_w = pd.DataFrame({'Weekly_Area': [105, 240, 150, 310, 225]})
         df_c = pd.DataFrame({'Cumulative_Area': [1000, 2400, 1500, 3100, 2250]})
@@ -50,13 +50,13 @@ class FireMateIntelligenceEngine:
         self.domain_keywords = ['fire', 'wildfire', 'שריפה', 'אש', 'עשן', 'פינוי', 'חומרים', 'חמ"ל', 'רוח', 'קוצים', 'יער', 'להבות', 'כיבוי', 'כבאים', 'ציוד', 'חום', 'להבה', 'הצלה', 'שרפה', 'שרפות', 'דליקה', 'משטרה', 'מדא', 'מגן דוד']
         self.trivia_keywords = ['מה ה', 'איפה', 'מתי', 'הכי', 'גדולה', 'היסטוריה', 'מי', 'איך קוראים', 'איזה שריפות']
         
-        # Robust Column Finder - מונע שגיאות KeyError על ידי חיפוש חכם של שם העמודה
+        # Robust Column Finder
         self.frp_col = self._get_column(self.df_fires, ['fire_radiative_power_mw', 'frp', 'FRP', 'fire_radiative_power'])
         self.conf_col = self._get_column(self.df_fires, ['confidence_pct', 'confidence', 'Confidence', 'conf'])
         self.weekly_area_col = self._get_column(self.df_weekly, ['Weekly_Area', 'area', 'Area', 'weekly_area'])
 
     def _get_column(self, df, possible_names):
-        """פונקציה חכמה שמוצאת את העמודה הנכונה ב-CSV גם אם השם השתנה מעט"""
+        """Smart function to find the correct column name in the CSV"""
         for name in possible_names:
             if name in df.columns:
                 return name
@@ -71,10 +71,35 @@ class FireMateIntelligenceEngine:
         return any(keyword in query_lower for keyword in self.domain_keywords)
 
     def compute_similarity(self):
-        historical_matrix = self.df_fires[[self.frp_col, self.conf_col]].fillna(0).values
+        """Cosine Similarity Engine with Automatic Text-to-Number Conversion"""
+        # Extract the relevant columns
+        frp_series = self.df_fires[self.frp_col].copy()
+        conf_series = self.df_fires[self.conf_col].copy()
+        
+        # Ensure FRP is numeric
+        frp_series = pd.to_numeric(frp_series, errors='coerce').fillna(0)
+        
+        # Ensure Confidence is numeric (Convert 'high', 'nominal', 'low' to floats)
+        if conf_series.dtype == object: # If it's text
+            conf_lower = conf_series.astype(str).str.lower()
+            # Map the text categories to numeric percentages
+            conf_mapping = {'high': 95.0, 'nominal': 50.0, 'low': 15.0}
+            conf_series = conf_lower.map(conf_mapping)
+            # Fill any unmapped or missing values with a default of 50.0
+            conf_series = pd.to_numeric(conf_series, errors='coerce').fillna(50.0)
+        else:
+            conf_series = pd.to_numeric(conf_series, errors='coerce').fillna(50.0)
+
+        # Create the historical matrix for comparison
+        historical_matrix = np.column_stack((frp_series, conf_series))
+        
+        # Live simulated incident features (FRP: 85.0, Confidence: 95.0)
         live_incident_vector = np.array([[85.0, 95.0]])
+        
+        # Calculate cosine similarity
         similarities = cosine_similarity(historical_matrix, live_incident_vector)
         max_idx = np.argmax(similarities)
+        
         return self.df_fires.iloc[max_idx], float(similarities[max_idx][0])
 
     def run_anomaly_detection(self):
@@ -189,13 +214,13 @@ if user_query:
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
 
-# 9. Dynamic (Not Fixed) Footer at the bottom of the page content
+# 9. Dynamic Footer with extra spacing to prevent overlapping
 st.markdown(
     """
-    <div class='custom-footer'>
+    <div style="height: 60px;"></div> <div class='custom-footer'>
         <div style='color: #0d4d44; font-weight: bold;'>כל הזכויות שמורות לפרויקט הגמר ©</div>
-        <div style='margin-top: 4px;'> Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓| כל הזכויות שמורות ©</div>
+        <div style='margin-top: 4px;'> Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓 | כל הזכויות שמורות ©</div>
     </div>
     """, 
     unsafe_allow_html=True
-) 
+)
