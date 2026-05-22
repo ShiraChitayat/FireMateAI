@@ -12,7 +12,7 @@ html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #f4f7f6 !important; /* Elegant light cyan/blue shade background */
+    background-color: #f4f7f6 !important;
     direction: rtl !important;
     text-align: right !important;
     color: #333333 !important;
@@ -27,8 +27,8 @@ html, body, .stApp {
 .block-container {
     direction: rtl !important;
     text-align: right !important;
-    padding-top: 100px !important;
-    padding-bottom: 110px !important;
+    padding-top: 80px !important;
+    padding-bottom: 20px !important;
     max-width: 750px !important;
 }
 
@@ -54,7 +54,7 @@ html, body, .stApp {
     letter-spacing: 0.5px;
 }
 
-/* Hero Section (Force matching Segoe UI on title) */
+/* Hero Section */
 .hero-section {
     background-color: #0d4d44;
     padding: 40px 20px;
@@ -65,11 +65,12 @@ html, body, .stApp {
 }
 
 .hero-brand-name {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 800;
     color: #ffffff;
     margin-bottom: 10px;
     text-align: center !important;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
 .hero-subtitle {
@@ -78,6 +79,7 @@ html, body, .stApp {
     color: #e0e0e0;
     line-height: 1.5;
     text-align: center !important;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
 /* Marketing Info block */
@@ -93,7 +95,6 @@ html, body, .stApp {
     margin-bottom: 25px;
 }
 
-/* Quick Action Sample Headings */
 .sample-heading {
     font-size: 15px !important;
     color: #0d4d44 !important;
@@ -103,7 +104,7 @@ html, body, .stApp {
     text-align: right !important;
 }
 
-/* Elegant Outline Custom Buttons */
+/* Elegant Buttons */
 div.stButton > button {
     width: 100% !important;
     background-color: transparent !important;
@@ -122,7 +123,7 @@ div.stButton > button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* Chat Layout Box Modification */
+/* Base Chat Bubbles Styling */
 [data-testid="stChatMessage"] {
     direction: rtl !important;
     text-align: right !important;
@@ -132,47 +133,45 @@ div.stButton > button:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
 }
 
-/* BOT (Assistant) Bubble Color - Light Red / Pink */
-[data-testid="stChatMessage"]:nth-child(odd) {
+/* BOT (Assistant) Bubble Color - Light Red */
+[data-testid="stChatMessage"]:has(.bot-msg-flag) {
     background-color: #fee2e2 !important; 
     border-right: 5px solid #d63031 !important; 
 }
 
 /* USER Bubble Color - Light Green */
-[data-testid="stChatMessage"]:nth-child(even) {
+[data-testid="stChatMessage"]:has(.user-msg-flag) {
     background-color: #dcfce7 !important; 
     border-right: 5px solid #0d4d44 !important; 
 }
 
-/* Chat Input bar styling alignment */
+/* Chat Input Field */
 [data-testid="stChatInput"] {
     direction: rtl !important;
     text-align: right !important;
     border-radius: 20px !important;
 }
-
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
 }
 
-/* PERFECTLY CENTERED FIXED FOOTER */
+/* RELATIVE CENTERED FOOTER (Appears only at the bottom of the page scroll) */
 .custom-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    position: relative; 
+    margin-top: 50px;
     width: 100%;
     background: #ffffff;
     color: #0d4d44;
-    text-align: center !important; /* Force true text alignment centering */
+    text-align: center !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px 10px;
+    padding: 20px 10px;
     font-size: 13px;
     border-top: 1px solid #eeeeee;
-    z-index: 9999;
+    border-radius: 12px;
     direction: rtl !important;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
 } 
