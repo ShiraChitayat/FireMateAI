@@ -3,7 +3,7 @@
 #MainMenu, footer, header { visibility: hidden !important; }
 .stApp > header { background-color: transparent !important; }
 
-/* Force Font-Family Globally */
+/* Force standard Segoe UI Font and Right-To-Left Alignment Globally */
 * {
     font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
@@ -12,13 +12,13 @@ html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #f4f7f6 !important;
+    background-color: #f4f7f6 !important; /* Elegant light cyan/blue shade background */
     direction: rtl !important;
     text-align: right !important;
     color: #333333 !important;
 }
 
-/* Force RTL alignment on all Streamlit containers */
+/* Force layout alignment on markdown cells */
 .stMarkdown, .stText, p, div, input, textarea {
     direction: rtl !important;
     text-align: right !important;
@@ -28,11 +28,11 @@ html, body, .stApp {
     direction: rtl !important;
     text-align: right !important;
     padding-top: 100px !important;
-    padding-bottom: 110px !important; /* Space for the centered footer */
+    padding-bottom: 110px !important;
     max-width: 750px !important;
 }
 
-/* STICKY HEADER Styling */
+/* STICKY HEADER Configuration */
 .custom-header {
     background: #ffffff;
     padding: 15px 5%;
@@ -54,7 +54,7 @@ html, body, .stApp {
     letter-spacing: 0.5px;
 }
 
-/* Hero Section (Marketing Text) */
+/* Hero Section (Force matching Segoe UI on title) */
 .hero-section {
     background-color: #0d4d44;
     padding: 40px 20px;
@@ -80,7 +80,7 @@ html, body, .stApp {
     text-align: center !important;
 }
 
-/* Info Section */
+/* Marketing Info block */
 .info-section {
     background: #ffffff;
     padding: 20px;
@@ -103,7 +103,7 @@ html, body, .stApp {
     text-align: right !important;
 }
 
-/* Elegant Outline Buttons */
+/* Elegant Outline Custom Buttons */
 div.stButton > button {
     width: 100% !important;
     background-color: transparent !important;
@@ -122,7 +122,7 @@ div.stButton > button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* Base Chat Bubbles Styling */
+/* Chat Layout Box Modification */
 [data-testid="stChatMessage"] {
     direction: rtl !important;
     text-align: right !important;
@@ -132,32 +132,31 @@ div.stButton > button:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
 }
 
-/* BOT (Assistant) Bubble Color - Light Red */
+/* BOT (Assistant) Bubble Color - Light Red / Pink */
 [data-testid="stChatMessage"]:nth-child(odd) {
-    background-color: #fee2e2 !important; /* Soft light red background */
-    border-right: 5px solid #d63031 !important; /* Red indicator */
+    background-color: #fee2e2 !important; 
+    border-right: 5px solid #d63031 !important; 
 }
 
 /* USER Bubble Color - Light Green */
 [data-testid="stChatMessage"]:nth-child(even) {
-    background-color: #dcfce7 !important; /* Soft light green background */
-    border-right: 5px solid #0d4d44 !important; /* Green indicator */
+    background-color: #dcfce7 !important; 
+    border-right: 5px solid #0d4d44 !important; 
 }
 
-/* Chat Input field Styling */
+/* Chat Input bar styling alignment */
 [data-testid="stChatInput"] {
     direction: rtl !important;
     text-align: right !important;
     border-radius: 20px !important;
 }
 
-/* Ensure Input area handles RTL */
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
 }
 
-/* CENTERED Official Footer */
+/* PERFECTLY CENTERED FIXED FOOTER */
 .custom-footer {
     position: fixed;
     left: 0;
@@ -165,16 +164,15 @@ div.stButton > button:hover {
     width: 100%;
     background: #ffffff;
     color: #0d4d44;
-    text-align: center !important; /* Absolutely centered text */
+    text-align: center !important; /* Force true text alignment centering */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 15px 10px;
     font-size: 13px;
     border-top: 1px solid #eeeeee;
     z-index: 9999;
     direction: rtl !important;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-}
-
-/* Footer Bold Text color */
-.custom-footer b {
-    color: #0d4d44;
 } 
