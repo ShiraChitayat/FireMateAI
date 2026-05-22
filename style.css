@@ -1,120 +1,158 @@
-/* Remove default Streamlit elements for a clean website look */
 [data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
 #MainMenu, footer, header { visibility: hidden !important; }
+.stApp > header { background-color: transparent !important; }
 
-/* Global App Settings - Elegant Light Blue Theme */
-.stApp {
-    background-color: #F0F6FC !important; /* Soft light blue/grey background */
-    color: #2D3748 !important; /* Elegant dark grey text */
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+/* Global Styling based on provided CSS inspiration */
+html, body, .stApp {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #f4f7f6 !important;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
+    direction: rtl !important;
+    color: #333333 !important;
 }
 
-/* RTL Layout configuration for Hebrew */
+/* Fix right-to-left alignment for the main container */
 .block-container {
-    direction: RTL !important;
+    direction: rtl !important;
     text-align: right !important;
-    padding-top: 2.5rem !important;
-    padding-bottom: 7rem !important;
-    max-width: 720px !important;
+    padding-top: 100px !important; /* Space for the sticky header */
+    padding-bottom: 90px !important;
+    max-width: 750px !important;
 }
 
-/* Elegant Brand Title */
-.brand-title {
-    font-size: 46px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    color: #1A365D !important; /* Deep elegant Navy blue */
-    text-align: center !important;
-    margin-bottom: 5px;
+/* STICKY HEADER Styling */
+.custom-header {
+    background: #ffffff;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%;
+    z-index: 99999;
 }
 
-.brand-subtitle {
+.header-logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #d63031;
+    letter-spacing: 0.5px;
+}
+
+/* Hero Section (Marketing Text) */
+.hero-section {
+    background-color: #0d4d44;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.hero-brand-name {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
     font-size: 16px;
-    color: #4A5568 !important;
-    text-align: center !important;
+    font-weight: 500;
+    color: #e0e0e0;
+    line-height: 1.5;
+}
+
+/* Info Section */
+.info-section {
+    background: #ffffff;
+    padding: 20px;
+    text-align: center; 
+    border-radius: 12px;
+    color: #0d4d44;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     margin-bottom: 25px;
-    font-weight: 600;
 }
 
-/* Quick Example Questions Heading */
+/* Quick Action Sample Headings */
 .sample-heading {
-    font-size: 14px !important;
-    color: #4A5568 !important;
-    font-weight: 600;
-    margin-top: 20px !important;
-    margin-bottom: 8px !important;
+    font-size: 15px !important;
+    color: #0d4d44 !important;
+    font-weight: 700;
+    margin-top: 15px !important;
+    margin-bottom: 12px !important;
+    text-align: right !important;
 }
 
-/* Elegant Buttons - White with hover effects */
+/* Elegant Outline Buttons (Like the CSS inspiration) */
 div.stButton > button {
     width: 100% !important;
-    background-color: #FFFFFF !important;
-    color: #2B6CB0 !important; /* Corporate blue */
-    border: 1px solid #E2E8F0 !important;
-    border-radius: 12px !important;
-    padding: 12px 10px !important;
+    background-color: transparent !important;
+    color: #d63031 !important;
+    border: 2px solid #d63031 !important;
+    border-radius: 20px !important;
+    padding: 10px 15px !important;
     font-size: 14px !important;
-    font-weight: 700 !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.04) !important;
+    font-weight: 600 !important;
     transition: all 0.3s ease !important;
 }
 
 div.stButton > button:hover {
-    background-color: #3182CE !important;
-    color: #FFFFFF !important;
-    border-color: #3182CE !important;
+    background-color: #d63031 !important;
+    color: #ffffff !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(49, 130, 206, 0.2) !important;
 }
 
-/* Chat Bubbles - Clean Light Design */
+/* RTL Chat Bubbles Styling */
 [data-testid="stChatMessage"] {
-    direction: RTL !important;
+    direction: rtl !important;
     text-align: right !important;
-    border: none !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 16px !important;
     padding: 18px !important;
     margin-bottom: 15px !important;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
 }
 
-/* AI Assistant Bubble */
+/* Assistant Chat Bubble Modification */
 [data-testid="stChatMessage"]:nth-child(odd) {
-    background-color: #FFFFFF !important; /* Clean white for the bot */
-    border-right: 5px solid #3182CE !important; /* Blue indicator line */
+    border-right: 5px solid #0d4d44 !important; /* Green indicator */
 }
 
-/* User Input Bubble */
+/* User Input Chat Bubble Modification */
 [data-testid="stChatMessage"]:nth-child(even) {
-    background-color: #E2E8F0 !important; /* Soft grey/blue for the user */
+    background-color: #f8fafc !important; 
+    border-right: 5px solid #d63031 !important; /* Red indicator for emergency */
 }
 
-/* Chat Input Field Styling */
+/* Ensure Chat Input field is fully RTL */
 [data-testid="stChatInput"] {
-    direction: RTL !important;
+    direction: rtl !important;
     text-align: right !important;
-    background-color: #FFFFFF !important;
-    border-radius: 12px !important;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.03) !important;
+    border-radius: 20px !important;
 }
 
-/* Elegant Fixed Footer (Glassmorphism Effect) */
+/* Fixed Official Footer */
 .custom-footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.90);
-    backdrop-filter: blur(10px);
-    color: #4A5568;
+    background: #ffffff;
+    color: #0d4d44;
     text-align: center;
-    padding: 15px 10px;
-    font-size: 14px;
-    border-top: 1px solid #E2E8F0;
+    padding: 12px 10px;
+    font-size: 13px;
+    border-top: 1px solid #eeeeee;
     z-index: 9999;
-    direction: RTL;
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
+    direction: rtl;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
-.custom-footer b {
-    color: #3182CE;
-} 
