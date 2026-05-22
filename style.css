@@ -28,8 +28,8 @@ html, body, .stApp {
 .block-container {
     direction: rtl !important;
     text-align: right !important;
-    padding-top: 80px !important;
-    padding-bottom: 120px !important; /* Space so chat input doesn't overlap messages */
+    padding-top: 60px !important;
+    padding-bottom: 150px !important; /* Huge padding so the chat doesn't go under the footer */
     max-width: 750px !important;
 }
 
@@ -55,53 +55,67 @@ html, body, .stApp {
     letter-spacing: 0.5px;
 }
 
-/* Hero Section */
+/* MAIN PAGE TITLE */
+.main-title {
+    font-size: 52px;
+    font-weight: 900;
+    color: #01579b;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+/* Hero Section (Transparent background now, huge text) */
 .hero-section {
-    background-color: #0277bd; /* Deep beautiful blue for contrast */
-    padding: 40px 20px;
+    background-color: transparent !important;
+    padding: 10px 20px;
     text-align: center !important;
-    border-radius: 16px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    box-shadow: none !important;
 }
 
 .hero-brand-name {
-    font-size: 30px;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 10px;
+    font-size: 38px !important;
+    font-weight: 900;
+    color: #e65100 !important;
+    margin-bottom: 12px;
     text-align: center !important;
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
 .hero-subtitle {
-    font-size: 16px;
-    font-weight: 500;
-    color: #e1f5fe;
+    font-size: 20px !important;
+    font-weight: 600;
+    color: #333333 !important;
     line-height: 1.5;
     text-align: center !important;
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
 /* Marketing Info block */
 .info-section {
     background: #ffffff;
-    padding: 20px;
+    padding: 25px;
     text-align: center !important; 
     border-radius: 12px;
-    color: #01579b;
-    font-size: 16px;
+    color: #333333;
+    font-size: 18px;
     font-weight: 500;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.info-title {
+    font-size: 26px !important;
+    font-weight: 800;
+    color: #01579b !important;
+    margin-bottom: 12px;
 }
 
 .sample-heading {
-    font-size: 15px !important;
+    font-size: 18px !important;
     color: #01579b !important;
     font-weight: 700;
     margin-top: 15px !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 15px !important;
     text-align: right !important;
 }
 
@@ -112,9 +126,9 @@ div.stButton > button {
     color: #e65100 !important;
     border: 2px solid #e65100 !important;
     border-radius: 20px !important;
-    padding: 10px 15px !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
+    padding: 12px 15px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
     transition: all 0.3s ease !important;
 }
 
@@ -132,48 +146,57 @@ div.stButton > button:hover {
     padding: 18px !important;
     margin-bottom: 15px !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+    font-size: 16px !important;
 }
 
 /* BOT (Assistant) Bubble Color - LIGHT ORANGE */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
-    background-color: #fff3e0 !important; /* כתום בהיר ונעים */
-    border-right: 5px solid #f57c00 !important; /* פס כתום מודגש */
+    background-color: #fff3e0 !important; 
+    border-right: 5px solid #f57c00 !important; 
 }
 
 /* USER Bubble Color - Light Green */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
-    background-color: #e8f5e9 !important; /* ירוק בהיר עדין */
-    border-right: 5px solid #2e7d32 !important; /* פס ירוק מודגש */
+    background-color: #e8f5e9 !important; 
+    border-right: 5px solid #2e7d32 !important; 
 }
 
-/* Chat Input Field */
+/* Chat Input Field (Floating above footer) */
+[data-testid="stBottom"] {
+    margin-bottom: 75px !important; /* Pushes the chat input up above the fixed footer */
+    z-index: 100 !important;
+}
+
 [data-testid="stChatInput"] {
     direction: rtl !important;
     text-align: right !important;
     border-radius: 20px !important;
     background-color: white !important;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.06) !important;
+    border: 1px solid #ddd !important;
 }
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
+    font-size: 16px !important;
 }
 
-/* RELATIVE CENTERED FOOTER */
+/* FIXED CENTERED FOOTER AT THE VERY BOTTOM */
 .custom-footer {
-    position: relative; 
-    margin-top: 30px;
+    position: fixed; 
+    bottom: 0;
+    left: 0;
     width: 100%;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
     color: #01579b;
-    text-align: center !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px 10px;
-    font-size: 13px;
+    padding: 15px 10px;
     border-top: 1px solid #eeeeee;
-    border-radius: 12px;
     direction: rtl !important;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 9999;
 } 
