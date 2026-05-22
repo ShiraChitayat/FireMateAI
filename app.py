@@ -17,7 +17,8 @@ except Exception:
 SHEET_ID = "1vx7Q1C8rYhiOYYI_IDsNYqHpyAKcs3-z2MJUD09i_QU"
 GIDS = {
     "wildfire_dataset": "1727648073",
-    "area_burnt_weekly": "684940024"
+    "area_burnt_weekly": "684940024",
+    "cumulative_burnt_weekly": "1453144375"
 }
 
 URL_DATASET = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GIDS['wildfire_dataset']}"
