@@ -1,440 +1,202 @@
-/* ------------------------------------------------ */
-/* HIDE STREAMLIT DEFAULT ELEMENTS */
-/* ------------------------------------------------ */
+/* Core setup & Hide Streamlit elements */
+[data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
+#MainMenu, footer, header { visibility: hidden !important; }
+.stApp > header { background-color: transparent !important; }
 
-[data-testid="stSidebarCollapseButton"],
-[data-testid="stSidebar"] {
-    display: none !important;
+/* Force standard Segoe UI Font and Right-To-Left Alignment Globally */
+* {
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
-#MainMenu,
-footer,
-header {
-    visibility: hidden !important;
-}
-
-.stApp > header {
-    background-color: transparent !important;
-}
-
-/* ------------------------------------------------ */
-/* GLOBAL FONT FIX */
-/* ------------------------------------------------ */
-
-html,
-body,
-[class*="css"],
-[data-testid="stAppViewContainer"],
-[data-testid="stMarkdownContainer"],
-[data-testid="stChatMessage"],
-[data-testid="stChatInput"],
-textarea,
-input,
-p,
-span,
-div,
-label {
-
-    font-family: "Segoe UI", "Rubik", sans-serif !important;
-}
-
-/* ------------------------------------------------ */
-/* GLOBAL PAGE */
-/* ------------------------------------------------ */
-
-html,
-body,
-.stApp {
-
+/* Beautiful Light Blue / Azure Background */
+html, body, .stApp {
     margin: 0;
     padding: 0;
-
     width: 100%;
-
+    background-color: #e1f5fe !important; /* תכלת בהיר ומקסים */
     direction: rtl !important;
-
     text-align: right !important;
-
-    color: #1e293b !important;
-
-    background:
-    linear-gradient(
-        180deg,
-        #f8fbff 0%,
-        #eef5fb 100%
-    ) !important;
+    color: #333333 !important;
 }
 
-/* ------------------------------------------------ */
-/* CONTAINER */
-/* ------------------------------------------------ */
+/* Force layout alignment on markdown cells */
+.stMarkdown, .stText, p, div, input, textarea {
+    direction: rtl !important;
+    text-align: right !important;
+}
 
 .block-container {
-
     direction: rtl !important;
-
     text-align: right !important;
-
-    max-width: 820px !important;
-
-    padding-top: 85px !important;
-
-    padding-bottom: 140px !important;
+    padding-top: 60px !important;
+    padding-bottom: 150px !important; /* Huge padding so the chat doesn't go under the footer */
+    max-width: 750px !important;
 }
 
-/* ------------------------------------------------ */
-/* STICKY HEADER */
-/* ------------------------------------------------ */
-
+/* STICKY HEADER Configuration */
 .custom-header {
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-
-    background: rgba(255,255,255,0.92);
-
-    backdrop-filter: blur(8px);
-
-    padding: 16px;
-
+    background: #ffffff;
+    padding: 15px 5%;
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%;
     z-index: 99999;
-
-    border-bottom: 1px solid #edf2f7;
-
-    box-shadow:
-        0 2px 10px rgba(0,0,0,0.04);
 }
 
 .header-logo {
-
     font-size: 24px;
-
     font-weight: 800;
-
-    color: #ea580c;
-
-    letter-spacing: 0.4px;
+    color: #e65100;
+    letter-spacing: 0.5px;
 }
 
-/* ------------------------------------------------ */
-/* MAIN TITLE */
-/* ------------------------------------------------ */
-
+/* MAIN PAGE TITLE */
 .main-title {
-
     font-size: 52px;
-
     font-weight: 900;
-
-    color: #0f172a;
-
+    color: #01579b;
     text-align: center;
-
-    margin-top: 20px;
-
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: 15px;
 }
 
-/* ------------------------------------------------ */
-/* HERO SECTION */
-/* ------------------------------------------------ */
-
+/* Hero Section (Transparent background now, huge text) */
 .hero-section {
-
-    padding: 18px 15px;
-
+    background-color: transparent !important;
+    padding: 10px 20px;
     text-align: center !important;
-
-    margin-bottom: 28px;
+    margin-bottom: 25px;
+    box-shadow: none !important;
 }
 
 .hero-brand-name {
-
-    font-size: 34px !important;
-
-    font-weight: 800 !important;
-
-    color: #ea580c !important;
-
-    line-height: 1.3 !important;
-
-    margin-bottom: 14px;
-
+    font-size: 38px !important;
+    font-weight: 900;
+    color: #e65100 !important;
+    margin-bottom: 12px;
     text-align: center !important;
 }
 
 .hero-subtitle {
-
-    font-size: 18px !important;
-
-    font-weight: 400 !important;
-
-    color: #475569 !important;
-
-    line-height: 1.9 !important;
-
-    max-width: 92%;
-
-    margin: 0 auto;
-
+    font-size: 20px !important;
+    font-weight: 600;
+    color: #333333 !important;
+    line-height: 1.5;
     text-align: center !important;
 }
 
-/* ------------------------------------------------ */
-/* INFO SECTION */
-/* ------------------------------------------------ */
-
+/* Marketing Info block */
 .info-section {
-
-    background: rgba(255,255,255,0.95);
-
-    padding: 28px;
-
-    border-radius: 24px;
-
-    text-align: center !important;
-
-    color: #334155;
-
-    font-size: 17px;
-
-    line-height: 1.9;
-
+    background: #ffffff;
+    padding: 25px;
+    text-align: center !important; 
+    border-radius: 12px;
+    color: #333333;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     margin-bottom: 30px;
-
-    border: 1px solid #e2e8f0;
-
-    box-shadow:
-        0 4px 20px rgba(0,0,0,0.04);
 }
 
 .info-title {
-
-    font-size: 24px !important;
-
-    font-weight: 800 !important;
-
-    color: #0f172a !important;
-
-    margin-bottom: 16px;
+    font-size: 26px !important;
+    font-weight: 800;
+    color: #01579b !important;
+    margin-bottom: 12px;
 }
-
-/* ------------------------------------------------ */
-/* SAMPLE TEXT */
-/* ------------------------------------------------ */
 
 .sample-heading {
-
-    font-size: 17px !important;
-
-    color: #0f172a !important;
-
+    font-size: 18px !important;
+    color: #01579b !important;
     font-weight: 700;
-
-    margin-top: 10px !important;
-
+    margin-top: 15px !important;
     margin-bottom: 15px !important;
+    text-align: right !important;
 }
 
-/* ------------------------------------------------ */
-/* BUTTONS */
-/* ------------------------------------------------ */
-
+/* Elegant Buttons */
 div.stButton > button {
-
     width: 100% !important;
-
-    background: white !important;
-
-    border: 1px solid #d7e3f1 !important;
-
+    background-color: #ffffff !important;
+    color: #e65100 !important;
+    border: 2px solid #e65100 !important;
     border-radius: 20px !important;
-
-    padding: 14px !important;
-
-    font-size: 15px !important;
-
-    font-weight: 600 !important;
-
-    color: #0f172a !important;
-
-    transition: all 0.25s ease !important;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,0.04) !important;
+    padding: 12px 15px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
 }
 
 div.stButton > button:hover {
-
-    transform: translateY(-2px);
-
-    border-color: #93c5fd !important;
-
-    box-shadow:
-        0 8px 22px rgba(0,0,0,0.08) !important;
+    background-color: #e65100 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
 }
 
-/* ------------------------------------------------ */
-/* CHAT AREA */
-/* ------------------------------------------------ */
-
+/* Base Chat Bubbles Styling */
 [data-testid="stChatMessage"] {
-
-    border-radius: 24px !important;
-
-    padding: 18px 20px !important;
-
-    margin-bottom: 18px !important;
-
-    border: none !important;
-
-    line-height: 1.9 !important;
-
+    direction: rtl !important;
+    text-align: right !important;
+    border-radius: 16px !important;
+    padding: 18px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
     font-size: 16px !important;
-
-    box-shadow:
-        0 3px 12px rgba(0,0,0,0.05) !important;
-
-    animation: fadeIn 0.25s ease;
 }
 
-/* BOT MESSAGE */
-
+/* BOT (Assistant) Bubble Color - LIGHT ORANGE */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
-
-    background: #ffffff !important;
-
-    border: 1px solid #e5e7eb !important;
-
-    margin-right: auto !important;
+    background-color: #fff3e0 !important; 
+    border-right: 5px solid #f57c00 !important; 
 }
 
-/* USER MESSAGE */
-
+/* USER Bubble Color - Light Green */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
-
-    background:
-    linear-gradient(
-        135deg,
-        #dff6dd 0%,
-        #c9efc6 100%
-    ) !important;
-
-    border: none !important;
-
-    margin-left: auto !important;
+    background-color: #e8f5e9 !important; 
+    border-right: 5px solid #2e7d32 !important; 
 }
 
-/* ------------------------------------------------ */
-/* CHAT INPUT */
-/* ------------------------------------------------ */
-
+/* Chat Input Field (Floating above footer) */
 [data-testid="stBottom"] {
-
-    margin-bottom: 80px !important;
+    margin-bottom: 75px !important; /* Pushes the chat input up above the fixed footer */
+    z-index: 100 !important;
 }
 
 [data-testid="stChatInput"] {
-
-    background: white !important;
-
-    border-radius: 28px !important;
-
-    border: 1px solid #e2e8f0 !important;
-
-    box-shadow:
-        0 2px 14px rgba(0,0,0,0.06) !important;
-
-    padding: 8px 14px !important;
-
-    transition: all 0.2s ease !important;
-}
-
-[data-testid="stChatInput"]:focus-within {
-
-    border: 1px solid #93c5fd !important;
-
-    box-shadow:
-        0 0 0 4px rgba(147,197,253,0.22) !important;
-}
-
-[data-testid="stChatInputTextArea"] {
-
     direction: rtl !important;
-
     text-align: right !important;
-
+    border-radius: 20px !important;
+    background-color: white !important;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.06) !important;
+    border: 1px solid #ddd !important;
+}
+[data-testid="stChatInputTextArea"] {
+    direction: rtl !important;
+    text-align: right !important;
     font-size: 16px !important;
-
-    line-height: 1.7 !important;
-
-    color: #1e293b !important;
 }
 
-/* ------------------------------------------------ */
-/* FOOTER */
-/* ------------------------------------------------ */
-
+/* FIXED CENTERED FOOTER AT THE VERY BOTTOM */
 .custom-footer {
-
-    position: fixed;
-
+    position: fixed; 
     bottom: 0;
     left: 0;
-
     width: 100%;
-
-    background: rgba(255,255,255,0.92);
-
-    backdrop-filter: blur(10px);
-
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    color: #01579b;
     display: flex;
-
     flex-direction: column;
-
     justify-content: center;
-
     align-items: center;
-
-    text-align: center !important;
-
-    padding: 14px;
-
-    border-top: 1px solid #e5e7eb;
-
-    box-shadow:
-        0 -2px 10px rgba(0,0,0,0.04);
-
+    padding: 15px 10px;
+    border-top: 1px solid #eeeeee;
+    direction: rtl !important;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     z-index: 9999;
-}
-
-/* ------------------------------------------------ */
-/* ANIMATIONS */
-/* ------------------------------------------------ */
-
-* {
-    scroll-behavior: smooth;
-}
-
-@keyframes fadeIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 } 
