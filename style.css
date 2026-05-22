@@ -1,185 +1,272 @@
-/* Core setup & Hide Streamlit elements */
-[data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
-#MainMenu, footer, header { visibility: hidden !important; }
-.stApp > header { background-color: transparent !important; }
+/* ------------------------------------------------ */
+/* GLOBAL */
+/* ------------------------------------------------ */
 
-/* Force Font-Family and Right-To-Left Globally */
-* {
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebar"] {
+    display: none !important;
 }
 
-html, body, .stApp {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    background-color: #f4f7f6 !important;
+#MainMenu,
+footer,
+header {
+    visibility: hidden !important;
+}
+
+.stApp > header {
+    background-color: transparent !important;
+}
+
+* {
+    font-family: 'Segoe UI', sans-serif !important;
+}
+
+html,
+body,
+.stApp {
     direction: rtl !important;
     text-align: right !important;
+    background-color: #f4f7f6 !important;
     color: #333333 !important;
 }
 
-/* Force RTL on all Streamlit containers (Chat, Markdown, Inputs) */
-.stMarkdown, .stText, p, div, input, textarea {
-    direction: rtl !important;
-    text-align: right !important;
-}
+/* ------------------------------------------------ */
+/* MAIN CONTAINER */
+/* ------------------------------------------------ */
 
 .block-container {
-    direction: rtl !important;
-    text-align: right !important;
     padding-top: 100px !important;
     padding-bottom: 100px !important;
-    max-width: 750px !important;
+    max-width: 760px !important;
 }
 
-/* STICKY HEADER Styling */
+/* ------------------------------------------------ */
+/* HEADER */
+/* ------------------------------------------------ */
+
 .custom-header {
-    background: #ffffff;
-    padding: 15px 5%;
+
+    background: white;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding: 16px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: fixed; 
-    top: 0; 
-    left: 0;
-    width: 100%;
-    z-index: 99999;
+
+    z-index: 9999;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
 .header-logo {
+
+    color: #d63031;
+
     font-size: 24px;
     font-weight: 800;
-    color: #d63031;
+
     letter-spacing: 0.5px;
 }
 
-/* Hero Section (Marketing Text) */
+/* ------------------------------------------------ */
+/* HERO */
+/* ------------------------------------------------ */
+
 .hero-section {
+
     background-color: #0d4d44;
-    padding: 40px 20px;
+
+    padding: 40px 25px;
+
+    border-radius: 18px;
+
     text-align: center !important;
-    border-radius: 16px;
+
     margin-bottom: 20px;
+
     box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
 .hero-brand-name {
+
+    color: white;
+
     font-size: 32px;
     font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 10px;
+
+    margin-bottom: 14px;
+
     text-align: center !important;
 }
 
 .hero-subtitle {
-    font-size: 16px;
-    font-weight: 500;
+
     color: #e0e0e0;
-    line-height: 1.5;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
     text-align: center !important;
 }
 
-/* Info Section */
+/* ------------------------------------------------ */
+/* INFO SECTION */
+/* ------------------------------------------------ */
+
 .info-section {
-    background: #ffffff;
-    padding: 20px;
-    text-align: center !important; 
-    border-radius: 12px;
+
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 14px;
+
+    text-align: center !important;
+
     color: #0d4d44;
+
     font-size: 16px;
-    font-weight: 500;
+
+    line-height: 1.8;
+
+    margin-bottom: 24px;
+
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
 }
 
-/* Quick Action Sample Headings */
+/* ------------------------------------------------ */
+/* SAMPLE TEXT */
+/* ------------------------------------------------ */
+
 .sample-heading {
+
     font-size: 15px !important;
+
     color: #0d4d44 !important;
+
     font-weight: 700;
-    margin-top: 15px !important;
-    margin-bottom: 12px !important;
-    text-align: right !important;
+
+    margin-bottom: 14px !important;
 }
 
-/* Elegant Outline Buttons */
+/* ------------------------------------------------ */
+/* BUTTONS */
+/* ------------------------------------------------ */
+
 div.stButton > button {
+
     width: 100% !important;
-    background-color: transparent !important;
-    color: #d63031 !important;
-    border: 2px solid #d63031 !important;
+
     border-radius: 20px !important;
-    padding: 10px 15px !important;
-    font-size: 14px !important;
+
+    border: 2px solid #d63031 !important;
+
+    background-color: transparent !important;
+
+    color: #d63031 !important;
+
     font-weight: 600 !important;
+
     transition: all 0.3s ease !important;
 }
 
 div.stButton > button:hover {
+
     background-color: #d63031 !important;
-    color: #ffffff !important;
-    transform: translateY(-2px) !important;
+
+    color: white !important;
+
+    transform: translateY(-2px);
 }
 
-/* RTL Chat Bubbles Styling */
+/* ------------------------------------------------ */
+/* CHAT */
+/* ------------------------------------------------ */
+
 [data-testid="stChatMessage"] {
-    direction: rtl !important;
-    text-align: right !important;
-    background-color: #ffffff !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 16px !important;
+
+    border-radius: 18px !important;
+
     padding: 18px !important;
+
     margin-bottom: 15px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
 }
 
-[data-testid="stChatMessage"]:nth-child(odd) {
-    border-right: 5px solid #0d4d44 !important;
+/* BOT */
+
+[data-testid="stChatMessage"]:has([aria-label="assistant"]) {
+
+    background-color: #ffe5e5 !important;
+
+    border-right: 5px solid #d63031 !important;
 }
 
-[data-testid="stChatMessage"]:nth-child(even) {
-    background-color: #f8fafc !important; 
-    border-right: 5px solid #d63031 !important; 
+/* USER */
+
+[data-testid="stChatMessage"]:has([aria-label="user"]) {
+
+    background-color: #e8f5e9 !important;
+
+    border-right: 5px solid #2e7d32 !important;
 }
 
-/* Ensure Chat Input field is fully RTL */
+/* ------------------------------------------------ */
+/* CHAT INPUT */
+/* ------------------------------------------------ */
+
 [data-testid="stChatInput"] {
-    direction: rtl !important;
-    text-align: right !important;
-    border-radius: 20px !important;
-}
 
-[data-testid="stChatInputTextArea"] {
     direction: rtl !important;
+
     text-align: right !important;
 }
 
-/* Fixed Official Footer */
+/* ------------------------------------------------ */
+/* FOOTER */
+/* ------------------------------------------------ */
+
 .custom-footer {
+
     position: fixed;
-    left: 0;
+
     bottom: 0;
+    left: 0;
+
     width: 100%;
-    background: #ffffff;
-    color: #0d4d44;
-    
+
+    background: white;
+
+    padding: 12px;
+
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
+
     align-items: center;
 
     text-align: center !important;
 
-    padding: 12px 10px;
-    font-size: 13px;
     border-top: 1px solid #eeeeee;
+
     z-index: 9999;
-    direction: rtl !important;
 
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-} 
+}
 
 .custom-footer b {
+
     color: #d63031;
 } 
