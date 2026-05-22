@@ -23,6 +23,7 @@ GIDS = {
 
 URL_DATASET = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GIDS['wildfire_dataset']}"
 URL_WEEKLY = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GIDS['area_burnt_weekly']}"
+URL_CUMULATIVE = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv&gid={GIDS['cumulative_burnt_weekly']}"
 
 
 @st.cache_data(show_spinner=False, ttl=3600)  # שומר בזיכרון לשעה שלמה כדי שהאתר יטוס במהירות
