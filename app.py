@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import time
 
-# הגדרות תצוגה ראשוניות
+# הגדרות תצוגה
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
 
 # טעינת קובץ העיצוב החיצוני
@@ -17,11 +17,11 @@ except Exception:
 # כותרת עליונה קבועה
 st.markdown("""
     <div class="custom-header">
-        <span class="header-logo">FireMate AI</span>
+        <span class="header-logo">🔥 FireMate AI</span>
     </div>
 """, unsafe_allow_html=True)
 
-# טעינת קבצי הנתונים מהשרת המקומי (חסין לשגיאות)
+# טעינת קבצי הנתונים המקומיים (עם ניקוי שמות עמודות חכם למניעת שגיאות)
 @st.cache_data(show_spinner=False)
 def load_local_csv_files():
     try:
@@ -29,14 +29,12 @@ def load_local_csv_files():
         df_w = pd.read_csv("area_burnt_weekly.csv")
         df_c = pd.read_csv("cumulative_burnt_weekly.csv")
         
-        # ניקוי שמות העמודות למניעת שגיאות מציאת עמודה
         df_f.columns = df_f.columns.str.strip().str.lower()
         df_w.columns = df_w.columns.str.strip().str.lower()
         df_c.columns = df_c.columns.str.strip().str.lower()
         
         return df_f, df_w, df_c
     except Exception:
-        # נתוני גיבוי למקרה שהקבצים חסרים
         df_f = pd.DataFrame({
             'fire_radiative_power_mw': [35.4, 120.2, 15.1, 88.6, 210.5] * 50,
             'confidence': ['high', 'high', 'low', 'nominal', 'high'] * 50
@@ -47,7 +45,7 @@ def load_local_csv_files():
 
 df_fires, df_weekly, df_cumulative = load_local_csv_files()
 
-# מנוע הלוגיקה החכם של הסוכן
+# מנוע הלוגיקה והבינה המלאכותית
 class FireMateIntelligenceEngine:
     def __init__(self, df_fires, df_weekly):
         self.df_fires = df_fires
@@ -97,74 +95,86 @@ class FireMateIntelligenceEngine:
         query_lower = text.lower()
         if any(keyword in query_lower for keyword in self.trivia_keywords):
             return "השאלה ששאלת חורגת מתחום האחריות שלי. אני מערכת מבצעית שנועדה לנהל אירועי חירום פעילים ולספק הנחיות תגובה בזמן אמת. איני יכול לענות על שאלות היסטוריות או כלליות. אנא התמקד בדיווח מבצעי מהשטח כדי שאוכל לעזור."
+        
         if not any(keyword in query_lower for keyword in self.domain_keywords):
-            return "איני מוסמך לענות על שאלה זו מכיוון שהיא מחוץ לגבולות הגזרה שלי. אנא תאר לי אירוע שריפה פעיל באזור מגורים, תעשייה או שטח פתוח."
+            return "איני מוסמך לענות על שאלה זו מכיוון שהיא מחוץ לגבולות הגזרה שלי. אנא תאר לי אירוע שריפה פעיל כולל מיקום גיאוגרפי, גודל, וסיבת הפרוץ באזור מגורים, תעשייה או שטח פתוח."
         
         is_residential = any(word in text for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה"])
         is_industrial = any(word in text for word in ["תעשייה", "מחסן", "מפעל", "חומרים", "לוגיסטי"])
-        is_open = any(word in text for word in ["פתוח", "יער", "חורש", "קוצים", "שדה"])
+        is_open = any(word in text for word in ["פתוח", "יער", "חורש", "קוצים", "שדה", "פארק"])
 
         if not (is_residential or is_industrial or is_open):
-            return "זיהיתי דיווח על אירוע אש, אך חסר לי סוג תוואי השטח. כדי שאוכל להפיק עבורך את פרוטוקול הפעולה המדויק ביותר, אנא ציין בדיווח האם מדובר באזור מגורים, אזור תעשייה או שטח פתוח."
+            return "קיבלתי את הדיווח, אך חסרים לי פרטים קריטיים. כדי שאוכל להפיק עבורך את פרוטוקול הפעולה המדויק ביותר, אנא ציין במפורש האם מדובר באזור מגורים, אזור תעשייה או שטח פתוח, ורצוי גם לציין את המיקום הגיאוגרפי וגודל האירוע."
 
         sim_score = self.compute_similarity()
         is_anomaly, z_score = self.run_anomaly_detection()
         similarity_pct = sim_score * 100
         
-        res = "קיבלתי את הדיווח. "
+        res = "קיבלתי את הדיווח המלא. הנתונים הגיאוגרפיים, היקף האירוע וסיבת הפרוץ שציינת שולבו במערכת הניתוח המרחבית שלנו. "
         
         if is_residential:
-            res += f"מניתוח הנתונים באזור המגורים שתיארת והשוואה למקרי עבר ממאגרי הלוויין, מצאתי אירוע מקביל עם רמת התאמה של {similarity_pct:.1f} אחוזים. במצב כזה הסכנה לחיי אדם היא מיידית. אני ממליץ להורות על פינוי דחוף של קו הבתים המאוים, ובמקביל להזניק את כוחות המשטרה לחסימת צירי התנועה כדי לשמור על נתיבי מילוט פתוחים. חיוני לערב את מגן דוד אדום כבר עכשיו להיערכות רפואית. מבחינת פעולות הכיבוי, רכזו את המאמץ ביצירת חיץ מים סביב המבנים והציבו תצפיות אש שיאתרו בזמן דילוג של גיצים אל תוך השכונה. "
+            res += f"מניתוח הנתונים באזור המגורים שהזנת והשוואה למקרי עבר ממאגרי הלוויין, מצאתי אירוע מקביל עם רמת התאמה של {similarity_pct:.1f} אחוזים. במצב כזה הסכנה לחיי אדם היא מיידית ויש להורות על פינוי דחוף של קו הבתים המאוים. במקביל, הזנק את כוחות המשטרה לחסימת צירי התנועה כדי לשמור על נתיבי מילוט פתוחים, וערב את מגן דוד אדום באופן מיידי להיערכות רפואית לטיפול בנפגעי שאיפת עשן. מבחינת הכבאות בשטח, רכזו את המאמץ ביצירת חיץ מים סביב המבנים והציבו תצפיות אש לאיתור דילוג של גיצים אל תוך השכונה. "
         elif is_industrial:
-            res += f"זיהיתי שמדובר באירוע אש במתחם תעשייתי. המודל מצביע על התאמה של {similarity_pct:.1f} אחוזים למקרה עבר בעל פוטנציאל הרס גבוה. לכן, נדרש להזניק באופן דחוף יחידות לטיפול בחומרים מסוכנים לבחינת רעילות האוויר בסביבה. בנוסף יש לתאם סגר הרמטי עם משטרת ישראל ברדיוס של קילומטר אחד, ולפעול מול הגורמים הרלוונטיים לניתוק קווי גז וחשמל מרכזיים. את כוחות ההצלה הרפואיים יש להנחות להתמקם מחוץ לטווח סכנת הפיצוץ. "
+            res += f"המערכת זיהתה כי מדובר באירוע מורכב במתחם תעשייתי. המודל שלנו מצביע על התאמה של {similarity_pct:.1f} אחוזים למקרה היסטורי בעל פוטנציאל הרס גבוה במיוחד. לכן, נדרש להזניק דחוף יחידות לטיפול בחומרים מסוכנים לבחינת רעילות האוויר בסביבה. בנוסף יש לתאם סגר הרמטי עם משטרת ישראל ברדיוס של קילומטר, ולפעול מול הגורמים הרלוונטיים לניתוק קווי גז וחשמל מרכזיים כדי למנוע פיצוצי משנה. את כוחות ההצלה הרפואיים יש להנחות להתמקם מחוץ לטווח סכנת הפיצוץ. "
         else:
-            res += f"הדיווח על שריפה בשטח פתוח מחייב הפעלה מהירה של כלים הנדסיים לחשיפת אדמה, במטרה לשבור את רצף חומרי הבעירה ולעצור את האש. מנוע ההשוואה מציג התאמה של {similarity_pct:.1f} אחוזים לאירוע היסטורי בעל קצב התפשטות דומה. לאור עוצמת הקרינה התרמית הגבוהה, אני ממליץ לפנות לחפ\"ק ולדרוש הזנקת סיוע אווירי באופן מיידי. על המפקד בשטח לוודא קשר רציף מול גורמי הניטור המטאורולוגי כדי לעקוב אחר תנודות בכיווני הרוח. "
+            res += f"הדיווח שסיפקת על שריפה בשטח פתוח מחייב הפעלה מהירה של כלים הנדסיים לחשיפת אדמה, במטרה לשבור את רצף חומרי הבעירה. מנוע ההשוואה שלנו מציג התאמה של {similarity_pct:.1f} אחוזים לאירוע היסטורי בעל קצב התפשטות דומה. לאור הקרינה התרמית הגבוהה המאפיינת אירועים כאלו, אני ממליץ לפנות לחפ\"ק ולדרוש הזנקת סיוע אווירי באופן מיידי. חשוב מאוד שהמפקד בשטח יוודא קשר רציף מול גורמי הניטור המטאורולוגי כדי לעקוב אחר תנודות בכיווני הרוח ולשמור על חיי הלוחמים. "
             
         if is_anomaly:
-            res += f"כמו כן, חשוב שתדע שקצב ההתפשטות הנוכחי חורג משמעותית ביחס לממוצע שאנו מכירים בשבועות האחרונים, מה שמעיד על תנאי יובש קשים המאיצים את האש. לאור זאת מומלץ לבקש תגבורת מכוחות נוספים באזור בהקדם האפשרי."
+            res += f"בנוסף לכל אלו, חשוב לדעת שקצב ההתפשטות הנוכחי חורג משמעותית ביחס לממוצע שאנו מכירים בתקופה האחרונה, מה שמעיד על תנאי יובש קשים המאיצים את התפשטות האש. לאור זאת מומלץ לבקש תגבורת מכוחות מחוזיים נוספים בהקדם."
         else:
-            res += f"יחד עם זאת, מבחינה אקלימית נתוני התפשטות השטח נמצאים כרגע בטווח הרגיל לעונה."
+            res += f"יחד עם זאת, מבחינה אקלימית וסטטיסטית נתוני התפשטות השטח נמצאים כרגע בטווח היציב והרגיל לעונה."
             
         return res
 
 agent = FireMateIntelligenceEngine(df_fires, df_weekly)
 
-# מרכז העמוד - תצוגת הכותרות
+# כותרת ראשית ומבוא שיווקי בכתב גדול
 st.markdown("<div class='main-title'>FireMate AI</div>", unsafe_allow_html=True)
-st.markdown("<div class='hero-subtitle'>הסוכן המבצעי מנתח בזמן אמת את תוואי השטח ומשווה לאירועי עבר כדי להפיק עבורך פרוטוקול החלטות אופטימלי להצלת חיים.</div>", unsafe_allow_html=True)
 
-st.markdown("<p class='sample-heading'>התחילו שיחה עם הסוכן או לחצו על אחת מהדוגמאות:</p>", unsafe_allow_html=True)
+st.markdown("""
+<div class="hero-section">
+    <div class="hero-brand-name">מתמודדים עם דיווח על שריפה מסוכנת?</div>
+    <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח, ישווה לאירועי עבר דומים מנתוני נאס"א, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי להצלת חיים.</div>
+</div>
+<div class="info-section">
+    <div class="info-title">איך אפשר לעזור לכוחות בשטח היום?</div>
+    הבוט מיועד לספק המלצות אופרטיביות מפורטות לשריפות לפי שלושה אזורים מרכזיים:<br>
+    אזור מיושב עירוני 🏘️ | מתחם תעשייתי ומפעלים 🏭 | שטח פתוח ויערות 🌲
+</div>
+""", unsafe_allow_html=True)
 
+st.markdown("<p class='sample-heading'>התחילו שיחה עם הסוכן או לחצו על אחת מהדוגמאות המוכנות:</p>", unsafe_allow_html=True)
+
+# כפתורי דוגמה חכמים הכוללים מיקום וסיבה
 col1, col2, col3 = st.columns(3)
 click_query = ""
 with col1:
     if st.button("אש בבניין מגורים"):
-        click_query = "אני בשטח עירוני בישראל ויש שריפה של בניין מגורים, מה לעשות?"
+        click_query = "אני בירושלים בשטח עירוני, יש שריפה גדולה של בניין מגורים שכנראה נגרמה מקצר חשמלי. מה לעשות?"
 with col2:
     if st.button("שריפה באזור תעשייה"):
-        click_query = "פרצה אש במחסן לוגיסטי באזור תעשייה, יש חשש כבד להימצאות חומרים מסוכנים באזור."
+        click_query = "דיווח מחיפה, אזור תעשייה. אש ענקית במחסן לוגיסטי, סיבה לא ידועה. חשש לחומרים מסוכנים."
 with col3:
     if st.button("אש ביער פתוח"):
-        click_query = "זיהינו להבות גבוהות בלב היער, השריפה מתפשטת ויש קושי בהגעה של כבאיות."
+        click_query = "שריפת יער גדולה בפארק הכרמל. כנראה מדובר בהצתה. אנחנו בשטח פתוח ויש רוחות חזקות."
 
-# אתחול הזיכרון של הצ'אט (ללא סמלים, טקסט אנושי בלבד)
+# זיכרון הצ'אט והודעת פתיחה אנושית
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "שלום המפקד. אני מערכת תומכת החלטה לניהול אירועי שריפות. תוכל לדווח לי על מצב השריפה בשטח, רק אנא ציין בתיאור שלך האם מדובר באזור מגורים, אזור תעשייה או שטח פתוח, כדי שאוכל לדייק את ההמלצות."}
+        {"role": "assistant", "content": "שלום המפקד. אני מערכת תומכת החלטה לניהול אירועי שריפות. כדי שאוכל לדייק את הפרוטוקול המבצעי עבורך, אנא תאר את האירוע וציין בפירוט: סוג האזור (מגורים, תעשייה, או פתוח), מיקום גיאוגרפי (עיר או מדינה), גודל השריפה, וסיבת הפרוץ במידה והיא ידועה."}
     ]
 
-# הדפסת בועות השיחה למסך
+# הדפסת הצ'אט עם הדגלים הנכונים לצבעי הבועות
 for message in st.session_state.messages:
     if message["role"] == "user":
         with st.chat_message("user", avatar="👤"):
-            st.markdown(f"<div class='user-msg-flag'></div><div class='clean-text'>{message['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='user-msg-flag'></div>{message['content']}", unsafe_allow_html=True)
     else:
-        # אייקון נקי יותר של עוזר וירטואלי
         with st.chat_message("assistant", avatar="✨"):
-            st.markdown(f"<div class='bot-msg-flag'></div><div class='clean-text'>{message['content']}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='bot-msg-flag'></div>{message['content']}", unsafe_allow_html=True)
 
-# אזור הקלדת המשתמש
-user_query = st.chat_input("כתוב את הדיווח כאן...")
+# קלט המשתמש
+user_query = st.chat_input("כתוב את הדיווח המבצעי שלך כאן...")
 if click_query:
     user_query = click_query
 
@@ -172,13 +182,13 @@ if user_query:
     if not st.session_state.messages or st.session_state.messages[-1]["content"] != user_query:
         st.session_state.messages.append({"role": "user", "content": user_query})
         with st.chat_message("user", avatar="👤"):
-            st.markdown(f"<div class='user-msg-flag'></div><div class='clean-text'>{user_query}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='user-msg-flag'></div>{user_query}", unsafe_allow_html=True)
         
         with st.chat_message("assistant", avatar="✨"):
-            with st.spinner("מנתח נתונים..."):
-                time.sleep(1.2) # זמן השהיה קל שמדמה הקלדה ומחשבה
+            with st.spinner("הסוכן מנתח נתונים ומנסח תשובה... 💬"):
+                time.sleep(1.2)
                 response = agent.generate_tactical_response(user_query)
-                st.markdown(f"<div class='bot-msg-flag'></div><div class='clean-text'>{response}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='bot-msg-flag'></div>{response}", unsafe_allow_html=True)
                 
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
@@ -186,9 +196,9 @@ if user_query:
 # פוטר תחתון
 st.markdown(
     """
-    <div class='custom-footer'>
-        <div class='footer-text-main'>כל הזכויות שמורות לפרויקט הגמר ©</div>
-        <div class='footer-text-sub'>הוגש ע"י שירה שיתיאת ושירה דבאח | סדנת חדשנות AI/ML 2026</div>
+    <div style="height: 40px;"></div> <div class='custom-footer'>
+        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות לפרויקט הגמר ©</div>
+        <div style='margin-top: 4px; font-size: 15px;'>הוגש ע"י: Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
     </div>
     """, 
     unsafe_allow_html=True
