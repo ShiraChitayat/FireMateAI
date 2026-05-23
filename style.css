@@ -1,42 +1,46 @@
-/* יבוא הגופן הרשמי והנקי לשפה העברית */
-@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap');
-
-/* הסתרת רכיבי מערכת וקביעת גופן גלובלי */
+/* מחיקת אלמנטים של המערכת המובנית */
 [data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
 #MainMenu, footer, header { visibility: hidden !important; }
 .stApp > header { background-color: transparent !important; }
 
+/* הגדרת גופן יפה וגדול וכיוון קריאה לעברית */
 * {
-    font-family: 'Assistant', sans-serif !important;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
+/* רקע התכלת המרגיע שבקשת */
 html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #ffffff !important; /* רקע לבן ונקי לגמרי */
+    background-color: #e1f5fe !important; 
     direction: rtl !important;
     text-align: right !important;
-    color: #202124 !important; /* אפור כהה מאוד לטקסט (קונטרסט מעולה) */
+    color: #333333 !important;
 }
 
-/* סידור תיבת התוכן המרכזית */
+/* יישור כל רכיבי הטקסט לימין */
+.stMarkdown, .stText, p, div, input, textarea {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
 .block-container {
     direction: rtl !important;
     text-align: right !important;
     padding-top: 70px !important;
-    padding-bottom: 150px !important;
+    padding-bottom: 120px !important;
     max-width: 750px !important;
 }
 
-/* כותרת עליונה קבועה ונלמדת */
+/* כותרת עליונה צפה */
 .custom-header {
     background: #ffffff;
-    padding: 12px 5%;
+    padding: 15px 5%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: fixed; 
     top: 0; 
     left: 0;
@@ -45,144 +49,153 @@ html, body, .stApp {
 }
 
 .header-logo {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 800;
-    color: #4285f4; /* כחול טכנולוגי עדין */
+    color: #e65100;
     letter-spacing: 0.5px;
 }
 
-/* עיצוב הכותרות המרכזיות בגוף העמוד */
+/* כותרת האתר הענקית */
 .main-title {
-    font-size: 42px;
-    font-weight: 800;
-    color: #202124;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 8px;
+    font-size: 52px;
+    font-weight: 900;
+    color: #01579b;
+    text-align: center !important;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+/* אזור ה-Hero: טקסט גדול צף ללא רקע אפור */
+.hero-section {
+    background-color: transparent !important;
+    padding: 10px 20px;
+    text-align: center !important;
+    margin-bottom: 25px;
+}
+
+.hero-brand-name {
+    font-size: 38px !important;
+    font-weight: 900;
+    color: #e65100 !important;
+    margin-bottom: 12px;
+    text-align: center !important;
 }
 
 .hero-subtitle {
-    font-size: 18px;
-    font-weight: 400;
-    color: #5f6368;
+    font-size: 20px !important;
+    font-weight: 600;
+    color: #333333 !important;
     line-height: 1.5;
-    text-align: center;
+    text-align: center !important;
+}
+
+/* אזור המידע הלבן והקריא */
+.info-section {
+    background: #ffffff;
+    padding: 25px;
+    text-align: center !important; 
+    border-radius: 12px;
+    color: #333333;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     margin-bottom: 30px;
 }
 
+.info-title {
+    font-size: 26px !important;
+    font-weight: 800;
+    color: #01579b !important;
+    margin-bottom: 12px;
+}
+
 .sample-heading {
-    font-size: 15px !important;
-    color: #5f6368 !important;
-    font-weight: 600;
-    margin-bottom: 12px !important;
+    font-size: 18px !important;
+    color: #01579b !important;
+    font-weight: 700;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
     text-align: right !important;
 }
 
-/* כפתורים אלגנטיים ועדינים */
+/* כפתורי בחירה לבנים ואלגנטיים */
 div.stButton > button {
     width: 100% !important;
     background-color: #ffffff !important;
-    color: #1a73e8 !important; /* כחול גוגל נקי */
-    border: 1px solid #dadce0 !important;
-    border-radius: 24px !important;
-    padding: 8px 12px !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    transition: background-color 0.2s ease !important;
+    color: #e65100 !important;
+    border: 2px solid #e65100 !important;
+    border-radius: 20px !important;
+    padding: 12px 15px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
 }
 
 div.stButton > button:hover {
-    background-color: #f8f9fa !important;
-    border-color: #d2e3fc !important;
+    background-color: #e65100 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
 }
 
-/* --------------------------------------------------- */
-/* עיצוב בועות השיחה (בדיוק בסגנון Gemini / ChatGPT)  */
-/* --------------------------------------------------- */
+/* ---------------------------------------------------- */
+/* עיצוב בועות הצ'אט הצבעוניות עם מלל בגודל מושלם */
+/* ---------------------------------------------------- */
 [data-testid="stChatMessage"] {
     direction: rtl !important;
     text-align: right !important;
-    padding: 10px 15px !important;
-    margin-bottom: 12px !important;
-    font-size: 16px !important;
+    border-radius: 16px !important;
+    padding: 18px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+    font-size: 17px !important; /* טקסט מעט גדול יותר וקריא בבועות */
     line-height: 1.6 !important;
-    color: #202124 !important;
-    border: none !important;
 }
 
-/* בועת משתמש - מעוגלת, אפורה/כחלחלה וצמודה לצד */
-[data-testid="stChatMessage"]:has(.user-msg-flag) {
-    background-color: #f0f4f9 !important; /* צבע האפור-כחלחל של ג'מיני */
-    border-radius: 20px 20px 4px 20px !important;
-    width: fit-content !important;
-    max-width: 85% !important;
-    margin-left: auto !important; /* דחיפה לצד ימין */
-    margin-right: 0 !important;
-}
-
-/* בועת הסוכן (הבוט) - מתמזגת עם הרקע לחלוטין ללא גבולות */
+/* צבע בועת הסוכן (כתמתם בהיר) */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
-    background-color: transparent !important; 
-    border-radius: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-right: 0 !important;
-    padding-left: 0 !important;
+    background-color: #fff3e0 !important; 
+    border-right: 5px solid #f57c00 !important; 
 }
 
-/* תיקון יישור לתוכן טקסט נקי */
-.clean-text {
-    font-family: 'Assistant', sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
+/* צבע בועת המשתמש (ירקרק בהיר) */
+[data-testid="stChatMessage"]:has(.user-msg-flag) {
+    background-color: #e8f5e9 !important; 
+    border-right: 5px solid #2e7d32 !important; 
 }
 
-/* תיבת הקלדת הטקסט */
+/* תיבת הקלדת טקסט צפה */
 [data-testid="stBottom"] {
-    margin-bottom: 85px !important;
+    margin-bottom: 50px !important;
     z-index: 100 !important;
 }
 
 [data-testid="stChatInput"] {
     direction: rtl !important;
     text-align: right !important;
-    border-radius: 24px !important;
-    background-color: #f1f3f4 !important; /* אפור בהיר כמו שורת חיפוש */
-    border: none !important;
+    border-radius: 20px !important;
+    background-color: white !important;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.06) !important;
+    border: 1px solid #ddd !important;
 }
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
     font-size: 16px !important;
-    font-family: 'Assistant', sans-serif !important;
 }
 
-/* פוטר תחתון מרווח וקריא */
+/* פוטר יחסי בתחתית המסך */
 .custom-footer {
-    position: fixed; 
-    bottom: 0;
-    left: 0;
+    position: relative; 
+    margin-top: 20px;
     width: 100%;
     background: #ffffff;
-    color: #5f6368;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px 10px;
-    border-top: 1px solid #e0e0e0;
+    padding: 20px 10px;
+    border-top: 1px solid #eeeeee;
+    border-radius: 12px;
     direction: rtl !important;
-    z-index: 9999;
-}
-
-.footer-text-main {
-    font-size: 15px;
-    font-weight: 700;
-    color: #202124;
-}
-
-.footer-text-sub {
-    font-size: 14px;
-    margin-top: 4px;
-    color: #5f6368;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
 }
