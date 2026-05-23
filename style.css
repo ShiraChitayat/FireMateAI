@@ -18,7 +18,7 @@
     box-sizing: border-box;
 }
 
-/* APP BACKGROUND */
+/* APP BACKGROUND (תכלת בהיר) */
 html, body, .stApp {
     margin: 0;
     padding: 0;
@@ -50,9 +50,9 @@ h6 {
     max-width: 900px !important;
 }
 
-/* HEADER */
+/* HEADER (תכלת קצת יותר כהה) */
 .custom-header {
-    background: linear-gradient(90deg, #01579b, #0277bd);
+    background: #bbdefb !important; 
     padding: 16px 5%;
     display: flex;
     justify-content: center;
@@ -68,7 +68,7 @@ h6 {
 .header-logo {
     font-size: 26px;
     font-weight: 800;
-    color: white !important;
+    color: #01579b !important; /* טקסט בכחול כהה כדי שיבלוט */
     letter-spacing: 0.5px;
 }
 
@@ -199,7 +199,7 @@ div.stButton > button:hover {
     text-align: right !important;
 }
 
-/* CHAT INPUT */
+/* CHAT INPUT (תכלת כמו הרקע במקום לבן) */
 [data-testid="stBottom"] {
     margin-bottom: 95px !important;
     z-index: 100 !important;
@@ -209,8 +209,8 @@ div.stButton > button:hover {
     direction: rtl !important;
     text-align: right !important;
     border-radius: 24px !important;
-    background: white !important;
-    border: 1px solid #d6d6d6 !important;
+    background: #e3f2fd !important; /* תכלת בהיר */
+    border: 1px solid #bbdefb !important;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
 }
 
@@ -218,15 +218,16 @@ div.stButton > button:hover {
     direction: rtl !important;
     text-align: right !important;
     font-size: 18px !important;
+    background: transparent !important; /* מונע הופעת רקע לבן פנימי */
 }
 
-/* FOOTER */
+/* FOOTER (תכלת קצת יותר כהה) */
 .custom-footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(90deg, #01579b, #0277bd);
+    background: #bbdefb !important; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -236,16 +237,16 @@ div.stButton > button:hover {
     z-index: 9999;
 }
 
-/* FOOTER TEXT */
+/* FOOTER TEXT (כחול כהה לקריאות) */
 .footer-text-main {
-    color: white !important;
+    color: #01579b !important;
     font-weight: 800;
     font-size: 18px;
 }
 
 .footer-text-sub {
-    color: white !important;
+    color: #01579b !important;
     margin-top: 6px;
     font-size: 15px;
     font-weight: 500;
-}
+} 
