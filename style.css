@@ -1,39 +1,39 @@
-/* מחיקת אלמנטים של המערכת המובנית */
+/* Hide Streamlit default elements */
 [data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
 #MainMenu, footer, header { visibility: hidden !important; }
 .stApp > header { background-color: transparent !important; }
 
-/* הגדרת גופן יפה וגדול וכיוון קריאה לעברית */
+/* Enforce Font and Right-To-Left Globally */
 * {
     font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
-/* רקע התכלת המרגיע שבקשת */
+/* App Background */
 html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #e1f5fe !important; 
+    background-color: #e1f5fe !important; /* Beautiful Light Azure */
     direction: rtl !important;
     text-align: right !important;
     color: #333333 !important;
 }
 
-/* יישור כל רכיבי הטקסט לימין */
 .stMarkdown, .stText, p, div, input, textarea {
     direction: rtl !important;
     text-align: right !important;
 }
 
+/* Main Container bounds */
 .block-container {
     direction: rtl !important;
     text-align: right !important;
     padding-top: 70px !important;
-    padding-bottom: 120px !important;
-    max-width: 750px !important;
+    padding-bottom: 160px !important; /* Leave space for chat input + footer */
+    max-width: 800px !important;
 }
 
-/* כותרת עליונה צפה */
+/* Sticky Header */
 .custom-header {
     background: #ffffff;
     padding: 15px 5%;
@@ -51,74 +51,61 @@ html, body, .stApp {
 .header-logo {
     font-size: 24px;
     font-weight: 800;
-    color: #e65100;
+    color: #01579b;
     letter-spacing: 0.5px;
 }
 
-/* כותרת האתר הענקית */
+/* TITLES */
 .main-title {
-    font-size: 52px;
+    font-size: 60px;
     font-weight: 900;
-    color: #01579b;
+    color: #01579b !important;
     text-align: center !important;
-    margin-bottom: 5px;
-    margin-top: 15px;
-}
-
-/* אזור ה-Hero: טקסט גדול צף ללא רקע אפור */
-.hero-section {
-    background-color: transparent !important;
-    padding: 10px 20px;
-    text-align: center !important;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .hero-brand-name {
-    font-size: 38px !important;
-    font-weight: 900;
+    font-size: 34px !important;
+    font-weight: 800;
     color: #e65100 !important;
-    margin-bottom: 12px;
-    text-align: center !important;
-}
-
-.hero-subtitle {
-    font-size: 20px !important;
-    font-weight: 600;
-    color: #333333 !important;
-    line-height: 1.5;
-    text-align: center !important;
-}
-
-/* אזור המידע הלבן והקריא */
-.info-section {
-    background: #ffffff;
-    padding: 25px;
-    text-align: center !important; 
-    border-radius: 12px;
-    color: #333333;
-    font-size: 18px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     margin-bottom: 30px;
+    text-align: center !important;
 }
 
-.info-title {
-    font-size: 26px !important;
+/* Transparent Info Section (No Box) */
+.info-section-transparent {
+    background-color: transparent !important;
+    padding: 10px;
+    text-align: center !important; 
+    margin-bottom: 40px;
+}
+
+.info-title-large {
+    font-size: 32px !important;
     font-weight: 800;
     color: #01579b !important;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
+.info-text-large {
+    font-size: 22px !important;
+    font-weight: 500;
+    color: #333333 !important;
+    line-height: 1.6;
+}
+
+/* Centered Sample Questions Text */
 .sample-heading {
-    font-size: 18px !important;
+    font-size: 20px !important;
     color: #01579b !important;
     font-weight: 700;
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
-    text-align: right !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
 }
 
-/* כפתורי בחירה לבנים ואלגנטיים */
+/* Buttons */
 div.stButton > button {
     width: 100% !important;
     background-color: #ffffff !important;
@@ -137,35 +124,57 @@ div.stButton > button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* ---------------------------------------------------- */
-/* עיצוב בועות הצ'אט הצבעוניות עם מלל בגודל מושלם */
-/* ---------------------------------------------------- */
+/* =========================================
+   PERFECT CHAT BUBBLES
+   ========================================= */
+
+/* Make the full row transparent and NOT full width */
 [data-testid="stChatMessage"] {
-    direction: rtl !important;
-    text-align: right !important;
-    border-radius: 16px !important;
-    padding: 18px !important;
-    margin-bottom: 15px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-    font-size: 17px !important; /* טקסט מעט גדול יותר וקריא בבועות */
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    width: fit-content !important; 
+    max-width: 85% !important; 
+}
+
+/* Fix Streamlit inner elements to look like real bubbles */
+[data-testid="stChatMessage"] > div {
+    border-radius: 18px !important;
+    padding: 16px 22px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06) !important;
+    font-size: 18px !important;
     line-height: 1.6 !important;
 }
 
-/* צבע בועת הסוכן (כתמתם בהיר) */
-[data-testid="stChatMessage"]:has(.bot-msg-flag) {
-    background-color: #fff3e0 !important; 
-    border-right: 5px solid #f57c00 !important; 
-}
-
-/* צבע בועת המשתמש (ירקרק בהיר) */
+/* USER Bubble (Green) -> Push to the RIGHT */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
-    background-color: #e8f5e9 !important; 
-    border-right: 5px solid #2e7d32 !important; 
+    margin-left: auto !important; /* Pushes bubble to the right side */
+    margin-right: 0 !important;
+}
+[data-testid="stChatMessage"]:has(.user-msg-flag) > div {
+    background-color: #e8f5e9 !important; /* Light Green */
+    border-right: 6px solid #2e7d32 !important;
+    border-bottom-right-radius: 4px !important; /* Tail effect */
 }
 
-/* תיבת הקלדת טקסט צפה */
+/* BOT Bubble (Orange) -> Push to the LEFT */
+[data-testid="stChatMessage"]:has(.bot-msg-flag) {
+    margin-right: auto !important; /* Pushes bubble to the left side */
+    margin-left: 0 !important;
+}
+[data-testid="stChatMessage"]:has(.bot-msg-flag) > div {
+    background-color: #fff3e0 !important; /* Light Orange */
+    border-right: 6px solid #f57c00 !important;
+    border-bottom-left-radius: 4px !important; /* Tail effect */
+}
+
+/* Chat Input Field */
 [data-testid="stBottom"] {
-    margin-bottom: 50px !important;
+    margin-bottom: 90px !important; /* Keep input above the footer */
     z-index: 100 !important;
 }
 
@@ -180,14 +189,15 @@ div.stButton > button:hover {
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
-    font-size: 16px !important;
+    font-size: 18px !important;
 }
 
-/* פוטר יחסי בתחתית המסך */
+/* FULL WIDTH FIXED FOOTER */
 .custom-footer {
-    position: relative; 
-    margin-top: 20px;
-    width: 100%;
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100vw !important; /* Full screen width */
     background: #ffffff;
     display: flex;
     flex-direction: column;
@@ -195,7 +205,20 @@ div.stButton > button:hover {
     align-items: center;
     padding: 20px 10px;
     border-top: 1px solid #eeeeee;
-    border-radius: 12px;
     direction: rtl !important;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+    z-index: 9999;
 }
+
+.footer-text-main {
+    color: #01579b;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.footer-text-sub {
+    color: #333333;
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 500;
+} 
