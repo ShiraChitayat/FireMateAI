@@ -141,15 +141,15 @@ agent = FireMateIntelligenceEngine(df_fires, df_weekly)
 
 # Main UI Titles
 st.markdown("<div class='main-title'>FireMate AI</div>", unsafe_allow_html=True)
-st.markdown("<div class='hero-brand-name'>מתמודדים עם דיווח על שריפה מסוכנת? 🔥</div>", unsafe_allow_html=True)
+st.markdown("<div class='hero-brand-name'>יש שריפה באזור?🔥</div>", unsafe_allow_html=True)
 
 # Transparent large info section
 st.markdown("""
 <div class="info-section-transparent">
-    <div class="info-title-large">איך אפשר לעזור לכוחות בשטח היום?</div>
+    <div class="info-title-large">איך ניתן לעזור לכוחות בשטח היום</div>
     <div class="info-text-large">
         הבוט מיועד לספק המלצות אופרטיביות לשריפות לפי שלושה אזורים מרכזיים:<br><br>
-        <span style="font-weight: 700; color: #01579b;">אזור מיושב עירוני 🏘️ &nbsp;|&nbsp; מתחם תעשייתי ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</span>
+        <span style="font-weight: 700; color: #01579b;">אזור מיושב 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות🌲</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -211,7 +211,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div class='footer-text-main'>כל הזכויות שמורות ©</div>
-        <div class='footer-text-sub'> Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
+        <div class='footer-text-sub'> סדנת חדשנות מבוססת AI/ML 2026 🎓 | Shira Chitayat & Shira Dabach </div>
     </div>
     """, 
     unsafe_allow_html=True
