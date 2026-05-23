@@ -4,24 +4,24 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import time
 
-# הגדרות תצוגה
+# Set up page config
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
 
-# טעינת קובץ העיצוב החיצוני
+# Load external CSS
 try:
     with open("style.css", "r", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 except Exception:
     pass
 
-# כותרת עליונה קבועה
+# Sticky top header
 st.markdown("""
     <div class="custom-header">
         <span class="header-logo">🔥 FireMate AI</span>
     </div>
 """, unsafe_allow_html=True)
 
-# טעינת קבצי הנתונים המקומיים (עם ניקוי שמות עמודות חכם למניעת שגיאות)
+# Load CSV data locally
 @st.cache_data(show_spinner=False)
 def load_local_csv_files():
     try:
@@ -29,12 +29,14 @@ def load_local_csv_files():
         df_w = pd.read_csv("area_burnt_weekly.csv")
         df_c = pd.read_csv("cumulative_burnt_weekly.csv")
         
+        # Clean column names
         df_f.columns = df_f.columns.str.strip().str.lower()
         df_w.columns = df_w.columns.str.strip().str.lower()
         df_c.columns = df_c.columns.str.strip().str.lower()
         
         return df_f, df_w, df_c
     except Exception:
+        # Fallback data if files are missing
         df_f = pd.DataFrame({
             'fire_radiative_power_mw': [35.4, 120.2, 15.1, 88.6, 210.5] * 50,
             'confidence': ['high', 'high', 'low', 'nominal', 'high'] * 50
@@ -45,29 +47,34 @@ def load_local_csv_files():
 
 df_fires, df_weekly, df_cumulative = load_local_csv_files()
 
-# מנוע הלוגיקה והבינה המלאכותית
+# Core AI Agent Logic
 class FireMateIntelligenceEngine:
     def __init__(self, df_fires, df_weekly):
         self.df_fires = df_fires
         self.df_weekly = df_weekly
         
+        # Allowed vs blocked keywords
         self.domain_keywords = ['אש', 'שריפה', 'עשן', 'פינוי', 'כבאים', 'כיבוי', 'יער', 'פתוח', 'מגורים', 'תעשייה', 'להבות', 'חומרים', 'הצלה', 'מוקד', 'דיווח']
         self.trivia_keywords = ['היסטוריה', 'מה ה', 'איפה', 'מתי', 'הכי', 'מי', 'איך קוראים', 'איזה שריפות']
         
+        # Smart column mapping
         self.frp_col = self._get_column(self.df_fires, ['fire_radiative_power_mw', 'frp', 'fire_radiative_power'])
         self.conf_col = self._get_column(self.df_fires, ['confidence_pct', 'confidence', 'conf'])
         self.weekly_area_col = self._get_column(self.df_weekly, ['weekly_area', 'area'])
 
     def _get_column(self, df, possible_names):
+        # Find the correct column name
         for name in possible_names:
             if name in df.columns:
                 return name
         return df.columns[1] if len(df.columns) > 1 else df.columns[0]
 
     def compute_similarity(self):
+        # Cosine similarity logic
         frp_series = pd.to_numeric(self.df_fires[self.frp_col], errors='coerce').fillna(0)
         conf_series = self.df_fires[self.conf_col].copy()
         
+        # Convert text confidence to numbers
         if conf_series.dtype == object:
             conf_lower = conf_series.astype(str).str.lower().str.strip()
             conf_mapping = {'high': 95.0, 'nominal': 50.0, 'low': 15.0}
@@ -81,6 +88,7 @@ class FireMateIntelligenceEngine:
         return float(similarities[max_idx][0])
 
     def run_anomaly_detection(self):
+        # Z-Score anomaly detection
         if self.weekly_area_col not in self.df_weekly.columns:
             return False, 0.0
         weekly_values = pd.to_numeric(self.df_weekly[self.weekly_area_col], errors='coerce').dropna().values
@@ -92,6 +100,7 @@ class FireMateIntelligenceEngine:
         return z_score > 1.8, z_score
 
     def generate_tactical_response(self, text):
+        # Block out-of-domain questions
         query_lower = text.lower()
         if any(keyword in query_lower for keyword in self.trivia_keywords):
             return "השאלה ששאלת חורגת מתחום האחריות שלי. אני מערכת מבצעית שנועדה לנהל אירועי חירום פעילים ולספק הנחיות תגובה בזמן אמת. איני יכול לענות על שאלות היסטוריות או כלליות. אנא התמקד בדיווח מבצעי מהשטח כדי שאוכל לעזור."
@@ -106,10 +115,12 @@ class FireMateIntelligenceEngine:
         if not (is_residential or is_industrial or is_open):
             return "קיבלתי את הדיווח, אך חסרים לי פרטים קריטיים. כדי שאוכל להפיק עבורך את פרוטוקול הפעולה המדויק ביותר, אנא ציין במפורש האם מדובר באזור מגורים, אזור תעשייה או שטח פתוח, ורצוי גם לציין את המיקום הגיאוגרפי וגודל האירוע."
 
+        # Run models
         sim_score = self.compute_similarity()
         is_anomaly, z_score = self.run_anomaly_detection()
         similarity_pct = sim_score * 100
         
+        # Build narrative response
         res = "קיבלתי את הדיווח המלא. הנתונים הגיאוגרפיים, היקף האירוע וסיבת הפרוץ שציינת שולבו במערכת הניתוח המרחבית שלנו. "
         
         if is_residential:
@@ -128,24 +139,24 @@ class FireMateIntelligenceEngine:
 
 agent = FireMateIntelligenceEngine(df_fires, df_weekly)
 
-# כותרת ראשית ומבוא שיווקי בכתב גדול
+# Main UI Titles
 st.markdown("<div class='main-title'>FireMate AI</div>", unsafe_allow_html=True)
+st.markdown("<div class='hero-brand-name'>מתמודדים עם דיווח על שריפה מסוכנת? 🔥</div>", unsafe_allow_html=True)
 
+# Transparent large info section
 st.markdown("""
-<div class="hero-section">
-    <div class="hero-brand-name">מתמודדים עם דיווח על שריפה מסוכנת?</div>
-    <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח, ישווה לאירועי עבר דומים מנתוני נאס"א, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי להצלת חיים.</div>
-</div>
-<div class="info-section">
-    <div class="info-title">איך אפשר לעזור לכוחות בשטח היום?</div>
-    הבוט מיועד לספק המלצות אופרטיביות מפורטות לשריפות לפי שלושה אזורים מרכזיים:<br>
-    אזור מיושב עירוני 🏘️ | מתחם תעשייתי ומפעלים 🏭 | שטח פתוח ויערות 🌲
+<div class="info-section-transparent">
+    <div class="info-title-large">איך אפשר לעזור לכוחות בשטח היום?</div>
+    <div class="info-text-large">
+        הבוט מיועד לספק המלצות אופרטיביות לשריפות לפי שלושה אזורים מרכזיים:<br><br>
+        <span style="font-weight: 700; color: #01579b;">אזור מיושב עירוני 🏘️ &nbsp;|&nbsp; מתחם תעשייתי ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<p class='sample-heading'>התחילו שיחה עם הסוכן או לחצו על אחת מהדוגמאות המוכנות:</p>", unsafe_allow_html=True)
+# Centered sample questions
+st.markdown("<div class='sample-heading'>התחילו שיחה עם הסוכן או לחצו על אחת מהדוגמאות המוכנות:</div>", unsafe_allow_html=True)
 
-# כפתורי דוגמה חכמים הכוללים מיקום וסיבה
 col1, col2, col3 = st.columns(3)
 click_query = ""
 with col1:
@@ -158,13 +169,13 @@ with col3:
     if st.button("אש ביער פתוח"):
         click_query = "שריפת יער גדולה בפארק הכרמל. כנראה מדובר בהצתה. אנחנו בשטח פתוח ויש רוחות חזקות."
 
-# זיכרון הצ'אט והודעת פתיחה אנושית
+# Initialize Chat
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant", "content": "שלום המפקד. אני מערכת תומכת החלטה לניהול אירועי שריפות. כדי שאוכל לדייק את הפרוטוקול המבצעי עבורך, אנא תאר את האירוע וציין בפירוט: סוג האזור (מגורים, תעשייה, או פתוח), מיקום גיאוגרפי (עיר או מדינה), גודל השריפה, וסיבת הפרוץ במידה והיא ידועה."}
     ]
 
-# הדפסת הצ'אט עם הדגלים הנכונים לצבעי הבועות
+# Display Chat Bubbles
 for message in st.session_state.messages:
     if message["role"] == "user":
         with st.chat_message("user", avatar="👤"):
@@ -173,17 +184,19 @@ for message in st.session_state.messages:
         with st.chat_message("assistant", avatar="✨"):
             st.markdown(f"<div class='bot-msg-flag'></div>{message['content']}", unsafe_allow_html=True)
 
-# קלט המשתמש
+# User Input
 user_query = st.chat_input("כתוב את הדיווח המבצעי שלך כאן...")
 if click_query:
     user_query = click_query
 
 if user_query:
     if not st.session_state.messages or st.session_state.messages[-1]["content"] != user_query:
+        # Show user message
         st.session_state.messages.append({"role": "user", "content": user_query})
         with st.chat_message("user", avatar="👤"):
             st.markdown(f"<div class='user-msg-flag'></div>{user_query}", unsafe_allow_html=True)
         
+        # Show agent thinking animation and response
         with st.chat_message("assistant", avatar="✨"):
             with st.spinner("הסוכן מנתח נתונים ומנסח תשובה... 💬"):
                 time.sleep(1.2)
@@ -193,12 +206,12 @@ if user_query:
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
 
-# פוטר תחתון
+# Full width bottom footer
 st.markdown(
     """
-    <div style="height: 40px;"></div> <div class='custom-footer'>
-        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות לפרויקט הגמר ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'>הוגש ע"י: Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
+    <div class='custom-footer'>
+        <div class='footer-text-main'>כל הזכויות שמורות לפרויקט הגמר ©</div>
+        <div class='footer-text-sub'>הוגש ע"י: Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
     </div>
     """, 
     unsafe_allow_html=True
