@@ -35,7 +35,8 @@ html, body, .stApp {
 
 /* Sticky Header */
 .custom-header {
-    background: #ffffff;
+    background: #01579b;
+    color: white;
     padding: 15px 5%;
     display: flex;
     justify-content: center;
@@ -125,7 +126,7 @@ div.stButton > button:hover {
 }
 
 /* =========================================
-   PERFECT CHAT BUBBLES
+   CHAT BUBBLES
    ========================================= */
 
 /* Make the full row transparent and NOT full width */
@@ -192,13 +193,13 @@ div.stButton > button:hover {
     font-size: 18px !important;
 }
 
-/* FULL WIDTH FIXED FOOTER */
 .custom-footer {
     position: fixed; 
     bottom: 0;
     left: 0;
-    width: 100vw !important; /* Full screen width */
-    background: #ffffff;
+    width: 100vw !important;
+    background: #01579b;
+    color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
