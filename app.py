@@ -212,7 +212,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 🎓 Shira Chitayat & Shira Dabach</div>
+        <div style='margin-top: 4px; font-size: 15px;'> Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026</div>
     </div>
     """,
     unsafe_allow_html=True
