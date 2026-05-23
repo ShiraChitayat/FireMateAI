@@ -1,25 +1,25 @@
-/* Core setup & Hide Streamlit elements */
+/* ניקוי והסתרת רכיבי ברירת מחדל של Streamlit */
 [data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
 #MainMenu, footer, header { visibility: hidden !important; }
 .stApp > header { background-color: transparent !important; }
 
-/* Force standard Segoe UI Font and Right-To-Left Alignment Globally */
+/* פונט מערכת אחיד וכיוון כתיבה מימין לשמאל */
 * {
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
 }
 
-/* Beautiful Light Blue / Azure Background */
+/* רקע נקי ומודרני (Gemini Canvas) */
 html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #e1f5fe !important; /* תכלת בהיר ומקסים */
+    background-color: #f8fafd !important; /* רקע בהיר ונעים לעין */
     direction: rtl !important;
     text-align: right !important;
-    color: #333333 !important;
+    color: #1f1f1f !important;
 }
 
-/* Force layout alignment on markdown cells */
+/* יישור טקסט */
 .stMarkdown, .stText, p, div, input, textarea {
     direction: rtl !important;
     text-align: right !important;
@@ -28,175 +28,181 @@ html, body, .stApp {
 .block-container {
     direction: rtl !important;
     text-align: right !important;
-    padding-top: 60px !important;
-    padding-bottom: 150px !important; /* Huge padding so the chat doesn't go under the footer */
-    max-width: 750px !important;
+    padding-top: 80px !important;
+    padding-bottom: 180px !important;
+    max-width: 760px !important;
 }
 
-/* STICKY HEADER Configuration */
+/* כותרת עליונה קבועה (Sticky Header) */
 .custom-header {
-    background: #ffffff;
-    padding: 15px 5%;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 12px 5%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: fixed; 
-    top: 0; 
+    border-bottom: 1px solid #e0e4ec;
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
-    z-index: 99999;
+    z-index: 9999;
 }
 
 .header-logo {
-    font-size: 24px;
-    font-weight: 800;
-    color: #e65100;
-    letter-spacing: 0.5px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0b57d0; /* כחול מותג מעודן */
+    letter-spacing: -0.5px;
 }
 
-/* MAIN PAGE TITLE */
+/* כותרת ראשית */
 .main-title {
-    font-size: 52px;
-    font-weight: 900;
-    color: #01579b;
+    font-size: 48px;
+    font-weight: 800;
+    color: #0b57d0;
     text-align: center;
     margin-bottom: 5px;
-    margin-top: 15px;
+    margin-top: 25px;
+    letter-spacing: -1px;
 }
 
-/* Hero Section (Transparent background now, huge text) */
+/* אזור הסבר עליון */
 .hero-section {
     background-color: transparent !important;
     padding: 10px 20px;
     text-align: center !important;
-    margin-bottom: 25px;
-    box-shadow: none !important;
+    margin-bottom: 20px;
 }
 
 .hero-brand-name {
-    font-size: 38px !important;
-    font-weight: 900;
-    color: #e65100 !important;
-    margin-bottom: 12px;
+    font-size: 24px !important;
+    font-weight: 700;
+    color: #1f1f1f !important;
+    margin-bottom: 8px;
     text-align: center !important;
 }
 
 .hero-subtitle {
-    font-size: 20px !important;
-    font-weight: 600;
-    color: #333333 !important;
-    line-height: 1.5;
+    font-size: 16px !important;
+    font-weight: 400;
+    color: #5f6368 !important;
+    line-height: 1.6;
     text-align: center !important;
 }
 
-/* Marketing Info block */
+/* כרטיסיית מידע מרכזית */
 .info-section {
     background: #ffffff;
-    padding: 25px;
-    text-align: center !important; 
-    border-radius: 12px;
-    color: #333333;
-    font-size: 18px;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin-bottom: 30px;
+    padding: 24px;
+    text-align: right !important;
+    border-radius: 16px;
+    color: #1f1f1f;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    border: 1px solid #e0e4ec;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    margin-bottom: 24px;
 }
 
 .info-title {
-    font-size: 26px !important;
-    font-weight: 800;
-    color: #01579b !important;
-    margin-bottom: 12px;
+    font-size: 18px !important;
+    font-weight: 700;
+    color: #0b57d0 !important;
+    margin-bottom: 10px;
 }
 
 .sample-heading {
-    font-size: 18px !important;
-    color: #01579b !important;
+    font-size: 15px !important;
+    color: #1f1f1f !important;
     font-weight: 700;
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
-    text-align: right !important;
+    margin-top: 20px !important;
+    margin-bottom: 12px !important;
 }
 
-/* Elegant Buttons */
+/* עיצוב כפתורי הצ'יפים (Gemini Prompt Chips) */
 div.stButton > button {
     width: 100% !important;
     background-color: #ffffff !important;
-    color: #e65100 !important;
-    border: 2px solid #e65100 !important;
-    border-radius: 20px !important;
-    padding: 12px 15px !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    transition: all 0.3s ease !important;
+    color: #0b57d0 !important;
+    border: 1px solid #dadce0 !important;
+    border-radius: 100px !important; /* כפתורים עגולים לחלוטין */
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
 }
 
 div.stButton > button:hover {
-    background-color: #e65100 !important;
-    color: #ffffff !important;
-    transform: translateY(-2px) !important;
+    background-color: #f1f3f4 !important;
+    border-color: #dadce0 !important;
+    color: #0b57d0 !important;
 }
 
-/* Base Chat Bubbles Styling */
+/* עיצוב בועות השיחה (Gemini Inspired Style) */
 [data-testid="stChatMessage"] {
-    direction: rtl !important;
-    text-align: right !important;
-    border-radius: 16px !important;
-    padding: 18px !important;
-    margin-bottom: 15px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-    font-size: 16px !important;
+    border-radius: 20px !important;
+    padding: 16px 20px !important;
+    margin-bottom: 16px !important;
+    border: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
-/* BOT (Assistant) Bubble Color - LIGHT ORANGE */
-[data-testid="stChatMessage"]:has(.bot-msg-flag) {
-    background-color: #fff3e0 !important; 
-    border-right: 5px solid #f57c00 !important; 
-}
-
-/* USER Bubble Color - Light Green */
+/* בועת משתמש - רקע כחלחל-אפרפר רך וניטרלי */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
-    background-color: #e8f5e9 !important; 
-    border-right: 5px solid #2e7d32 !important; 
+    background-color: #e9eef6 !important;
+    color: #1f1f1f !important;
+    border-radius: 20px 20px 4px 20px !important;
 }
 
-/* Chat Input Field (Floating above footer) */
+/* בועת מערכת - רקע לבן נקי עם גבול עדין מאוד */
+[data-testid="stChatMessage"]:has(.bot-msg-flag) {
+    background-color: #ffffff !important;
+    border: 1px solid #e0e4ec !important;
+    color: #1f1f1f !important;
+    border-radius: 20px 20px 20px 4px !important;
+}
+
+/* התאמת אזור הקלט הצף עקב הכותרת התחתונה */
 [data-testid="stBottom"] {
-    margin-bottom: 75px !important; /* Pushes the chat input up above the fixed footer */
+    background-color: #f8fafd !important;
+    padding-bottom: 80px !important;
+    border: none !important;
     z-index: 100 !important;
 }
 
 [data-testid="stChatInput"] {
     direction: rtl !important;
     text-align: right !important;
-    border-radius: 20px !important;
+    border-radius: 28px !important;
     background-color: white !important;
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.06) !important;
-    border: 1px solid #ddd !important;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+    border: 1px solid #dadce0 !important;
 }
+
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
 }
 
-/* FIXED CENTERED FOOTER AT THE VERY BOTTOM */
+/* כותרת תחתונה קבועה (Footer) */
 .custom-footer {
-    position: fixed; 
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    color: #01579b;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px 10px;
-    border-top: 1px solid #eeeeee;
+    padding: 14px 10px;
+    border-top: 1px solid #e0e4ec;
     direction: rtl !important;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-    z-index: 9999;
+    box-shadow: 0 -1px 3px rgba(0,0,0,0.02);
+    z-index: 999;
 } 
