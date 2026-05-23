@@ -72,7 +72,7 @@ agent = FireMateIntelligenceEngine(df_fires, df_weekly)
 st.markdown("<div class='main-title' style=\"font-family: 'Segoe UI', system-ui, sans-serif !important;\">FireMate AI</div>", unsafe_allow_html=True)
 st.markdown("<div class='hero-brand-name' style=\"font-family: 'Segoe UI', system-ui, sans-serif !important;\">יש שריפה באזור?🔥</div>", unsafe_allow_html=True)
 
-# Transparent large info section with forced inline fonts
+# Transparent large info section
 st.markdown("""
 <div class="info-section-transparent">
     <div class="info-title-large" style="font-family: 'Segoe UI', system-ui, sans-serif !important;">איך ניתן לעזור לכוחות בשטח היום</div>
@@ -85,29 +85,35 @@ st.markdown("""
 
 st.markdown("<div class='sample-heading' style=\"font-family: 'Segoe UI', system-ui, sans-serif !important;\">התחילו שיחה עם הסוכן או לחצו על אחת מהדוגמאות המוכנות:</div>", unsafe_allow_html=True)
 
+# Sample buttons
 col1, col2, col3 = st.columns(3)
 click_query = ""
 if col1.button("אש במגורים"): click_query = "דיווח משריפת בניין מגורים בפתח תקווה."
 if col2.button("אש בתעשייה"): click_query = "דיווח על שריפה במחסן חומרים מסוכנים באזור תעשייה בחיפה."
 if col3.button("אש בשטח פתוח"): click_query = "שריפת יער גדולה עם רוחות חזקות באזור הרי ירושלים."
 
+# Chat memory initialization
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "שלום המפקד. דווח לי על שריפה (מגורים/תעשייה/פתוח) ואעזור לך להחליט."}]
 
+# Render chat
 for message in st.session_state.messages:
     avatar = "👤" if message["role"] == "user" else "✨"
-    role_class = "user-msg-flag" if message["role"] == "user" else "bot-msg-flag"
+    # בחירת המחלקה של העיצוב (כתום או ירוק)
+    css_class = "user-msg-box" if message["role"] == "user" else "bot-msg-box"
+    
     with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(f"<div class='{role_class} clean-text' style=\"font-family: 'Segoe UI', system-ui, sans-serif !important;\">{message['content']}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='{css_class}' style=\"font-family: 'Segoe UI', system-ui, sans-serif !important;\">{message['content']}</div>", unsafe_allow_html=True)
 
+# Chat Input
 if user_query := st.chat_input("כתוב כאן את הדיווח..."):
     st.session_state.messages.append({"role": "user", "content": user_query})
     st.rerun()
 
-# Footer
+# Dynamic Footer (Appears at the very bottom, not fixed)
 st.markdown("""
     <div class='custom-footer' style="font-family: 'Segoe UI', system-ui, sans-serif !important;">
         <div class='footer-text-main' style="font-family: 'Segoe UI', system-ui, sans-serif !important;">כל הזכויות שמורות לפרויקט הגמר ©</div>
         <div class='footer-text-sub' style="font-family: 'Segoe UI', system-ui, sans-serif !important;">הוגש ע"י שירה שיתיאת ושירה דבאח | סדנת חדשנות AI/ML 2026</div>
     </div>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True) 
