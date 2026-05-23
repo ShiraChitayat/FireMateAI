@@ -150,7 +150,7 @@ st.markdown("""
 <div class="info-section">
     <div class="info-title">איך אפשר לעזור לכוחות בשטח היום?</div>
     הבוט מיועד לספק המלצות אופרטיביות לשריפות לפי שלושה אזורים מרכזיים:<br>
-    אזור מיושב עירוני 🏘️ | מתחם תעשייתי ומפעלים 🏭 | שטח פתוח ויערות 🌲
+    אזור מיושב 🏘️ | מתחם תעשייתי ומפעלים 🏭 | שטח פתוח ויערות 🌲
 </div>
 """, unsafe_allow_html=True)
 
@@ -163,10 +163,10 @@ with col1:
     if st.button("🚨 אש בבניין מגורים"):
         click_query = "אני בשטח עירוני בישראל ויש שריפה של בניין מגורים, מה לעשות?"
 with col2:
-    if st.button("🏭 שריפה באזור תעשייה"):
+    if st.button("🏭 אש באזור תעשייה"):
         click_query = "פרצה אש במחסן לוגיסטי בתוך אזור התעשייה, יש חשש כבד להימצאות חומרים מסוכנים ומכלים דליקים באזור."
 with col3:
-    if st.button("🌲 אש ביער הפתוח"):
+    if st.button("🌲 אש ביער פתוח"):
         click_query = "זיהינו להבות גבוהות בלב היער בשטח פתוח, השריפה מתפשטת אופקית ויש קושי בהגעה של רכבי כיבוי כבדים."
 
 # Chat Initialization
@@ -212,7 +212,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'> Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026 🎓</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 🎓 Shira Chitayat & Shira Dabach</div>
     </div>
     """,
     unsafe_allow_html=True
