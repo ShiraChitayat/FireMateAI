@@ -1,49 +1,46 @@
-/* Hide Streamlit default elements */
-[data-testid="stSidebarCollapseButton"], 
-[data-testid="stSidebar"] { 
-    display: none !important; 
-}
+/* Core setup & Hide Streamlit elements */
+[data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
+#MainMenu, footer, header { visibility: hidden !important; }
+.stApp > header { background-color: transparent !important; }
 
-#MainMenu, footer, header { 
-    visibility: hidden !important; 
-}
-
-.stApp > header { 
-    background-color: transparent !important; 
-}
-
-/* GLOBAL FONT */
+/* Force standard Segoe UI Font and Right-To-Left Alignment Globally */
 * {
-    font-family: 'Segoe UI', 'Arial', sans-serif !important;
-    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
-/* APP BACKGROUND */
+/* Beautiful Light Blue / Azure Background */
 html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #e1f5fe !important; /* תכלת בהיר */
+    background-color: #e1f5fe !important; /* תכלת בהיר ומקסים */
     direction: rtl !important;
     text-align: right !important;
-    color: #1f2937 !important;
+    color: #333333 !important;
 }
 
-/* MAIN CONTAINER */
+/* Force layout alignment on markdown cells */
+.stMarkdown, .stText, p, div, input, textarea {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
 .block-container {
-    padding-top: 80px !important;
-    padding-bottom: 50px !important; /* הוקטן כדי שהפוטר יישב טבעי */
-    max-width: 900px !important;
+    direction: rtl !important;
+    text-align: right !important;
+    padding-top: 60px !important;
+    padding-bottom: 150px !important; /* Huge padding so the chat doesn't go under the footer */
+    max-width: 750px !important;
 }
 
-/* HEADER */
+/* STICKY HEADER Configuration */
 .custom-header {
-    background: #01579b !important; 
-    padding: 16px 5%;
+    background: #ffffff;
+    padding: 15px 5%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: fixed;
     top: 0;
     left: 0;
@@ -52,164 +49,154 @@ html, body, .stApp {
 }
 
 .header-logo {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 800;
-    color: white !important; 
+    color: #e65100;
     letter-spacing: 0.5px;
 }
 
-/* TITLES */
+/* MAIN PAGE TITLE */
 .main-title {
-    font-size: 64px;
+    font-size: 52px;
     font-weight: 900;
-    color: #01579b !important;
-    margin-top: 20px;
+    color: #01579b;
+    text-align: center;
     margin-bottom: 5px;
-    text-align: center !important;
+    margin-top: 15px;
 }
 
-.hero-brand-name {
-    font-size: 36px !important;
-    font-weight: 800;
-    color: #e65100 !important;
-    margin-bottom: 35px;
-    text-align: center !important;
-}
-
-/* INFO SECTION */
-.info-section-transparent {
-    background: transparent !important;
-    margin-bottom: 45px;
-}
-
-.info-title-large {
-    font-size: 34px !important;
-    font-weight: 800;
-    color: #01579b !important;
-    margin-bottom: 18px;
-    text-align: center !important;
-}
-
-.info-text-large {
-    font-size: 22px !important;
-    font-weight: 500;
-    color: #333333 !important;
-    line-height: 1.8;
-    text-align: center !important;
-}
-
-/* SAMPLE TITLE */
-.sample-heading {
-    font-size: 22px !important;
-    color: #01579b !important;
-    font-weight: 700;
-    margin-top: 20px !important;
-    margin-bottom: 25px !important;
-    text-align: center !important;
-}
-
-/* BUTTONS */
-div.stButton > button {
-    width: 100% !important;
-    background: white !important;
-    color: #e65100 !important;
-    border: 2px solid #e65100 !important;
-    border-radius: 22px !important;
-    padding: 14px 18px !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    transition: all 0.25s ease !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
-}
-
-div.stButton > button:hover {
-    background: #e65100 !important;
-    color: white !important;
-    transform: translateY(-3px) scale(1.02);
-}
-
-/* =========================
-   CHAT AREA
-========================= */
-
-/* ניקוי הרקע האפור ש-Streamlit מוסיף לבועות */
-[data-testid="stChatMessage"] {
+/* Hero Section (Transparent background now, huge text) */
+.hero-section {
     background-color: transparent !important;
-    border: none !important;
+    padding: 10px 20px;
+    text-align: center !important;
+    margin-bottom: 25px;
     box-shadow: none !important;
 }
 
-/* עיצוב בועת המשתמש (ירוק בהיר עם מסגרת ירוק כהה) */
-.user-msg-box {
-    background-color: #e8f5e9 !important; /* ירוק בהיר */
-    border: 1.5px solid #2e7d32 !important; /* מסגרת ירוק כהה */
-    padding: 15px 20px;
-    border-radius: 12px;
-    color: #1f2937;
-    font-size: 18px;
-    text-align: right;
-    display: inline-block;
+.hero-brand-name {
+    font-size: 38px !important;
+    font-weight: 900;
+    color: #e65100 !important;
+    margin-bottom: 12px;
+    text-align: center !important;
 }
 
-/* עיצוב בועת הבוט (כתום בהיר עם מסגרת כתומה כהה) */
-.bot-msg-box {
-    background-color: #fff3e0 !important; /* כתום בהיר */
-    border: 1.5px solid #f57c00 !important; /* מסגרת כתומה */
-    padding: 15px 20px;
-    border-radius: 12px;
-    color: #1f2937;
-    font-size: 18px;
-    text-align: right;
-    display: inline-block;
+.hero-subtitle {
+    font-size: 20px !important;
+    font-weight: 600;
+    color: #333333 !important;
+    line-height: 1.5;
+    text-align: center !important;
 }
 
-/* CHAT INPUT AREA */
+/* Marketing Info block */
+.info-section {
+    background: #ffffff;
+    padding: 25px;
+    text-align: center !important;
+    border-radius: 12px;
+    color: #333333;
+    font-size: 18px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.info-title {
+    font-size: 26px !important;
+    font-weight: 800;
+    color: #01579b !important;
+    margin-bottom: 12px;
+}
+
+.sample-heading {
+    font-size: 18px !important;
+    color: #01579b !important;
+    font-weight: 700;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    text-align: right !important;
+}
+
+/* Elegant Buttons */
+div.stButton > button {
+    width: 100% !important;
+    background-color: #ffffff !important;
+    color: #e65100 !important;
+    border: 2px solid #e65100 !important;
+    border-radius: 20px !important;
+    padding: 12px 15px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+}
+
+div.stButton > button:hover {
+    background-color: #e65100 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Base Chat Bubbles Styling */
+[data-testid="stChatMessage"] {
+    direction: rtl !important;
+    text-align: right !important;
+    border-radius: 16px !important;
+    padding: 18px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+    font-size: 16px !important;
+}
+
+/* BOT (Assistant) Bubble Color - LIGHT ORANGE */
+[data-testid="stChatMessage"]:has(.bot-msg-flag) {
+    background-color: #fff3e0 !important;
+    border-right: 5px solid #f57c00 !important;
+}
+
+/* USER Bubble Color - Light Green */
+[data-testid="stChatMessage"]:has(.user-msg-flag) {
+    background-color: #e8f5e9 !important;
+    border-right: 5px solid #2e7d32 !important;
+}
+
+/* Chat Input Field (Floating above footer) */
 [data-testid="stBottom"] {
-    /* הופך את הרקע של האזור התחתון לתכלת */
-    background-color: #e1f5fe !important; 
-}
-[data-testid="stBottom"] > div {
-    background-color: #e1f5fe !important; 
+    margin-bottom: 75px !important; /* Pushes the chat input up above the fixed footer */
+    z-index: 100 !important;
 }
 
 [data-testid="stChatInput"] {
     direction: rtl !important;
     text-align: right !important;
-    border-radius: 24px !important;
-    background: #e1f5fe !important; /* תכלת במקום לבן */
-    border: 1.5px solid #01579b !important; /* מסגרת כחולה */
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+    border-radius: 20px !important;
+    background-color: white !important;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.06) !important;
+    border: 1px solid #ddd !important;
 }
-
 [data-testid="stChatInputTextArea"] {
     direction: rtl !important;
     text-align: right !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
 }
 
-/* RELATIVE FOOTER (מגולל למטה בלבד) */
+/* FIXED CENTERED FOOTER AT THE VERY BOTTOM */
 .custom-footer {
-    position: relative; /* ביטול ההצמדה למסך */
-    margin-top: 60px; /* דוחף אותו למטה הרחק מהצ'אט */
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    background: #01579b !important; /* כחול כהה */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    color: #01579b;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px 10px;
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
-}
-
-.footer-text-main {
-    color: white !important;
-    font-weight: 800;
-    font-size: 18px;
-}
-
-.footer-text-sub {
-    color: white !important;
-    margin-top: 6px;
-    font-size: 15px;
-    font-weight: 500;
+    padding: 15px 10px;
+    border-top: 1px solid #eeeeee;
+    direction: rtl !important;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 9999;
 } 
