@@ -18,7 +18,7 @@
     box-sizing: border-box;
 }
 
-/* APP BACKGROUND (תכלת בהיר) */
+/* APP BACKGROUND */
 html, body, .stApp {
     margin: 0;
     padding: 0;
@@ -41,6 +41,7 @@ h4,
 h5,
 h6 {
     text-align: center !important;
+    font-family: 'Segoe UI', 'Arial', sans-serif !important;
 }
 
 /* MAIN CONTAINER */
@@ -50,7 +51,7 @@ h6 {
     max-width: 900px !important;
 }
 
-/* HEADER (תכלת קצת יותר כהה) */
+/* HEADER */
 .custom-header {
     background: #bbdefb !important; 
     padding: 16px 5%;
@@ -68,7 +69,7 @@ h6 {
 .header-logo {
     font-size: 26px;
     font-weight: 800;
-    color: #01579b !important; /* טקסט בכחול כהה כדי שיבלוט */
+    color: #01579b !important; 
     letter-spacing: 0.5px;
 }
 
@@ -199,7 +200,7 @@ div.stButton > button:hover {
     text-align: right !important;
 }
 
-/* CHAT INPUT (תכלת כמו הרקע במקום לבן) */
+/* CHAT INPUT */
 [data-testid="stBottom"] {
     margin-bottom: 95px !important;
     z-index: 100 !important;
@@ -209,7 +210,7 @@ div.stButton > button:hover {
     direction: rtl !important;
     text-align: right !important;
     border-radius: 24px !important;
-    background: #e3f2fd !important; /* תכלת בהיר */
+    background: #e3f2fd !important; 
     border: 1px solid #bbdefb !important;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
 }
@@ -218,10 +219,10 @@ div.stButton > button:hover {
     direction: rtl !important;
     text-align: right !important;
     font-size: 18px !important;
-    background: transparent !important; /* מונע הופעת רקע לבן פנימי */
+    background: transparent !important; 
 }
 
-/* FOOTER (תכלת קצת יותר כהה) */
+/* FOOTER */
 .custom-footer {
     position: fixed;
     bottom: 0;
@@ -237,7 +238,7 @@ div.stButton > button:hover {
     z-index: 9999;
 }
 
-/* FOOTER TEXT (כחול כהה לקריאות) */
+/* FOOTER TEXT */
 .footer-text-main {
     color: #01579b !important;
     font-weight: 800;
