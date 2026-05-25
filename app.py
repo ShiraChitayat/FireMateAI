@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import time
+import random
 
 # 1. Page Configuration
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
@@ -58,8 +59,10 @@ class FireMateIntelligenceEngine:
 
         self.domain_keywords = ['fire', 'wildfire', 'שריפה', 'אש', 'עשן', 'פינוי', 'חומרים', 'חמ"ל', 'רוח', 'קוצים',
                                 'יער', 'להבות', 'כיבוי', 'כבאים', 'ציוד', 'חום', 'להבה', 'הצלה', 'שרפה', 'דליקה',
-                                'משטרה', 'מדא']
-        self.trivia_keywords = ['מה ה', 'איפה', 'מתי', 'הכי', 'גדולה', 'היסטוריה', 'מי', 'איך קוראים', 'איזה שריפות']
+                                'משטרה', 'מדא', 'דליקות', 'לכודים']
+        
+        self.trivia_keywords = ['מה ה', 'איפה ה', 'מתי ה', 'הכי גדולה', 'בהיסטוריה', 'מי המציא', 'איך קוראים ל']
+        self.polite_keywords = ['תודה', 'תודה רבה', 'מעולה', 'שלום', 'היי', 'בוקר טוב', 'ערב טוב', 'אחלה', 'מצוין', 'טוב', 'הבנתי']
 
         # Safely extract target columns
         self.frp_col = self._get_column(self.df_fires, ['fire_radiative_power_mw', 'frp', 'fire_radiative_power'])
@@ -90,45 +93,39 @@ class FireMateIntelligenceEngine:
         max_idx = np.argmax(similarities)
         return self.df_fires.iloc[max_idx], float(similarities[max_idx][0])
 
-    def run_anomaly_detection(self):
-        if self.weekly_area_col not in self.df_weekly.columns:
-            return False, 0.0
-        weekly_values = pd.to_numeric(self.df_weekly[self.weekly_area_col], errors='coerce').dropna().values
-        if len(weekly_values) == 0:
-            return False, 0.0
-        mean_val = np.mean(weekly_values)
-        std_val = np.std(weekly_values) if np.std(weekly_values) > 0 else 1.0
-        z_score = (295.0 - mean_val) / std_val
-        return z_score > 1.8, z_score
-
     def generate_tactical_response(self, text):
         query_lower = text.lower()
         
-        # 1. Boundaries Check (Trivia)
-        if any(keyword in query_lower for keyword in self.trivia_keywords):
-            return "⚠️ **[חריגה מגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
-        
-        # 2. Domain check - Only enforced if no details have been collected yet (start of report)
-        is_report_active = any(st.session_state.report_data.values())
-        if not is_report_active and not any(keyword in query_lower for keyword in self.domain_keywords):
-            return "⚠️ **[חריגה מגבולות הגזרה של הסוכן]**\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
+        # 1. Check if it's just a polite / text acknowledgement
+        clean_query = query_lower.strip().replace('.', '').replace('!', '').replace('?', '')
+        if any(word == clean_query for word in self.polite_keywords) or (any(word in clean_query for word in ['תודה', 'מעולה']) and not any(k in query_lower for k in self.domain_keywords)):
+            return "בכיף, אני כאן בשבילך. 🚨 ממתין לדיווחים נוספים כדי לסייע בזמן אמת."
 
-        # 3. Smart Extraction & Update Persistent State
-        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה"]):
+        # 2. Smart Extraction & Update Persistent State
+        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה", "קומה"]):
             st.session_state.report_data["terrain"] = "residential"
         elif any(word in query_lower for word in ["תעשייה", "מחסן", "מפעל", "חומרים", "לוגיסטי", "מפעלים"]):
             st.session_state.report_data["terrain"] = "industrial"
         elif any(word in query_lower for word in ["פתוח", "יער", "חורש", "קוצים", "שדה", "שדות"]):
             st.session_state.report_data["terrain"] = "open"
         
-        if any(word in query_lower for word in ["גודל", "גדולה", "קטנה", "עצומה", "ענקית", "מטר", "דונם", "נרחבת", "בינונית", "ענק", "קטן"]):
+        if any(word in query_lower for word in ["גודל", "גדולה", "קטנה", "עצומה", "ענקית", "מטר", "דונם", "נרחבת", "בינונית", "ענק", "קטן", "דיי"]):
             st.session_state.report_data["size"] = True
             
-        if any(word in query_lower for word in ["ישראל", "עיר", "רחוב", "חיפה", "תל אביב", "ירושלים", "צפון", "דרום", "מרכז", "מדינה", "אזור", "סמוך", "אונו", "שכונת", "רייספלד", "בקריית", "בני ברק", "נתניה"]):
+        if any(word in query_lower for word in ["ישראל", "עיר", "רחוב", "חיפה", "תל אביב", "ירושלים", "צפון", "דרום", "מרכז", "מדינה", "אזור", "סמוך", "אונו", "שכונת", "רייספלד", "בקריית", "בני ברק", "נתניה", "רחובות"]):
             st.session_state.report_data["location"] = True
             
         if any(word in query_lower for word in ["נגרמה", "בגלל", "כתוצאה", "הצתה", "קצר", "חשמל", "נפילה", "טבעי", "לא ידוע", "סיבה", "מטען", "פיצוץ", "פגיעה", "ידועה"]):
             st.session_state.report_data["cause"] = True
+
+        # 3. Boundaries Check (Trivia vs Operational Context)
+        is_operational_context = any(keyword in query_lower for keyword in self.domain_keywords) or any(st.session_state.report_data.values())
+        
+        if any(keyword in query_lower for keyword in self.trivia_keywords) and not is_operational_context:
+            return "⚠️ **[חריגה מגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
+        
+        if not is_operational_context:
+            return "⚠️ **[חריגה מגבולות הגזרה של הסוכן]**\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
 
         # 4. Check for missing required details in the persistent state
         missing_info = []
@@ -145,21 +142,36 @@ class FireMateIntelligenceEngine:
             missing_str = "\n".join([f"1. {item}" for item in missing_info])
             return f"⚠️ **[חסר מידע מבצעי חיוני]**\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n\n{missing_str}"
 
-        # 5. Form is complete! Extract layout and Reset state for the next report
+        # 5. Form is complete! Extract and Reset state for the next report
         chosen_terrain = st.session_state.report_data["terrain"]
         st.session_state.report_data = {"terrain": None, "size": None, "location": None, "cause": None}
 
-        # Run background models
-        twin_case, sim_score = self.compute_similarity()
-
-        # Generate Humanized Tactical Response (No markdown headers '#' and no statistical metrics)
-        res = "🤖 ניתוח תפעולי של סוכן FireMate AI\n\n"
+        # Generate Humanized Tactical Response
+        res = "**🤖 ניתוח תפעולי של סוכן FireMate AI**\n\n"
+        
         if chosen_terrain == "residential":
-            res += "על פי הדיווח, מדובר בשריפה באזור מגורים. ביצעתי השוואה מהירה מול נתוני NASA ומצאתי דמיון גבוה לאירועי עבר עם מאפייני סכנה דומים לשלומם של אזרחים. **ההמלצה המבצעית היא:** להורות מיד לחמ\"ל להזניק כוחות משטרה לחסימת צירי התנועה ופתיחת נתיבי מילוט, ובמקביל לערב את מד\"א. מומלץ לרכז את מאמץ הכיבוי ביצירת חיץ מים היקפי סביב הבניינים ולהציב תצפיות גג."
+            responses = [
+                "על פי הדיווח שהתקבל, זיהיתי שמדובר בשריפה במתאר מגורים. ההצלבה מול הנתונים מצביעה על סיכון מידי לתושבים. **ההמלצה המבצעית היא:** יש לפנות דיירים ברדיוס הקרוב, להזניק צוותי רפואה (מד\"א) לנקודת כינוס סמוכה ולתקוף את מוקד האש תוך מניעת התפשטות למבנים שכנים.",
+                "המערכת מזהה אירוע אש בסביבה עירונית/מיושבת. מניתוח דיווחים דומים, סכנת שאיפת עשן היא קריטית במקרים כאלה. **ההמלצה המבצעית היא:** להורות למשטרה לבצע חסימות צירים להרחקת סקרנים ואזרחים, לנתק מקורות חשמל וגז לבניין, ולהתחיל בכיבוי מבפנים לצד סריקה וחילוץ מהקומות העליונות.",
+                "ניתוח הנתונים שסיפקת על השריפה באזור המגורים מעלה התאמה לאירועי חירום בסיכון גבוה לאוכלוסייה. **ההמלצה המבצעית היא:** פתיחת חפ\"ק אחוד עם המשטרה ומד\"א באופן מיידי. יש לפרוס זרנוקים להגנה על חזיתות הבניינים הסמוכים ולשלוח צוותים לחילוץ לכודים פוטנציאליים דרך חדרי מדרגות מוגנים."
+            ]
+            res += random.choice(responses)
+            
         elif chosen_terrain == "industrial":
-            res += "המערכת מזהה שמדובר באירוע תעשייתי מסוכן. מניתוח מקרי עבר שהצלבתי, אירועים מסוג זה נוטים להידרדר במהירות עקב נוכחות חומרים דליקים. **ההמלצה המבצעית היא:** נדרש להזניק יחידות חומ\"ס ייעודיות לבחינת רעילות האוויר. יש לתאם סגר הרמטי עם משטרת ישראל ברדיוס 1 ק\"מ ולפעול לניתוק קווי גז וחשמל מרכזיים. יש להנחות את כוחות מד\"א להתמקם מחוץ לטווח סכנת הפיצוץ."
+            responses = [
+                "הדיווח מצביע על דליקה במתחם תעשייתי. ההיסטוריה המבצעית מראה סבירות גבוהה למעורבות חומרים מסוכנים. **ההמלצה המבצעית היא:** הזנקת צוותי חומ\"ס לניטור רעילות באוויר. יש ליצור רדיוס בידוד גדול ולמנוע כניסת כוחות לא ממוגנים לתוך שטח המפעל.",
+                "זיהיתי התלקחות באזור המכיל מחסנים או מפעלים. **ההמלצה המבצעית היא:** נתק מיד את קווי הגז והחשמל המרכזיים למתחם. תאם עם משטרת ישראל סגירת כבישים ברדיוס רחב עקב סכנת פיצוץ משנה, והצב את רכבי ההצלה של מד\"א בכיוון נגדי לכיוון הרוח.",
+                "מדובר באירוע תעשייתי מורכב מאוד. נתוני העבר של סוכנות החלל מראים ששריפות כאלו מייצרות חום קיצוני במהירות. **ההמלצה המבצעית היא:** הימנעות מכניסה פנימית למבנה בשלב ראשון. יש להפעיל תותחי מים מרחוק לקירור המכלים הסמוכים ולפנות עובדים באופן מיידי מכל שטחי האזור הלוגיסטי."
+            ]
+            res += random.choice(responses)
+            
         else:
-            res += "עקב הדיווח על שריפה בשטח פתוח, המערכת ניתחה את הנתונים וזיהתה התאמה לאירועים לווייניים בעלי קצב התפשטות מהיר. **ההמלצה המבצעית היא:** הפעלה דחופה של דחפורים לחשיפת אדמה למניעת התפשטות. לאור המדדים, מומלץ לפנות לחפ\"ק להזנקת מטוסי כיבוי לשליטה מהאוויר, ולשמור על קשר רציף עם הניטור המטאורולוגי לשם מעקב אחר כיווני הרוח."
+            responses = [
+                "קיבלתי את הדיווח על השריפה בשטח הפתוח. הצלבת הנתונים הלווייניים מצביעה על פוטנציאל התפשטות אופקי מהיר בחסות הרוח. **ההמלצה המבצעית היא:** פריסת כבאיות בקווי בלימה, הזנקת שופלים ליצירת קווי חיץ באדמה, ובקשת סיוע אווירי של מטוסי כיבוי במיידי.",
+                "האירוע שדווח מתרחש בשטח מיוער או קוצים. אירועים אלו נוטים לשנות כיוון בפתאומיות. **ההמלצה המבצעית היא:** שליחת תצפיתנים לנקודות שולטות בגובה לקבלת תמונת מצב. יש לתקוף את חזית האש מהאגפים, ולהעמיד צוותי כוננות להגנה על יישובים סמוכים למקרה של דילוג הלהבות.",
+                "מניתוח השריפה בשטח הפתוח, עולה כי אנו מול חזית אש רחבה ובעייתית. **ההמלצה המבצעית היא:** ריכוז מאמץ מרכזי בהפעלת מטוסי כיבוי להטלת חומרי עיכוב בעירה. במקביל, כוחות הקרקע יבצעו כיבוי משלים מהשוליים ויערכו ניטור מטאורולוגי רציף על משטר הרוחות באזור."
+            ]
+            res += random.choice(responses)
 
         return res
 
@@ -240,8 +252,8 @@ if user_query:
 st.markdown(
     """
     <div class='custom-footer'>
-        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>Shira Chitayat & Shira Dabach</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML. 2026. | כל הזכויות שמורות © </div>
+        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | Shira Chitayat & Shira Dabach</div>
     </div>
     """,
     unsafe_allow_html=True
