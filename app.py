@@ -147,7 +147,7 @@ class FireMateIntelligenceEngine:
         st.session_state.report_data = {"terrain": None, "size": None, "location": None, "cause": None}
 
         # Generate Humanized Tactical Response
-        res = "🤖 לפי הניתוח של סוכן FireMate AI\n\n"
+        res = "לפי הניתוח של סוכן FireMate AI:\n\n"
         
         if chosen_terrain == "residential":
             responses = [
@@ -253,7 +253,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>Shira Chitayat & Shira Dabach</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | כל הזכויות שמורות © </div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML | כל הזכויות שמורות © </div>
     </div>
     """,
     unsafe_allow_html=True
