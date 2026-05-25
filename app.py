@@ -104,50 +104,64 @@ class FireMateIntelligenceEngine:
     def generate_tactical_response(self, text):
         query_lower = text.lower()
         
-        # Boundaries Check
+        # 1. Boundaries Check (Trivia)
         if any(keyword in query_lower for keyword in self.trivia_keywords):
             return "❌ **[חריגה מגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
-        if not any(keyword in query_lower for keyword in self.domain_keywords):
+        
+        # 2. Domain check - Only enforced if no details have been collected yet (start of report)
+        is_report_active = any(st.session_state.report_data.values())
+        if not is_report_active and not any(keyword in query_lower for keyword in self.domain_keywords):
             return "❌ **[חריגה מגבולות הגזרה של הסוכן]**\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
 
-        # Extract Information Criteria
-        is_residential = any(word in text for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "עיר"])
-        is_industrial = any(word in text for word in ["תעשייה", "מחסן", "מפעל", "חומרים"])
-        is_open = any(word in text for word in ["פתוח", "יער", "חורש", "קוצים"])
+        # 3. Smart Extraction & Update Persistent State
+        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה"]):
+            st.session_state.report_data["terrain"] = "residential"
+        elif any(word in query_lower for word in ["תעשייה", "מחסן", "מפעל", "חומרים", "לוגיסטי", "מפעלים"]):
+            st.session_state.report_data["terrain"] = "industrial"
+        elif any(word in query_lower for word in ["פתוח", "יער", "חורש", "קוצים", "שדה", "שדות"]):
+            st.session_state.report_data["terrain"] = "open"
         
-        has_size = any(word in text for word in ["גודל", "גדולה", "קטנה", "עצומה", "ענקית", "מטר", "דונם", "נרחבת", "בינונית", "ענק"])
-        has_location = any(word in text for word in ["ישראל", "עיר", "רחוב", "חיפה", "תל אביב", "ירושלים", "צפון", "דרום", "מרכז", "מדינה", "אזור", "סמוך ל"])
-        has_cause = any(word in text for word in ["נגרמה", "בגלל", "כתוצאה", "הצתה", "קצר", "חשמל", "נפילה", "טבעי", "לא ידוע", "סיבה", "מטען", "פיצוץ", "לא ידועה", "פגיעה"])
+        if any(word in query_lower for word in ["גודל", "גדולה", "קטנה", "עצומה", "ענקית", "מטר", "דונם", "נרחבת", "בינונית", "ענק", "קטן"]):
+            st.session_state.report_data["size"] = True
+            
+        if any(word in query_lower for word in ["ישראל", "עיר", "רחוב", "חיפה", "תל אביב", "ירושלים", "צפון", "דרום", "מרכז", "מדינה", "אזור", "סמוך", "אונו", "שכונת", "רייספלד", "בקריית", "בני ברק", "נתניה"]):
+            st.session_state.report_data["location"] = True
+            
+        if any(word in query_lower for word in ["נגרמה", "בגלל", "כתוצאה", "הצתה", "קצר", "חשמל", "נפילה", "טבעי", "לא ידוע", "סיבה", "מטען", "פיצוץ", "פגיעה", "ידועה"]):
+            st.session_state.report_data["cause"] = True
 
-        # Check for missing required details
+        # 4. Check for missing required details in the persistent state
         missing_info = []
-        if not (is_residential or is_industrial or is_open):
+        if not st.session_state.report_data["terrain"]:
             missing_info.append("תוואי השטח (אזור מגורים / אזור תעשייה / שטח פתוח)")
-        if not has_size:
+        if not st.session_state.report_data["size"]:
             missing_info.append("גודל השריפה (למשל: קטנה, גדולה, ענקית, מספר דונמים)")
-        if not has_location:
+        if not st.session_state.report_data["location"]:
             missing_info.append("מיקום האירוע (עיר ומדינה)")
-        if not has_cause:
+        if not st.session_state.report_data["cause"]:
             missing_info.append("מהות השריפה / סיבה פרוץ האש (אם לא ידוע, ציין 'סיבה לא ידועה')")
 
         if missing_info:
             missing_str = "\n".join([f"* {item}" for item in missing_info])
             return f"⚠️ **[חסר מידע מבצעי חיוני]**\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n{missing_str}"
 
-        # Run background models (Keep logic, change output wording)
+        # 5. Form is complete! Extract layout and Reset state for the next report
+        chosen_terrain = st.session_state.report_data["terrain"]
+        st.session_state.report_data = {"terrain": None, "size": None, "location": None, "cause": None}
+
+        # Run background models
         twin_case, sim_score = self.compute_similarity()
         is_anomaly, z_score = self.run_anomaly_detection()
 
         # Generate Humanized Tactical Response
         res = "### 🤖 ניתוח תפעולי של סוכן FireMate AI\n\n"
-        if is_residential:
+        if chosen_terrain == "residential":
             res += "על פי הדיווח, מדובר בשריפה באזור מגורים. ביצעתי השוואה מהירה מול נתוני NASA ומצאתי דמיון גבוה לאירועי עבר עם מאפייני סכנה דומים לשלומם של אזרחים. **ההמלצה המבצעית היא:** להורות מיד לחמ\"ל להזניק כוחות משטרה לחסימת צירי התנועה ופתיחת נתיבי מילוט, ובמקביל לערב את מד\"א. מומלץ לרכז את מאמץ הכיבוי ביצירת חיץ מים היקפי סביב הבניינים ולהציב תצפיות גג."
-        elif is_industrial:
+        elif chosen_terrain == "industrial":
             res += "המערכת מזהה שמדובר באירוע תעשייתי מסוכן. מניתוח מקרי עבר שהצלבתי, אירועים מסוג זה נוטים להידרדר במהירות עקב נוכחות חומרים דליקים. **ההמלצה המבצעית היא:** נדרש להזניק יחידות חומ\"ס ייעודיות לבחינת רעילות האוויר. יש לתאם סגר הרמטי עם משטרת ישראל ברדיוס 1 ק\"מ ולפעול לניתוק קווי גז וחשמל מרכזיים. יש להנחות את כוחות מד\"א להתמקם מחוץ לטווח סכנת הפיצוץ."
         else:
             res += "עקב הדיווח על שריפה בשטח פתוח, המערכת ניתחה את הנתונים וזיהתה התאמה לאירועים לווייניים בעלי קצב התפשטות מהיר. **ההמלצה המבצעית היא:** הפעלה דחופה של דחפורים לחשיפת אדמה למניעת התפשטות. לאור המדדים, מומלץ לפנות לחפ\"ק להזנקת מטוסי כיבוי לשליטה מהאוויר, ולשמור על קשר רציף עם הניטור המטאורולוגי לשם מעקב אחר כיווני הרוח."
 
-        # Humanized Anomaly / Z-Score Response
         if is_anomaly:
             res += "\n\n⚠️ **שים לב - זיהוי חריגה:** קצב ההתפשטות ומדדי השטח השרוף הנוכחיים חריגים משמעותית ביחס למה שראינו בשבועות האחרונים. הדבר מצביע על תנאי יובש קיצוניים או תנאים מחמירים אחרים באזור - **המלצתי היא להיערך להסלמה ולבקש תגבורת מחוזית בהקדם.**"
         else:
@@ -188,7 +202,10 @@ with col3:
     if st.button("🌲 שריפה בשטח פתוח"):
         click_query = "זיהינו להבות בגובה 10 מטר בלב היער בשטח פתוח בצפון ישראל. סיבת הדליקה לא ידועה, השריפה מתפשטת אופקית וגדולה מאוד."
 
-# Chat Initialization
+# Chat & Form Persistent State Initialization
+if "report_data" not in st.session_state:
+    st.session_state.report_data = {"terrain": None, "size": None, "location": None, "cause": None}
+
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant",
@@ -217,7 +234,6 @@ if user_query:
 
         # 2. Typing indicator (Bot thinking)
         with st.chat_message("assistant", avatar="🤖"):
-            # This creates the "typing..." animation feel
             with st.spinner("הסוכן מנתח נתונים ומקליד תשובה... 💬"):
                 time.sleep(1.5)  # Slight pause to simulate thinking
                 response = agent.generate_tactical_response(user_query)
@@ -231,8 +247,8 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | Shira Chitayat & Shira Dabach</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת | AI/ML 2026 Shira Chitayat & Shira Dabach</div>
     </div>
     """,
     unsafe_allow_html=True
-)
+) 
