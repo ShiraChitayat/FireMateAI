@@ -153,7 +153,7 @@ class FireMateIntelligenceEngine:
         twin_case, sim_score = self.compute_similarity()
 
         # Generate Humanized Tactical Response (No markdown headers '#' and no statistical metrics)
-        res = "**🤖 ניתוח תפעולי של סוכן FireMate AI**\n\n"
+        res = "🤖 ניתוח תפעולי של סוכן FireMate AI\n\n"
         if chosen_terrain == "residential":
             res += "על פי הדיווח, מדובר בשריפה באזור מגורים. ביצעתי השוואה מהירה מול נתוני NASA ומצאתי דמיון גבוה לאירועי עבר עם מאפייני סכנה דומים לשלומם של אזרחים. **ההמלצה המבצעית היא:** להורות מיד לחמ\"ל להזניק כוחות משטרה לחסימת צירי התנועה ופתיחת נתיבי מילוט, ובמקביל לערב את מד\"א. מומלץ לרכז את מאמץ הכיבוי ביצירת חיץ מים היקפי סביב הבניינים ולהציב תצפיות גג."
         elif chosen_terrain == "industrial":
@@ -240,8 +240,8 @@ if user_query:
 st.markdown(
     """
     <div class='custom-footer'>
-        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות © Shira Chitayat & Shira Dabach</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 </div>
+        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>Shira Chitayat & Shira Dabach</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | כל הזכויות שמורות © </div>
     </div>
     """,
     unsafe_allow_html=True
