@@ -20,9 +20,16 @@ html, body, .stApp {
 }
 
 /* Force layout alignment on markdown cells */
-.stMarkdown, .stText, p, div, input, textarea {
+.stMarkdown, .stText, p, div, input, textarea, ul, ol, li {
     direction: rtl !important;
     text-align: right !important;
+}
+
+/* Ensure lists (1-4) are perfectly right-aligned with bullets inside */
+ul, ol {
+    list-style-position: inside !important;
+    padding-right: 5px !important;
+    margin-right: 0 !important;
 }
 
 .block-container {
@@ -149,16 +156,16 @@ div.stButton > button:hover {
     font-size: 16px !important;
 }
 
-/* BOT (Assistant) Bubble Color - LIGHT ORANGE */
+/* BOT (Assistant) Bubble Color - LIGHT ORANGE WITH FULL DARK ORANGE BORDER */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
     background-color: #fff3e0 !important;
-    border-right: 5px solid #f57c00 !important;
+    border: 3px solid #f57c00 !important;
 }
 
-/* USER Bubble Color - Light Green */
+/* USER Bubble Color - LIGHT GREEN WITH FULL DARK GREEN BORDER */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
     background-color: #e8f5e9 !important;
-    border-right: 5px solid #2e7d32 !important;
+    border: 3px solid #2e7d32 !important;
 }
 
 /* Chat Input Field (Floating above footer) */
@@ -199,4 +206,4 @@ div.stButton > button:hover {
     direction: rtl !important;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     z-index: 9999;
-} 
+}
