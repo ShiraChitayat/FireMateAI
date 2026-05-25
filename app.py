@@ -136,7 +136,7 @@ class FireMateIntelligenceEngine:
         if not st.session_state.report_data["location"]:
             missing_info.append("מיקום האירוע (עיר ומדינה)")
         if not st.session_state.report_data["cause"]:
-            missing_info.append("מהות השריפה / סיבה פרוץ האש (אם לא ידוע, ציין 'סיבה לא ידועה')")
+            missing_info.append("סיבה להתפרצות השריפה (אם לא ידוע, ציין 'סיבה לא ידועה')")
 
         if missing_info:
             missing_str = "\n".join([f"1. {item}" for item in missing_info])
@@ -183,17 +183,17 @@ st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=
 
 st.markdown("""
 <div class="hero-section">
-    <div class="hero-brand-name">מתמודדים עם דיווח על שריפה מסוכנת? 🔥</div>
+    <div class="hero-brand-name">מתמודדים עם שריפה? 🔥</div>
     <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח, ישווה לאירועי עבר דומים מנתוני NASA, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי להצלת חיים</div>
 </div>
 <div class="info-section">
-    <div class="info-title">איך אפשר לעזור לכוחות בשטח היום?</div>
-    הבוט מיועד לספק המלצות אופרטיביות לשריפות לפי שלושה אזורים מרכזיים:<br>
+    <div class="info-title">איך אוכל לסייע היום?</div>
+    הבוט מיועד לספק המלצות להתמודדות עם שריפות לפי שלושה סוגי אזורים מרכזיים:<br>
     אזור מיושב 🏘️ | מתחם תעשייתי ומפעלים 🏭 | שטח פתוח ויערות 🌲
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<p class='sample-heading'>התחילו לדבר עם הבוט - דוגמאות לדיווחים שתוכלו להזין:</p>",
+st.markdown("<p class='sample-heading'>התחילו לדבר עם הבוט, דוגמאות לדיווחים שתוכלו להזין:</p>",
             unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
 
@@ -227,7 +227,7 @@ for message in st.session_state.messages:
             st.markdown(f"<div class='bot-msg-flag'></div> {message['content']}", unsafe_allow_html=True)
 
 # User Input Processing
-user_query = st.chat_input("הקלד את הדיווח שלך (זכור לכלול: סוג אזור, גודל, מיקום, סיבה)...")
+user_query = st.chat_input("הקלד את הדיווח שלך (זכור לכלול: תוואי שטח, גודל, מיקום, סיבה)...")
 if click_query:
     user_query = click_query
 
@@ -253,7 +253,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>Shira Chitayat & Shira Dabach</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת 2026 AI/ML | כל הזכויות שמורות ©</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | כל הזכויות שמורות © </div>
     </div>
     """,
     unsafe_allow_html=True
