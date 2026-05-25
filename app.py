@@ -106,12 +106,12 @@ class FireMateIntelligenceEngine:
         
         # 1. Boundaries Check (Trivia)
         if any(keyword in query_lower for keyword in self.trivia_keywords):
-            return "❌ **[חריגה מגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
+            return "⚠️ **[חריגה מגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
         
         # 2. Domain check - Only enforced if no details have been collected yet (start of report)
         is_report_active = any(st.session_state.report_data.values())
         if not is_report_active and not any(keyword in query_lower for keyword in self.domain_keywords):
-            return "❌ **[חריגה מגבולות הגזרה של הסוכן]**\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
+            return "⚠️ **[חריגה מגבולות הגזרה של הסוכן]**\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
 
         # 3. Smart Extraction & Update Persistent State
         if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה"]):
@@ -142,8 +142,8 @@ class FireMateIntelligenceEngine:
             missing_info.append("מהות השריפה / סיבה פרוץ האש (אם לא ידוע, ציין 'סיבה לא ידועה')")
 
         if missing_info:
-            missing_str = "\n".join([f"* {item}" for item in missing_info])
-            return f"⚠️ **[חסר מידע מבצעי חיוני]**\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n{missing_str}"
+            missing_str = "\n".join([f"1. {item}" for item in missing_info])
+            return f"⚠️ **[חסר מידע מבצעי חיוני]**\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n\n{missing_str}"
 
         # 5. Form is complete! Extract layout and Reset state for the next report
         chosen_terrain = st.session_state.report_data["terrain"]
@@ -151,21 +151,15 @@ class FireMateIntelligenceEngine:
 
         # Run background models
         twin_case, sim_score = self.compute_similarity()
-        is_anomaly, z_score = self.run_anomaly_detection()
 
-        # Generate Humanized Tactical Response
-        res = "### 🤖 ניתוח תפעולי של סוכן FireMate AI\n\n"
+        # Generate Humanized Tactical Response (No markdown headers '#' and no statistical metrics)
+        res = "**🤖 ניתוח תפעולי של סוכן FireMate AI**\n\n"
         if chosen_terrain == "residential":
             res += "על פי הדיווח, מדובר בשריפה באזור מגורים. ביצעתי השוואה מהירה מול נתוני NASA ומצאתי דמיון גבוה לאירועי עבר עם מאפייני סכנה דומים לשלומם של אזרחים. **ההמלצה המבצעית היא:** להורות מיד לחמ\"ל להזניק כוחות משטרה לחסימת צירי התנועה ופתיחת נתיבי מילוט, ובמקביל לערב את מד\"א. מומלץ לרכז את מאמץ הכיבוי ביצירת חיץ מים היקפי סביב הבניינים ולהציב תצפיות גג."
         elif chosen_terrain == "industrial":
             res += "המערכת מזהה שמדובר באירוע תעשייתי מסוכן. מניתוח מקרי עבר שהצלבתי, אירועים מסוג זה נוטים להידרדר במהירות עקב נוכחות חומרים דליקים. **ההמלצה המבצעית היא:** נדרש להזניק יחידות חומ\"ס ייעודיות לבחינת רעילות האוויר. יש לתאם סגר הרמטי עם משטרת ישראל ברדיוס 1 ק\"מ ולפעול לניתוק קווי גז וחשמל מרכזיים. יש להנחות את כוחות מד\"א להתמקם מחוץ לטווח סכנת הפיצוץ."
         else:
             res += "עקב הדיווח על שריפה בשטח פתוח, המערכת ניתחה את הנתונים וזיהתה התאמה לאירועים לווייניים בעלי קצב התפשטות מהיר. **ההמלצה המבצעית היא:** הפעלה דחופה של דחפורים לחשיפת אדמה למניעת התפשטות. לאור המדדים, מומלץ לפנות לחפ\"ק להזנקת מטוסי כיבוי לשליטה מהאוויר, ולשמור על קשר רציף עם הניטור המטאורולוגי לשם מעקב אחר כיווני הרוח."
-
-        if is_anomaly:
-            res += "\n\n⚠️ **שים לב - זיהוי חריגה:** קצב ההתפשטות ומדדי השטח השרוף הנוכחיים חריגים משמעותית ביחס למה שראינו בשבועות האחרונים. הדבר מצביע על תנאי יובש קיצוניים או תנאים מחמירים אחרים באזור - **המלצתי היא להיערך להסלמה ולבקש תגבורת מחוזית בהקדם.**"
-        else:
-            res += "\n\n📊 **סטטוס מדדים:** מבחינה סטטיסטית, קצב התפשטות השריפה תואם את הממוצע העונתי ואינו מצביע על אנומליה כרגע. עם זאת, יש להמשיך בניטור רציף של הזירה."
 
         return res
 
@@ -246,9 +240,9 @@ if user_query:
 st.markdown(
     """
     <div class='custom-footer'>
-        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת | AI/ML 2026 Shira Chitayat & Shira Dabach</div>
+        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות © Shira Chitayat & Shira Dabach</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 </div>
     </div>
     """,
     unsafe_allow_html=True
-) 
+)
