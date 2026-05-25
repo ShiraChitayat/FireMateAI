@@ -160,20 +160,20 @@ col1, col2, col3 = st.columns(3)
 
 click_query = ""
 with col1:
-    if st.button("🚨 אש בבניין מגורים"):
+    if st.button("🚨 שריפה בשטח בנוי"):
         click_query = "אני בשטח עירוני בישראל ויש שריפה של בניין מגורים, מה לעשות?"
 with col2:
-    if st.button("🏭 אש באזור תעשייה"):
+    if st.button("🏭 שריפה באזור תעשייה"):
         click_query = "פרצה אש במחסן לוגיסטי בתוך אזור התעשייה, יש חשש כבד להימצאות חומרים מסוכנים ומכלים דליקים באזור."
 with col3:
-    if st.button("🌲 אש ביער פתוח"):
+    if st.button("🌲 שריפה בשטח פתוח"):
         click_query = "זיהינו להבות גבוהות בלב היער בשטח פתוח, השריפה מתפשטת אופקית ויש קושי בהגעה של רכבי כיבוי כבדים."
 
 # Chat Initialization
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant",
-         "content": "שלום המפקד, כאן סוכן FireMate AI המבצעי שלך. 🚨\n\nעל איזה אירוע תרצה לדווח? אנא תאר לי את מצב השריפה וציין האם מדובר ב**אזור מגורים**, **תעשייה** או **שטח פתוח**."}
+         "content": "שלום, כאן סוכן FireMate AI. 🚨\n\nעל איזה אירוע תרצה לדווח? אנא תאר לי את מצב השריפה וציין האם מדובר ב**אזור מגורים**, **תעשייה** או **שטח פתוח**."}
     ]
 
 for message in st.session_state.messages:
@@ -212,7 +212,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'> Shira Chitayat & Shira Dabach | סדנת חדשנות מבוססת AI/ML 2026</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | Shira Chitayat & Shira Dabach</div>
     </div>
     """,
     unsafe_allow_html=True
