@@ -99,7 +99,7 @@ class FireMateIntelligenceEngine:
         # 1. Check if it's just a polite / text acknowledgement
         clean_query = query_lower.strip().replace('.', '').replace('!', '').replace('?', '')
         if any(word == clean_query for word in self.polite_keywords) or (any(word in clean_query for word in ['תודה', 'מעולה']) and not any(k in query_lower for k in self.domain_keywords)):
-            return "בכיף, אני כאן בשבילך. 🚨 ממתין לדיווחים נוספים כדי לסייע בזמן אמת."
+            return "בכיף! אני כאן בשבילך. 🚨 ממתין לדיווחים נוספים כדי לסייע בזמן אמת."
 
         # 2. Smart Extraction & Update Persistent State (EXPANDED DICTIONARY)
         if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה", "קומה", "בית", "פרטי"]):
@@ -215,7 +215,7 @@ if "report_data" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant",
-         "content": "שלום, כאן סוכן FireMate AI. 🚨\n\nאנא תאר לי את מצב השריפה. כדי שאוכל לתת מענה מדויק, הקפד לציין:\n1. **תוואי שטח** (מגורים / תעשייה / פתוח)\n2. **גודל השריפה**\n3. **מיקום** (עיר ומדינה)\n4. **מהות/סיבת השריפה** (או ציין 'לא ידוע')"}
+         "content": "שלום, כאן סוכן FireMate AI. 🚨\n\nאנא תאר לי את מצב השריפה. כדי שאוכל לתת מענה מדויק, הקפד לציין:\n1. **תוואי שטח** (מגורים / תעשייה / פתוח)\n2. **גודל השריפה**\n3. **מיקום** (עיר ומדינה)\n4. **סיבה להתפרצות השריפה** (או ציין 'לא ידוע')"}
     ]
 
 for message in st.session_state.messages:
