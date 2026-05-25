@@ -101,31 +101,31 @@ class FireMateIntelligenceEngine:
         if any(word == clean_query for word in self.polite_keywords) or (any(word in clean_query for word in ['תודה', 'מעולה']) and not any(k in query_lower for k in self.domain_keywords)):
             return "בכיף, אני כאן בשבילך. 🚨 ממתין לדיווחים נוספים כדי לסייע בזמן אמת."
 
-        # 2. Smart Extraction & Update Persistent State
-        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה", "קומה"]):
+        # 2. Smart Extraction & Update Persistent State (EXPANDED DICTIONARY)
+        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה", "קומה", "בית", "פרטי"]):
             st.session_state.report_data["terrain"] = "residential"
-        elif any(word in query_lower for word in ["תעשייה", "מחסן", "מפעל", "חומרים", "לוגיסטי", "מפעלים"]):
+        elif any(word in query_lower for word in ["תעשייה", "מחסן", "מפעל", "חומרים", "לוגיסטי", "מפעלים", "מוסך", "מסחר", "תעשייתי"]):
             st.session_state.report_data["terrain"] = "industrial"
-        elif any(word in query_lower for word in ["פתוח", "יער", "חורש", "קוצים", "שדה", "שדות"]):
+        elif any(word in query_lower for word in ["פתוח", "יער", "חורש", "קוצים", "שדה", "שדות", "פארק", "צמחיה", "חורשה", "חקלאי"]):
             st.session_state.report_data["terrain"] = "open"
         
-        if any(word in query_lower for word in ["גודל", "גדולה", "קטנה", "עצומה", "ענקית", "מטר", "דונם", "נרחבת", "בינונית", "ענק", "קטן", "דיי"]):
+        if any(word in query_lower for word in ["גודל", "גדולה", "קטנה", "עצומה", "ענקית", "מטר", "דונם", "נרחבת", "בינונית", "ענק", "קטן", "דיי", "מצומצמת", "רחבה"]):
             st.session_state.report_data["size"] = True
             
-        if any(word in query_lower for word in ["ישראל", "עיר", "רחוב", "חיפה", "תל אביב", "ירושלים", "צפון", "דרום", "מרכז", "מדינה", "אזור", "סמוך", "אונו", "שכונת", "רייספלד", "בקריית", "בני ברק", "נתניה", "רחובות"]):
+        if any(word in query_lower for word in ["ישראל", "עיר", "רחוב", "חיפה", "תל אביב", "ירושלים", "צפון", "דרום", "מרכז", "מדינה", "אזור", "סמוך", "אונו", "שכונת", "רייספלד", "בקריית", "בני ברק", "נתניה", "רחובות", "יישוב", "מושב", "קיבוץ", "בעיר", "ביישוב", "בקיבוץ"]):
             st.session_state.report_data["location"] = True
             
-        if any(word in query_lower for word in ["נגרמה", "בגלל", "כתוצאה", "הצתה", "קצר", "חשמל", "נפילה", "טבעי", "לא ידוע", "סיבה", "מטען", "פיצוץ", "פגיעה", "ידועה"]):
+        if any(word in query_lower for word in ["נגרמה", "בגלל", "כתוצאה", "הצתה", "קצר", "חשמל", "נפילה", "טבעי", "לא ידוע", "סיבה", "מטען", "פיצוץ", "פגיעה", "ידועה", "התפרצה", "גז", "התפוצץ", "דליפת", "דליפה", "בלון", "סוללה", "אופניים", "רשלנות", "מכוון", "מזגן", "תנור"]):
             st.session_state.report_data["cause"] = True
 
         # 3. Boundaries Check (Trivia vs Operational Context)
         is_operational_context = any(keyword in query_lower for keyword in self.domain_keywords) or any(st.session_state.report_data.values())
         
         if any(keyword in query_lower for keyword in self.trivia_keywords) and not is_operational_context:
-            return "⚠️ **[חריגה מגבולות הגזרה - שאלת מידע כללי]**\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
+            return "⚠️ [חריגה מגבולות הגזרה - שאלת מידע כללי]\n\nאני מערכת מבצעית ותומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה בזמן אמת. אנא הזן דיווח מבצעי מהשטח."
         
         if not is_operational_context:
-            return "⚠️ **[חריגה מגבולות הגזרה של הסוכן]**\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
+            return "⚠️ [חריגה מגבולות הגזרה של הסוכן]\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
 
         # 4. Check for missing required details in the persistent state
         missing_info = []
@@ -140,14 +140,14 @@ class FireMateIntelligenceEngine:
 
         if missing_info:
             missing_str = "\n".join([f"1. {item}" for item in missing_info])
-            return f"⚠️ **[חסר מידע מבצעי חיוני]**\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n\n{missing_str}"
+            return f"⚠️ [חסר מידע מבצעי חיוני]\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n\n{missing_str}"
 
         # 5. Form is complete! Extract and Reset state for the next report
         chosen_terrain = st.session_state.report_data["terrain"]
         st.session_state.report_data = {"terrain": None, "size": None, "location": None, "cause": None}
 
         # Generate Humanized Tactical Response
-        res = "**🤖 ניתוח תפעולי של סוכן FireMate AI**\n\n"
+        res = "🤖 לפי הניתוח של סוכן FireMate AI\n\n"
         
         if chosen_terrain == "residential":
             responses = [
@@ -184,7 +184,7 @@ st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=
 st.markdown("""
 <div class="hero-section">
     <div class="hero-brand-name">מתמודדים עם דיווח על שריפה מסוכנת? 🔥</div>
-    <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח, ישווה לאירועי עבר דומים מנתוני NASA, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי להצלת חיים.</div>
+    <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח, ישווה לאירועי עבר דומים מנתוני NASA, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי להצלת חיים</div>
 </div>
 <div class="info-section">
     <div class="info-title">איך אפשר לעזור לכוחות בשטח היום?</div>
@@ -215,7 +215,7 @@ if "report_data" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "assistant",
-         "content": "שלום, כאן סוכן FireMate AI. 🚨\n\nאנא תאר לי את מצב השריפה. כדי שאוכל לתת מענה מדויק, הקפד לציין:\n1. **תוואי שטח** (מגורים / תעשייה / פתוח)\n2. **גודל השריפה**\n3. **מיקום** (עיר ומדינה)\n4. **מהות/סיבת השריפה** (או ציין 'לא ידוע')."}
+         "content": "שלום, כאן סוכן FireMate AI. 🚨\n\nאנא תאר לי את מצב השריפה. כדי שאוכל לתת מענה מדויק, הקפד לציין:\n1. **תוואי שטח** (מגורים / תעשייה / פתוח)\n2. **גודל השריפה**\n3. **מיקום** (עיר ומדינה)\n4. **מהות/סיבת השריפה** (או ציין 'לא ידוע')"}
     ]
 
 for message in st.session_state.messages:
@@ -227,7 +227,7 @@ for message in st.session_state.messages:
             st.markdown(f"<div class='bot-msg-flag'></div> {message['content']}", unsafe_allow_html=True)
 
 # User Input Processing
-user_query = st.chat_input("הקלד את הדיווח המבצעי שלך (זכור לכלול: שטח, גודל, עיר/מדינה, סיבה)...")
+user_query = st.chat_input("הקלד את הדיווח שלך (זכור לכלול: סוג אזור, גודל, מיקום, סיבה)...")
 if click_query:
     user_query = click_query
 
@@ -252,9 +252,9 @@ if user_query:
 st.markdown(
     """
     <div class='custom-footer'>
-        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>כל הזכויות שמורות ©</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML 2026 | Shira Chitayat & Shira Dabach</div>
+        <div style='color: #01579b; font-weight: bold; font-size: 16px;'>Shira Chitayat & Shira Dabach</div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת 2026 AI/ML | כל הזכויות שמורות ©</div>
     </div>
     """,
     unsafe_allow_html=True
-)
+) 
