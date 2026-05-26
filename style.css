@@ -214,7 +214,7 @@ div[data-baseweb="textarea"],
 
 /* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
 div[data-testid="stAlert"] {
-    background-color: #234E70 !important;
+    background-color: #1E3A5F !important;
     border: 1px solid #e0e0e0 !important;
 }
 
