@@ -179,15 +179,15 @@ class FireMateIntelligenceEngine:
 agent = FireMateIntelligenceEngine(df_fires, df_weekly, df_cumulative)
 
 # 5. UI Elements: Main Title & Hero Section
-st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-title'>FireMate AI</div>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="hero-section">
-    <div class="hero-brand-name">מתמודדים עם שריפה? 🔥</div>
+    <div class="hero-brand-name">מתמודדים עם שריפה?</div>
     <div class="hero-subtitle">הסוכן החכם שלנו ינתח את תנאי השטח, ישווה לאירועי עבר דומים מנתוני NASA, ויפיק באופן מיידי פרוטוקול טיפול אופטימלי להצלת חיים</div>
 </div>
 <div class="info-section">
-    <div class="info-title">איך אוכל לסייע היום?</div>
+    <div class="info-title">איך אוכל לסייע היום</div>
     הבוט מיועד לספק המלצות להתמודדות עם שריפות לפי שלושה סוגי אזורים מרכזיים:<br>
     אזור מיושב 🏘️ | מתחם תעשייתי ומפעלים 🏭 | שטח פתוח ויערות 🌲
 </div>
@@ -253,7 +253,7 @@ st.markdown(
     """
     <div class='custom-footer'>
         <div style='color: #01579b; font-weight: bold; font-size: 16px;'>Shira Chitayat & Shira Dabach</div>
-        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML | כל הזכויות שמורות © </div>
+        <div style='margin-top: 4px; font-size: 15px;'> סדנת חדשנות מבוססת AI/ML | כל הזכויות שמורות © 2026 </div>
     </div>
     """,
     unsafe_allow_html=True
