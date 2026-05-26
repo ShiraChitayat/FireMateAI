@@ -122,10 +122,10 @@ class FireMateIntelligenceEngine:
         is_operational_context = any(keyword in query_lower for keyword in self.domain_keywords) or any(st.session_state.report_data.values())
         
         if any(keyword in query_lower for keyword in self.trivia_keywords) and not is_operational_context:
-            return "⚠️ <b>חריגה מגבולות הגזרה של הסוכן - שאלת מידע כללי!<b/>\n\nאני מערכת תומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה לאירועי שריפה בזמן אמת. אנא הזן דיווח מהשטח."
+            return "<b>חריגה מגבולות הגזרה של הסוכן - שאלת מידע כללי! ⚠️<b/>\n\nאני מערכת תומכת החלטה המיועדת לניהול אירועי חירום פעילים בלבד. איני מוסמך לענות על שאלות היסטוריות או טריוויה. תפקידי הוא לספק הנחיות פעולה לאירועי שריפה בזמן אמת. אנא הזן דיווח מהשטח."
         
         if not is_operational_context:
-            return "⚠️ <b>חריגה מגבולות הגזרה של הסוכן!<b/>\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
+            return "<b>חריגה מגבולות הגזרה של הסוכן! ⚠️<b/>\n\nאיני מוסמך לענות על שאלה זו. אנא מיקדו את הדיווח שלכם באירוע שריפה פעיל וספקו פרטים רלוונטיים."
 
         # 4. Check for missing required details in the persistent state
         missing_info = []
@@ -140,7 +140,7 @@ class FireMateIntelligenceEngine:
 
         if missing_info:
             missing_str = "\n".join([f"1. {item}" for item in missing_info])
-            return f"⚠️ <b>חסר מידע חיוני!<b/>\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n\n{missing_str}"
+            return f"<b>חסר מידע חיוני! ⚠️<b/>\n\nכדי שאוכל לספק את פרוטוקול הטיפול המדויק והבטוח ביותר, אנא השלם את הפרטים החסרים בדיווח שלך:\n\n{missing_str}"
 
         # 5. Form is complete! Extract and Reset state for the next report
         chosen_terrain = st.session_state.report_data["terrain"]
