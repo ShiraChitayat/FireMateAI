@@ -82,8 +82,9 @@ ul, ol {
 }
 
 .hero-brand-name {
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
     font-size: 38px !important;
-    font-weight: 900;
+    font-weight: 700 !important;
     color: #e65100 !important;
     margin-bottom: 12px;
     text-align: center !important;
@@ -111,8 +112,9 @@ ul, ol {
 }
 
 .info-title {
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
     font-size: 26px !important;
-    font-weight: 800;
+    font-weight: 700 !important;
     color: #01579b !important;
     margin-bottom: 12px;
 }
