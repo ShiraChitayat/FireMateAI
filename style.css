@@ -23,6 +23,7 @@ html, body, .stApp {
 .stMarkdown, .stText, p, div, input, textarea, ul, ol, li {
     direction: rtl !important;
     text-align: right !important;
+    color: #222222 !important;
 }
 
 /* Ensure lists (1-4) are right-aligned with bullets inside */
@@ -211,4 +212,48 @@ div.stButton > button:hover {
     direction: rtl !important;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     z-index: 9999;
+}
+
+/* התאמה למסכים קטנים ומובייל (רספונסיביות) */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 32px !important;
+        margin-top: 25px !important;
+    }
+    .hero-brand-name {
+        font-size: 24px !important;
+    }
+    .hero-subtitle {
+        font-size: 16px !important;
+    }
+    
+    .info-section {
+        padding: 15px !important;
+        font-size: 15px !important;
+    }
+    .info-title {
+        font-size: 20px !important;
+    }
+    
+    .sample-heading {
+        font-size: 15px !important;
+        text-align: center !important;
+    }
+    div.stButton > button {
+        font-size: 14px !important;
+        padding: 8px 10px !important;
+    }
+    
+    [data-testid="stChatMessage"] {
+        font-size: 15px !important;
+        padding: 12px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .custom-header {
+        padding: 10px 5% !important;
+    }
+    .header-logo {
+        font-size: 20px !important;
+    }
 }
