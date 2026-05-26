@@ -8,12 +8,12 @@
     font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
-/* Beautiful Light Blue / Azure Background */
+/* Background */
 html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #e1f5fe !important; /* תכלת בהיר ומקסים */
+    background-color: #e1f5fe !important;
     direction: rtl !important;
     text-align: right !important;
     color: #333333 !important;
@@ -25,7 +25,7 @@ html, body, .stApp {
     text-align: right !important;
 }
 
-/* Ensure lists (1-4) are perfectly right-aligned with bullets inside */
+/* Ensure lists (1-4) are right-aligned with bullets inside */
 ul, ol {
     list-style-position: inside !important;
     padding-right: 5px !important;
@@ -36,7 +36,7 @@ ul, ol {
     direction: rtl !important;
     text-align: right !important;
     padding-top: 60px !important;
-    padding-bottom: 150px !important; /* Huge padding so the chat doesn't go under the footer */
+    padding-bottom: 150px !important;
     max-width: 750px !important;
 }
 
@@ -67,7 +67,8 @@ ul, ol {
     font-size: 52px;
     font-weight: 900;
     color: #01579b;
-    text-align: center;
+    text-align: center !important;
+    width: 100% !important;
     margin-bottom: 5px;
     margin-top: 15px;
 }
@@ -116,6 +117,8 @@ ul, ol {
     font-size: 26px !important;
     font-weight: 700 !important;
     color: #01579b !important;
+    text-align: center !important;
+    width: 100% !important;
     margin-bottom: 12px;
 }
 
