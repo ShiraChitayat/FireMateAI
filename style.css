@@ -174,11 +174,6 @@ div.stButton > button:hover {
     border: 3px solid #2e7d32 !important;
 }
 
-
-/* =========================================
-   עיצוב תיבת הצ'אט הקבועה למטה (FIXED CHAT INPUT)
-   ========================================= */
-
 /* הפס התחתון הראשי שמכיל את התיבה */
 [data-testid="stBottom"] {
     margin-bottom: 75px !important; 
@@ -213,9 +208,18 @@ div[data-baseweb="textarea"],
 }
 
 /* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
-div[data-testid="stAlert"] {
-    background-color: #1E3A5F !important;
-    border: 1px solid #e0e0e0 !important;
+div[data-testid="stSpinner"], div.stSpinner, div[data-testid="stAlert"] {
+    background-color: #ffffff !important; /* <--- משנה את הרקע ללבן נקי (אפשר להחליף לכל צבע) */
+    background: #ffffff !important;
+    border: 1px solid #e0e0e0 !important; /* מסגרת אפורה עדינה */
+    border-radius: 10px !important; /* עיגול פינות שיתאים לצ'אט */
+    padding: 10px !important;
+}
+
+/* מוודא שכל תתי-האלמנטים בפנים יהיו שקופים ולא יקבלו צבע תכלת מובנה */
+div[data-testid="stSpinner"] > div, div.stSpinner > div, div[data-testid="stAlert"] > div {
+    background-color: transparent !important;
+    background: transparent !important;
 }
 
 .custom-footer {
