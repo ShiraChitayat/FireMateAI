@@ -172,8 +172,23 @@ class FireMateIntelligenceEngine:
                 "מניתוח השריפה בשטח הפתוח, עולה כי אנו מול חזית אש רחבה ובעייתית. **ההמלצה המבצעית היא:** ריכוז מאמץ מרכזי בהפעלת מטוסי כיבוי להטלת חומרי עיכוב בעירה. במקביל, כוחות הקרקע יבצעו כיבוי משלים מהשוליים ויערכו ניטור מטאורולוגי רציף על משטר הרוחות באזור."
             ]
             res += random.choice(responses)
-
-        return res
+    
+            # Adding essential contact and emergency numbers for immediate dialing at the end of the report
+            res += "<br><br>📞 <b>מוקדי קשר וחירום חיוניים לחיוג:</b><br>"
+            res += "• כבאות והצלה (דיווח ועדכון מבצעי): <b>102</b> 🚒<br>"
+            res += "• משטרת ישראל (סגירת צירים וחסימות): <b>100</b> 🚔<br>"
+            res += "• מגן דוד אדום (פינוי וטיפול בנפגעים): <b>101</b> 🚑<br>"
+            
+            # Smart add-ons customized to the event type  
+            if chosen_terrain == "industrial":
+                res += "• מוקד חומ\"ס (המשרד להגנת הסביבה): <b>02-6553777</b> ⚠️<br>"
+                res += "• מוקד חברת החשמל (לניתוק מתח מהמתחם): <b>103</b> ⚡<br>"
+            elif chosen_terrain == "residential":
+                res += "• מוקד חברת החשמל / גז (לניתוק תשתיות במבנה): <b>103</b> ⚡<br>"
+            elif chosen_terrain == "open":
+                res += "• מוקד קק\"ל / רשות הטבע והגנים: <b>1222</b> 🌲<br>"
+    
+        return res 
 
 
 agent = FireMateIntelligenceEngine(df_fires, df_weekly, df_cumulative)
