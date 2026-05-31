@@ -102,7 +102,7 @@ class FireMateIntelligenceEngine:
             return "בכיף! אני כאן בשבילך. 🚨 ממתין לדיווחים נוספים כדי לסייע בזמן אמת."
 
         # 2. Smart Extraction & Update Persistent State (EXPANDED DICTIONARY)
-        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה", "קומה", "בית פרטי", "מבנה"]):
+        if any(word in query_lower for word in ["מגורים", "שכונה", "בתים", "עירוני", "בניין", "דירה", "קומה", "בית", "מבנה"]):
             st.session_state.report_data["terrain"] = "residential"
         elif any(word in query_lower for word in ["תעשייה", "מחסן", "מפעל", "חומרים", "לוגיסטי", "מפעלים", "מוסך", "מסחר", "תעשייתי"]):
             st.session_state.report_data["terrain"] = "industrial"
