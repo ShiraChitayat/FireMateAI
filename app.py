@@ -16,7 +16,7 @@ st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered"
 
 # --- Load External CSS ---
 try:
-    with open("style.css", "r", encding="utf-8") as f:
+    with open("style.css", "r", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 except Exception:
     pass
@@ -546,4 +546,4 @@ st.markdown(f"""
         <div class='footer-text-main'>{L['footer_main']}</div>
         <div class='footer-text-sub'>{L['footer_sub']}</div>
     </div>
-""", unsafe_allow_html=True) 
+""", unsafe_allow_html=True)
