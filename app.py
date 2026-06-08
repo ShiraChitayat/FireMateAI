@@ -482,8 +482,9 @@ for msg in st.session_state.messages:
     css_class = "user-msg-box" if msg["role"] == "user" else "bot-msg-box"
     align     = "right" if lang == 'he' else "left"
     with st.chat_message(msg["role"], avatar=avatar):
+        msg_dir = L['dir']
         st.markdown(
-            f"<div class='{css_class}' style='text-align:{align};direction:{L[\"dir\"]};'>{msg['content']}</div>",
+            f"<div class='{css_class}' style='text-align:{align};direction:{msg_dir};'>{msg['content']}</div>",
             unsafe_allow_html=True
         )
 
