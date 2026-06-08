@@ -1,250 +1,401 @@
-/* Hide Streamlit default elements */
-[data-testid="stSidebarCollapseButton"],
-[data-testid="stSidebar"] {
-    display: none !important;
-}
+/* ============================================================
+   FIREMATE AI — DARK TACTICAL PREMIUM THEME
+   Premium Redesign: Glassmorphism + Neon Orange + Animated BG
+   ============================================================ */
 
+/* ── 1. Hide all default Streamlit chrome ─────────────────── */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebar"],
 #MainMenu,
 footer,
-header {
+header,
+.stApp>header {
+    display: none !important;
     visibility: hidden !important;
 }
 
-.stApp>header {
-    background-color: transparent !important;
+/* ── 2. Google Fonts import via @import ───────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+/* ── 3. CSS Design Tokens ─────────────────────────────────── */
+:root {
+    --c-bg: #030508;
+    --c-surface: #080d18;
+    --c-panel: rgba(10, 16, 32, 0.72);
+    --c-orange: #ff5722;
+    --c-orange-dim: rgba(255, 87, 34, 0.18);
+    --c-red: #f43f5e;
+    --c-amber: #f59e0b;
+    --c-text: #f1f5f9;
+    --c-muted: #64748b;
+    --c-border: rgba(255, 87, 34, 0.22);
+    --c-border-w: rgba(255, 255, 255, 0.06);
+    --glow-sm: 0 0 12px rgba(255, 87, 34, 0.38);
+    --glow-md: 0 0 28px rgba(255, 87, 34, 0.45);
+    --glow-lg: 0 0 55px rgba(255, 87, 34, 0.25);
+    --radius-lg: 18px;
+    --radius-pill: 100px;
+    --trans-fast: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    --trans-med: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* GLOBAL FONT & CORE DESIGN */
+/* ── 4. Global Reset & Font ───────────────────────────────── */
 * {
-    font-family: 'Segoe UI', 'Arial', sans-serif !important;
+    font-family: 'Exo 2', 'Segoe UI', system-ui, sans-serif !important;
     box-sizing: border-box;
 }
 
-/* APP BACKGROUND: SLEEK DARK TACTICAL MODE WITH NEON ACCENTS */
+/* ── 5. Animated Tactical Background ─────────────────────── */
 html,
 body,
 .stApp {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    background: radial-gradient(circle at 50% 10%, #151c30 0%, #090d16 50%, #030408 100%) !important;
-    color: #f3f4f6 !important;
+    margin: 0 !important;
+    padding: 0 !important;
     min-height: 100vh;
+    color: var(--c-text) !important;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 87, 34, 0.13) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 40% at 85% 90%, rgba(244, 63, 94, 0.07) 0%, transparent 60%),
+        linear-gradient(160deg, #030508 0%, #060c1a 50%, #030508 100%) !important;
+    background-attachment: fixed !important;
 }
 
-/* MAIN CONTAINER styling */
+/* Subtle animated grid overlay */
+.stApp::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 87, 34, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 87, 34, 0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+    animation: gridDrift 25s linear infinite;
+}
+
+@keyframes gridDrift {
+    0% {
+        background-position: 0 0, 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px, 40px 40px;
+    }
+}
+
+/* ── 6. Main Content Container ────────────────────────────── */
 .block-container {
-    padding-top: 30px !important;
-    padding-bottom: 220px !important;
-    max-width: 850px !important;
+    position: relative;
+    z-index: 1;
+    padding-top: 36px !important;
+    padding-bottom: 230px !important;
+    max-width: 860px !important;
 }
 
-/* HEADER BRAND LOGO WITH NEON GLOW */
+/* ── 7. Brand Logo ────────────────────────────────────────── */
 .brand-logo {
-    font-size: 32px;
-    font-weight: 900;
-    color: #ff5722 !important;
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(255, 87, 34, 0.6), 0 0 20px rgba(255, 87, 34, 0.2);
-    margin-bottom: 15px;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    color: var(--c-orange) !important;
+    letter-spacing: 2px !important;
+    text-shadow: var(--glow-sm) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    animation: logoBreath 4s ease-in-out infinite;
 }
 
-/* TITLES */
+@keyframes logoBreath {
+
+    0%,
+    100% {
+        text-shadow: var(--glow-sm);
+    }
+
+    50% {
+        text-shadow: var(--glow-md);
+    }
+}
+
+/* ── 8. Hero Title ────────────────────────────────────────── */
 .main-title {
-    font-size: 56px;
-    font-weight: 950;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: clamp(46px, 9vw, 72px) !important;
+    font-weight: 700 !important;
     color: #ffffff !important;
-    margin-top: 10px;
-    margin-bottom: 2px;
     text-align: center !important;
-    letter-spacing: -0.5px;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 87, 34, 0.35);
+    letter-spacing: 3px !important;
+    margin: 8px 0 4px !important;
+    line-height: 1 !important;
+    background: linear-gradient(135deg, #ffffff 30%, #ff8a65 70%, var(--c-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255, 87, 34, 0.3));
 }
 
 .hero-brand-name {
-    font-size: 26px !important;
-    font-weight: 850;
-    color: #ff3d00 !important;
-    margin-bottom: 30px;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
     text-align: center !important;
-    text-shadow: 0 0 10px rgba(255, 61, 0, 0.4);
+    margin-bottom: 28px !important;
+    letter-spacing: 0.4px !important;
 }
 
-/* INFO SECTION WITH FROSTED GLASSMORPHISM */
+/* ── 9. Info / Mission Card ───────────────────────────────── */
 .info-section-transparent {
-    background: rgba(15, 23, 42, 0.6) !important;
-    backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+    background: var(--c-panel) !important;
+    backdrop-filter: blur(22px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+    border: 1px solid var(--c-border) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 26px 30px !important;
+    margin-bottom: 26px !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.04) inset,
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        var(--glow-sm) !important;
+    position: relative;
+    overflow: hidden;
+    transition: var(--trans-med);
+}
+
+/* Left accent bar */
+.info-section-transparent::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, var(--c-orange), transparent);
+    border-radius: 2px;
 }
 
 .info-title-large {
-    font-size: 24px !important;
-    font-weight: 800;
-    color: #ff5722 !important;
-    margin-bottom: 12px;
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: var(--c-orange) !important;
     text-align: center !important;
-    text-shadow: 0 0 8px rgba(255, 87, 34, 0.3);
+    letter-spacing: 1px !important;
+    margin-bottom: 10px !important;
+    text-shadow: var(--glow-sm) !important;
 }
 
 .info-text-large {
-    font-size: 18px !important;
-    font-weight: 500;
-    color: #9ca3af !important;
-    line-height: 1.7;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    color: #94a3b8 !important;
+    line-height: 1.75 !important;
     text-align: center !important;
 }
 
-/* PROGRESS BAR STYLING */
+.info-text-large b {
+    color: var(--c-text) !important;
+    font-weight: 700 !important;
+}
+
+/* ── 10. Progress Bar ─────────────────────────────────────── */
 .progress-label {
-    font-size: 15px;
-    font-weight: 700;
-    color: #ff5722;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--c-orange) !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    margin-bottom: 6px !important;
 }
 
 div[data-testid="stProgress"]>div>div>div {
-    background-color: #ff5722 !important;
-    box-shadow: 0 0 10px rgba(255, 87, 34, 0.6);
+    background: linear-gradient(90deg, var(--c-orange), var(--c-amber)) !important;
+    box-shadow: var(--glow-sm) !important;
+    border-radius: 4px !important;
 }
 
-/* SAMPLE HEADINGS */
+div[data-testid="stProgress"]>div>div {
+    background: rgba(255, 87, 34, 0.12) !important;
+    border-radius: 4px !important;
+}
+
+/* ── 11. Section Heading ──────────────────────────────────── */
 .sample-heading {
-    font-size: 18px !important;
-    color: #ff5722 !important;
-    font-weight: 750;
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
     text-align: center !important;
-    text-shadow: 0 0 8px rgba(255, 87, 34, 0.2);
+    margin: 20px 0 14px !important;
 }
 
-/* TACTICAL STREAMLIT BUTTONS */
+/* ── 12. Scenario Buttons ─────────────────────────────────── */
 div.stButton>button {
     width: 100% !important;
-    background: rgba(30, 41, 59, 0.4) !important;
-    color: #ff5722 !important;
-    border: 1.5px solid rgba(255, 87, 34, 0.4) !important;
-    border-radius: 12px !important;
-    padding: 10px 14px !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    backdrop-filter: blur(4px);
+    background: rgba(15, 23, 42, 0.6) !important;
+    color: #cbd5e1 !important;
+    border: 1px solid var(--c-border) !important;
+    border-radius: 14px !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    transition: var(--trans-fast) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    backdrop-filter: blur(8px) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+div.stButton>button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 87, 34, 0) 0%, rgba(255, 87, 34, 0.06) 100%);
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+div.stButton>button:hover::before {
+    opacity: 1;
 }
 
 div.stButton>button:hover {
-    background: #ff5722 !important;
-    color: white !important;
-    border-color: #ff5722 !important;
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 15px rgba(255, 87, 34, 0.5) !important;
+    background: rgba(255, 87, 34, 0.14) !important;
+    color: #fff !important;
+    border-color: var(--c-orange) !important;
+    transform: translateY(-3px) scale(1.01) !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), var(--glow-sm) !important;
 }
 
-/* RESET BUTTON - TACTICAL RED THEME */
-div.stButton>button[key*="reset_chat"] {
-    background: rgba(244, 63, 94, 0.1) !important;
-    color: #f43f5e !important;
-    border: 1.5px solid rgba(244, 63, 94, 0.4) !important;
+div.stButton>button:active {
+    transform: translateY(-1px) !important;
 }
 
-div.stButton>button[key*="reset_chat"]:hover {
-    background: #f43f5e !important;
-    color: white !important;
-    border-color: #f43f5e !important;
-    box-shadow: 0 0 15px rgba(244, 63, 94, 0.5) !important;
+/* ── 13. Reset Button ─────────────────────────────────────── */
+div.stButton>button[kind="secondary"],
+div.stButton>button[data-testid*="reset"] {
+    background: rgba(244, 63, 94, 0.08) !important;
+    color: #f87171 !important;
+    border-color: rgba(244, 63, 94, 0.3) !important;
+    border-radius: var(--radius-pill) !important;
+    font-size: 13px !important;
+    padding: 8px 16px !important;
 }
 
-/* LANGUAGE TOGGLE - COMPACT DARK GLASS THEME */
-div.stButton>button[key*="lang_toggle"] {
-    border-radius: 20px !important;
-    font-size: 14px !important;
-    padding: 6px 12px !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 87, 34, 0.3) !important;
-    color: #e5e7eb !important;
+div.stButton>button[kind="secondary"]:hover {
+    background: rgba(244, 63, 94, 0.2) !important;
+    border-color: var(--c-red) !important;
+    box-shadow: 0 0 18px rgba(244, 63, 94, 0.4) !important;
+}
+
+/* ── 14. Language Toggle ──────────────────────────────────── */
+div.stButton>button[key*="lang_toggle"],
+div.stButton>button[kind="tertiary"] {
+    border-radius: var(--radius-pill) !important;
+    font-size: 13px !important;
+    padding: 6px 16px !important;
+    width: auto !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid var(--c-border-w) !important;
+    color: #94a3b8 !important;
 }
 
 div.stButton>button[key*="lang_toggle"]:hover {
-    background: rgba(255, 87, 34, 0.15) !important;
-    border-color: #ff5722 !important;
-    box-shadow: 0 0 10px rgba(255, 87, 34, 0.3) !important;
+    background: var(--c-orange-dim) !important;
+    border-color: var(--c-border) !important;
+    color: #fff !important;
+    box-shadow: var(--glow-sm) !important;
 }
 
-/* =======================================
-   SCROLLABLE CONTAINER & DOCKING INPUT
-   ======================================= */
-
-/* Scrollable messages box with neon border and rounded top corners */
-div[data-testid="stChatMessageContainer"] {
-    border: 2px solid rgba(255, 87, 34, 0.5) !important;
+/* ── 15. Chat Container ───────────────────────────────────── */
+div[data-testid="stChatMessageContainer"],
+div[data-testid="stVerticalBlockBorderWrapper"]>div[data-testid="stVerticalBlock"] {
+    border: 1.5px solid var(--c-border) !important;
     border-bottom: none !important;
-    border-radius: 16px 16px 0 0 !important;
-    background: rgba(15, 23, 42, 0.6) !important;
-    backdrop-filter: blur(12px);
-    padding: 20px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    background: rgba(8, 13, 24, 0.75) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 20px 16px !important;
+    box-shadow:
+        0 0 0 1px rgba(255, 87, 34, 0.06) inset,
+        0 -4px 40px rgba(0, 0, 0, 0.5) !important;
     overflow-y: auto !important;
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 87, 34, 0.3) transparent;
 }
 
-/* Chat Input docked directly below the messages container, forming a unified border */
+div[data-testid="stChatMessageContainer"]::-webkit-scrollbar {
+    width: 5px;
+}
+
+div[data-testid="stChatMessageContainer"]::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+div[data-testid="stChatMessageContainer"]::-webkit-scrollbar-thumb {
+    background: rgba(255, 87, 34, 0.3);
+    border-radius: 10px;
+}
+
+/* ── 16. Docked Chat Input ────────────────────────────────── */
 [data-testid="stBottom"] {
     position: fixed !important;
-    bottom: 55px !important;
-    /* aligned directly above fixed footer */
+    bottom: 58px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
-    max-width: 850px !important;
+    max-width: 860px !important;
     padding: 0 15px !important;
-    background-color: transparent !important;
+    background: transparent !important;
     z-index: 1000 !important;
 }
 
 [data-testid="stChatInput"] {
-    border: 2px solid rgba(255, 87, 34, 0.5) !important;
-    border-top: 1px solid rgba(255, 87, 34, 0.15) !important;
-    border-radius: 0 0 16px 16px !important;
-    background: rgba(17, 24, 39, 0.95) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
-    padding: 4px 12px !important;
-    transition: all 0.3s ease !important;
+    border: 1.5px solid var(--c-border) !important;
+    border-top: 1px solid rgba(255, 87, 34, 0.10) !important;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;
+    background: rgba(8, 13, 24, 0.96) !important;
+    backdrop-filter: blur(24px) !important;
+    box-shadow: 0 14px 50px rgba(0, 0, 0, 0.6) !important;
+    padding: 4px 14px !important;
+    transition: var(--trans-fast) !important;
 }
 
-/* Input Focus outline and glow */
 [data-testid="stChatInput"]:focus-within {
-    border-color: #ff5722 !important;
-    box-shadow: 0 0 20px rgba(255, 87, 34, 0.4) !important;
+    border-color: rgba(255, 87, 34, 0.6) !important;
+    box-shadow: 0 14px 50px rgba(0, 0, 0, 0.6), var(--glow-sm) !important;
 }
 
 [data-testid="stChatInputTextArea"] {
-    font-size: 16px !important;
-    color: #ffffff !important;
+    font-size: 15px !important;
+    color: #e2e8f0 !important;
+    background: transparent !important;
 }
 
-/* =======================================
-   CLEAN & FUTURISTIC CHAT BUBBLES
-   ======================================= */
-
-/* Remove default Streamlit message containers styles */
-[data-testid="stChatMessage"] {
-    background-color: transparent !important;
+/* Send button inside input */
+[data-testid="stChatInput"] button {
+    background: linear-gradient(135deg, var(--c-orange), #e64a19) !important;
     border: none !important;
-    box-shadow: none !important;
+    border-radius: 10px !important;
+    box-shadow: var(--glow-sm) !important;
+    transition: var(--trans-fast) !important;
 }
 
-/* Smooth entrance keyframes for bubbles */
-@keyframes bubbleFadeIn {
+[data-testid="stChatInput"] button:hover {
+    box-shadow: var(--glow-md) !important;
+    transform: scale(1.08) !important;
+}
+
+/* ── 17. Chat Bubbles ─────────────────────────────────────── */
+@keyframes bubbleIn {
     from {
         opacity: 0;
-        transform: translateY(12px) scale(0.98);
+        transform: translateY(14px) scale(0.97);
     }
 
     to {
@@ -253,69 +404,112 @@ div[data-testid="stChatMessageContainer"] {
     }
 }
 
-/* User Message Box (Modern iOS/Futuristic Dark Orange tint) */
+[data-testid="stChatMessage"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* User bubble */
 .user-msg-box {
-    background: rgba(255, 87, 34, 0.15) !important;
-    border-radius: 18px 18px 0px 18px;
-    border: 1px solid rgba(255, 87, 34, 0.35) !important;
-    padding: 14px 18px;
-    color: #ffffff;
-    font-size: 16px;
-    line-height: 1.6;
-    display: inline-block;
-    max-width: 85%;
-    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.1);
-    backdrop-filter: blur(4px);
-    animation: bubbleFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    background: linear-gradient(135deg, rgba(255, 87, 34, 0.18), rgba(255, 87, 34, 0.10)) !important;
+    border: 1px solid rgba(255, 87, 34, 0.32) !important;
+    border-radius: 18px 18px 2px 18px !important;
+    padding: 13px 18px !important;
+    color: #f1f5f9 !important;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+    display: inline-block !important;
+    max-width: 82% !important;
+    box-shadow: 0 4px 20px rgba(255, 87, 34, 0.1), 0 1px 0 rgba(255, 255, 255, 0.05) inset !important;
+    backdrop-filter: blur(6px) !important;
+    animation: bubbleIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* Bot Message Box (Tactical Slate/Frosted glass effect) */
+/* Bot bubble */
 .bot-msg-box {
-    background: rgba(30, 41, 59, 0.45) !important;
-    border-radius: 18px 18px 18px 0px;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 14px 18px;
-    color: #f3f4f6;
-    font-size: 16px;
-    line-height: 1.6;
-    display: inline-block;
-    max-width: 90%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(4px);
-    animation: bubbleFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    background: rgba(15, 23, 42, 0.55) !important;
+    border: 1px solid var(--c-border-w) !important;
+    border-radius: 18px 18px 18px 2px !important;
+    padding: 13px 18px !important;
+    color: #e2e8f0 !important;
+    font-size: 15px !important;
+    line-height: 1.70 !important;
+    display: inline-block !important;
+    max-width: 88% !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.03) inset !important;
+    backdrop-filter: blur(8px) !important;
+    animation: bubbleIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* FIXED FOOTER anchored at the absolute bottom of viewport */
+/* Markdown inside bot bubble */
+.bot-msg-box h3 {
+    font-family: 'Rajdhani', sans-serif !important;
+    font-size: 17px !important;
+    color: var(--c-orange) !important;
+    margin: 10px 0 6px !important;
+    text-shadow: var(--glow-sm) !important;
+}
+
+.bot-msg-box strong,
+.bot-msg-box b {
+    color: #fff !important;
+    font-weight: 700 !important;
+}
+
+.bot-msg-box hr {
+    border: none !important;
+    border-top: 1px solid rgba(255, 87, 34, 0.15) !important;
+    margin: 12px 0 !important;
+}
+
+.bot-msg-box code {
+    background: rgba(255, 87, 34, 0.12) !important;
+    color: var(--c-orange) !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 13px !important;
+}
+
+/* ── 18. Fixed Footer ─────────────────────────────────────── */
 .custom-footer {
     position: fixed !important;
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    height: 55px !important;
-    background: #090c15 !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 10px !important;
-    border-radius: 0 !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+    height: 58px !important;
+    background: rgba(3, 5, 8, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    border-top: 1px solid rgba(255, 87, 34, 0.12) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
     z-index: 1001 !important;
-    margin-top: 0 !important;
+    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.6) !important;
 }
 
 .footer-text-main {
-    color: #e5e7eb !important;
-    font-weight: 750;
-    font-size: 14px;
-    opacity: 0.95;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    letter-spacing: 0.3px !important;
 }
 
 .footer-text-sub {
-    color: #9ca3af !important;
-    margin-top: 2px;
-    font-size: 11px;
-    font-weight: 500;
-    opacity: 0.85;
-} 
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    color: #475569 !important;
+    margin-top: 2px !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* ── 19. Streamlit Spinner ────────────────────────────────── */
+div[data-testid="stSpinner"]>div>div {
+    border-top-color: var(--c-orange) !important;
+}
+
+/* ── 20. Column gap fix ───────────────────────────────────── */
+div[data-testid="stHorizontalBlock"] {
+    gap: 10px !important;
+}

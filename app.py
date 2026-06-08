@@ -597,25 +597,31 @@ lang = st.session_state.lang
 # --- Header & Language Switcher ---
 col_logo, col_lang = st.columns([5, 2])
 with col_logo:
-    st.markdown(f"<div class='brand-logo'>{LOC[lang]['header_logo']}</div>", unsafe_allow_html=True)
+    st.markdown(f"""
+        <div class='brand-logo'>
+            <span style='display:inline-block;width:9px;height:9px;border-radius:50%;
+                background:#22c55e;box-shadow:0 0 8px #22c55e;margin-left:4px;
+                animation:dotBlink 1.4s ease-in-out infinite;'></span>
+            {LOC[lang]['header_logo']}
+        </div>
+        <style>@keyframes dotBlink{{0%,100%{{opacity:1}}50%{{opacity:0.2}}}}</style>
+    """, unsafe_allow_html=True)
 with col_lang:
     btn_label = "English 🇬🇧" if lang == "he" else "עברית 🇮🇱"
     if st.button(btn_label, key="lang_toggle"):
         new_lang = "en" if lang == "he" else "he"
         st.session_state.lang = new_lang
-        # If we are in welcome stage, translate welcome message
         if st.session_state.chat_stage == 'welcome':
             st.session_state.messages = [{"role": "assistant", "content": LOC[new_lang]['welcome_msg']}]
-        # Force rerun to translate static texts
         st.rerun()
 
 # --- Main Hero UI ---
-st.markdown(f"<div class='main-title'>{LOC[lang]['main_title']}</div>", unsafe_allow_html=True)
+st.markdown(f"<div class='main-title'>🔥 {LOC[lang]['main_title']}</div>", unsafe_allow_html=True)
 st.markdown(f"<div class='hero-brand-name'>{LOC[lang]['hero_brand_name']}</div>", unsafe_allow_html=True)
 
 st.markdown(f"""
 <div class="info-section-transparent">
-    <div class="info-title-large">{LOC[lang]['info_title']}</div>
+    <div class="info-title-large">⚡ {LOC[lang]['info_title']}</div>
     <div class="info-text-large">{LOC[lang]['info_text']}</div>
 </div>
 """, unsafe_allow_html=True)
@@ -623,7 +629,14 @@ st.markdown(f"""
 # --- Interactive Progress Indicator ---
 if st.session_state.chat_stage == 'questioning':
     curr_q = st.session_state.current_q_index
-    st.markdown(f"<div class='progress-label'>{LOC[lang]['progress_text'].format(current=curr_q+1)}</div>", unsafe_allow_html=True)
+    pct = int((curr_q / 5.0) * 100)
+    st.markdown(f"""
+        <div class='progress-label'>
+            {LOC[lang]['progress_text'].format(current=curr_q+1)}
+            <span style='margin-right:8px;margin-left:8px;color:#475569;'>·</span>
+            <span style='color:#64748b;font-size:12px;'>{pct}%</span>
+        </div>
+    """, unsafe_allow_html=True)
     st.progress(curr_q / 5.0)
 
 # --- Sample Scenarios Buttons ---
