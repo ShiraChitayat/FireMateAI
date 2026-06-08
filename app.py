@@ -59,11 +59,11 @@ LOC = {
         'footer_sub': "סדנת חדשנות מבוססת AI/ML 2026 🎓 | Shira Chitayat & Shira Dabach",
         'welcome_msg': "שלום המפקד. אני סוכן חכם תומך החלטה מבצעי ולוגי. תאר לי את אירוע השריפה בעברית או באנגלית, ואשאל אותך 5 שאלות קצרות כדי להתאים את המענה המבצעי המדויק ביותר מול מאגרי המידע שלנו.",
         'question_intro': "התקבל דיווח ראשוני. כדי לגבש פרוטוקול מבצעי מדויק ולבצע התאמה למאגרי המידע, אשאל אותך 5 שאלות קצרות:",
-        'q1': "שאלה 1 מתוך 5: מהו מיקום השריפה המדויק? (לדוגמה: חיפה, ירושלים, באר שבע, כרמל)",
-        'q2': "שאלה 2 מתוך 5: מהו סוג האזור שבו פרצה השריפה? (מגורים 🏘️, אזור תעשייה/מפעלים 🏭, או שטח פתוח/יער 🌲)",
-        'q3': "שאלה 3 מתוך 5: מהי עוצמת הלהבות והאש? (נמוכה, בינונית, גבוהה מאוד / פיצוצים)",
-        'q4': "שאלה 4 מתוך 5: האם ישנן רוחות חזקות באזור? (כן, רוח חזקה / לא, רוח חלשה או ללא רוח)",
-        'q5': "שאלה 5 מתוך 5: האם ידוע על לכודים בתוך המבנה או על חומרים מסוכנים/דליקים בקרבת מקום?",
+        'q1': "מהו מיקום השריפה המדויק? (לדוגמה: חיפה, ירושלים, באר שבע, כרמל)",
+        'q2': "מהו סוג האזור שבו פרצה השריפה? (מגורים 🏘️, אזור תעשייה/מפעלים 🏭, או שטח פתוח/יער 🌲)",
+        'q3': "מהי עוצמת הלהבות והאש? (נמוכה, בינונית, גבוהה מאוד / פיצוצים)",
+        'q4': "האם ישנן רוחות חזקות באזור? (כן, רוח חזקה / לא, רוח חלשה או ללא רוח)",
+        'q5': "האם ידוע על לכודים בתוך המבנה או על חומרים מסוכנים/דליקים בקרבת מקום?",
         'progress_text': "שאלה {current} מתוך 5",
         'reset_btn': "התחל דיווח חדש 🔄",
         'matched_title': "🎯 ניתוח דמיון למאגרי נאס\"א (NASA Satellite Data)",
@@ -88,11 +88,11 @@ LOC = {
         'footer_sub': "AI/ML Innovation Workshop 2026 🎓 | Shira Chitayat & Shira Dabach",
         'welcome_msg': "Hello Commander. I am a logical and operational decision-support agent. Describe the fire incident in English or Hebrew, and I will ask you 5 short questions to match the situation with our historical data groups and generate an emergency protocol.",
         'question_intro': "Initial report received. To formulate a precise operational protocol and query our wildfire database, I will ask you 5 short questions:",
-        'q1': "Question 1 of 5: What is the exact location of the fire? (e.g. Haifa, Jerusalem, Beer Sheva, Carmel)",
-        'q2': "Question 2 of 5: What is the type of area where the fire broke out? (Residential 🏘️, Industrial/Factories 🏭, or Open Space/Forest 🌲)",
-        'q3': "Question 3 of 5: What is the intensity of the flames/fire? (Low, Medium, High / Explosions)",
-        'q4': "Question 4 of 5: Are there strong winds in the area? (Yes, strong wind / No, light or no wind)",
-        'q5': "Question 5 of 5: Are there any trapped people inside or hazardous/flammable materials nearby?",
+        'q1': "What is the exact location of the fire? (e.g. Haifa, Jerusalem, Beer Sheva, Carmel)",
+        'q2': "What is the type of area where the fire broke out? (Residential 🏘️, Industrial/Factories 🏭, or Open Space/Forest 🌲)",
+        'q3': "What is the intensity of the flames/fire? (Low, Medium, High / Explosions)",
+        'q4': "Are there strong winds in the area? (Yes, strong wind / No, light or no wind)",
+        'q5': "Are there any trapped people inside or hazardous/flammable materials nearby?",
         'progress_text': "Question {current} of 5",
         'reset_btn': "Start New Report 🔄",
         'matched_title': "🎯 NASA Satellite Data Group Similarity Analysis",
@@ -268,13 +268,55 @@ class FireMateIntelligenceEngine:
         except Exception:
             return pd.DataFrame(), 91.4, 80.0, 15.0, "Normal", "Moderate"
 
+    def format_fire_type(self, fire_type, terrain, lang):
+        if not fire_type or fire_type == 'N/A':
+            return 'N/A'
+        
+        t_lower = str(terrain).lower()
+        is_urban = any(w in t_lower for w in ['מגורים', 'עירוני', 'residential', 'urban', 'בניין', 'building', '🏘️'])
+        is_ind = any(w in t_lower for w in ['תעש', 'מפעל', 'ind', 'factory', 'chemical', '🏭'])
+        
+        if lang == 'he':
+            if fire_type == 'Forest':
+                if is_urban:
+                    return "ממשק יער-עירוני (שריפת מבנים סמוכה לחורש)"
+                elif is_ind:
+                    return "שריפת מפעל סמוך ליער"
+                return "שריפת יער"
+            elif fire_type == 'Bushfire':
+                if is_urban:
+                    return "שריפת סבך ושיחים בשטח עירוני בנוי"
+                return "שריפת סבך וצמחייה"
+            elif fire_type == 'Grassland':
+                if is_urban:
+                    return "שריפת עשב וקוצים בשטח פתוח עירוני"
+                return "שריפת עשב ושטח פתוח"
+            return fire_type
+        else:
+            if fire_type == 'Forest':
+                if is_urban:
+                    return "Forest/WUI (Wildland-Urban Interface)"
+                elif is_ind:
+                    return "Industrial/Wildland Interface"
+                return "Forest Fire"
+            elif fire_type == 'Bushfire':
+                if is_urban:
+                    return "Bushfire in Urban/Residential Zone"
+                return "Brush/Bush Fire"
+            elif fire_type == 'Grassland':
+                if is_urban:
+                    return "Grassland/Open space fire near residential area"
+                return "Grassland Fire"
+            return fire_type
+
     def ask_llm_agent(self, answers, matched_rows, sim_score, location, is_anomaly, lang):
         # Extract matched row info
         if not matched_rows.empty:
             matched_row = matched_rows.iloc[0]
             matched_region = matched_row.get('region', 'N/A')
             matched_country = matched_row.get('country', 'N/A')
-            matched_type = matched_row.get('fire_type', 'N/A')
+            raw_type = matched_row.get('fire_type', 'N/A')
+            matched_type = self.format_fire_type(raw_type, answers.get('terrain', ''), lang)
             matched_intensity = matched_row.get('fire_intensity', 'N/A')
             matched_temp = matched_row.get('temp_max_c', 'N/A')
             matched_wind_speed = matched_row.get('wind_max_kmh', 'N/A')
@@ -332,9 +374,11 @@ class FireMateIntelligenceEngine:
     def generate_fallback_he(self, answers, matched_rows, sim_score, location, frp, wind_speed):
         if not matched_rows.empty:
             mr = matched_rows.iloc[0]
+            raw_type = mr.get('fire_type', 'N/A')
+            formatted_type = self.format_fire_type(raw_type, answers.get('terrain', ''), 'he')
             matched_info = f"""
 * **אזור התאמה במאגר נאס"א**: {mr.get('region', 'N/A')} ({mr.get('country', 'N/A')})
-* **סוג שריפה**: {mr.get('fire_type', 'N/A')}
+* **סוג שריפה**: {formatted_type}
 * **עוצמת שריפה**: {mr.get('fire_intensity', 'N/A')}
 * **קרינה מקסימלית**: {mr.get('fire_radiative_power_mw', 'N/A')} MW
 * **ציון דמיון (Cosine Similarity)**: {sim_score:.1f}%
@@ -415,9 +459,11 @@ class FireMateIntelligenceEngine:
     def generate_fallback_en(self, answers, matched_rows, sim_score, location, frp, wind_speed):
         if not matched_rows.empty:
             mr = matched_rows.iloc[0]
+            raw_type = mr.get('fire_type', 'N/A')
+            formatted_type = self.format_fire_type(raw_type, answers.get('terrain', ''), 'en')
             matched_info = f"""
 * **NASA Matched Region**: {mr.get('region', 'N/A')} ({mr.get('country', 'N/A')})
-* **Fire Type**: {mr.get('fire_type', 'N/A')}
+* **Fire Type**: {formatted_type}
 * **Fire Intensity**: {mr.get('fire_intensity', 'N/A')}
 * **Radiative Power (FRP)**: {mr.get('fire_radiative_power_mw', 'N/A')} MW
 * **Cosine Similarity Score**: {sim_score:.1f}%
@@ -622,17 +668,17 @@ if st.session_state.chat_stage != 'welcome':
             st.rerun()
 
 # --- Chat Messages Display ---
-st.markdown("<div class='chat-container'>", unsafe_allow_html=True)
-for message in st.session_state.messages:
-    avatar = "👤" if message["role"] == "user" else "✨"
-    css_class = "user-msg-box" if message["role"] == "user" else "bot-msg-box"
-    
-    # Adjust layout direction per message language if desired, or align globally
-    align_style = "text-align: right; direction: rtl;" if lang == 'he' else "text-align: left; direction: ltr;"
-    
-    with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(f"<div class='{css_class}' style='{align_style}'>{message['content']}</div>", unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
+chat_window = st.container(height=480)
+with chat_window:
+    for message in st.session_state.messages:
+        avatar = "👤" if message["role"] == "user" else "✨"
+        css_class = "user-msg-box" if message["role"] == "user" else "bot-msg-box"
+        
+        # Adjust layout direction per message language if desired, or align globally
+        align_style = "text-align: right; direction: rtl;" if lang == 'he' else "text-align: left; direction: ltr;"
+        
+        with st.chat_message(message["role"], avatar=avatar):
+            st.markdown(f"<div class='{css_class}' style='{align_style}'>{message['content']}</div>", unsafe_allow_html=True)
 
 # --- Chat Input Processing ---
 user_query = st.chat_input(LOC[lang]['chat_placeholder'])
