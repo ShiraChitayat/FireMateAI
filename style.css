@@ -20,15 +20,15 @@ header {
     box-sizing: border-box;
 }
 
-/* APP BACKGROUND WITH VIBRANT GRADIENT */
+/* APP BACKGROUND: SLEEK DARK TACTICAL MODE WITH NEON ACCENTS */
 html,
 body,
 .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%) !important;
-    color: #1f2937 !important;
+    background: radial-gradient(circle at 50% 10%, #151c30 0%, #090d16 50%, #030408 100%) !important;
+    color: #f3f4f6 !important;
     min-height: 100vh;
 }
 
@@ -39,13 +39,13 @@ body,
     max-width: 850px !important;
 }
 
-/* HEADER BRAND LOGO */
+/* HEADER BRAND LOGO WITH NEON GLOW */
 .brand-logo {
     font-size: 32px;
     font-weight: 900;
-    color: #01579b !important;
-    letter-spacing: 0.5px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+    color: #ff5722 !important;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 87, 34, 0.6), 0 0 20px rgba(255, 87, 34, 0.2);
     margin-bottom: 15px;
 }
 
@@ -53,172 +53,143 @@ body,
 .main-title {
     font-size: 56px;
     font-weight: 950;
-    color: #01579b !important;
+    color: #ffffff !important;
     margin-top: 10px;
     margin-bottom: 2px;
     text-align: center !important;
     letter-spacing: -0.5px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 87, 34, 0.35);
 }
 
 .hero-brand-name {
     font-size: 26px !important;
     font-weight: 850;
-    color: #e65100 !important;
+    color: #ff3d00 !important;
     margin-bottom: 30px;
     text-align: center !important;
+    text-shadow: 0 0 10px rgba(255, 61, 0, 0.4);
 }
 
-/* INFO SECTION WITH PREMIUM GLASSMORPHISM */
+/* INFO SECTION WITH FROSTED GLASSMORPHISM */
 .info-section-transparent {
-    background: rgba(255, 255, 255, 0.45) !important;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 30px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
 .info-title-large {
     font-size: 24px !important;
     font-weight: 800;
-    color: #01579b !important;
+    color: #ff5722 !important;
     margin-bottom: 12px;
     text-align: center !important;
+    text-shadow: 0 0 8px rgba(255, 87, 34, 0.3);
 }
 
 .info-text-large {
     font-size: 18px !important;
     font-weight: 500;
-    color: #374151 !important;
+    color: #9ca3af !important;
     line-height: 1.7;
     text-align: center !important;
 }
 
-/* PROGRESS BAR LABEL */
+/* PROGRESS BAR STYLING */
 .progress-label {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    color: #0284c7;
+    color: #ff5722;
     margin-bottom: 6px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+div[data-testid="stProgress"]>div>div>div {
+    background-color: #ff5722 !important;
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.6);
 }
 
 /* SAMPLE HEADINGS */
 .sample-heading {
     font-size: 18px !important;
-    color: #01579b !important;
+    color: #ff5722 !important;
     font-weight: 750;
     margin-top: 15px !important;
     margin-bottom: 15px !important;
     text-align: center !important;
+    text-shadow: 0 0 8px rgba(255, 87, 34, 0.2);
 }
 
-/* STYLISH STREAMLIT BUTTONS */
+/* TACTICAL STREAMLIT BUTTONS */
 div.stButton>button {
     width: 100% !important;
-    background: white !important;
-    color: #0284c7 !important;
-    border: 1.5px solid #e0f2fe !important;
+    background: rgba(30, 41, 59, 0.4) !important;
+    color: #ff5722 !important;
+    border: 1.5px solid rgba(255, 87, 34, 0.4) !important;
     border-radius: 12px !important;
     padding: 10px 14px !important;
     font-size: 15px !important;
     font-weight: 700 !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(4px);
 }
 
 div.stButton>button:hover {
-    background: #0284c7 !important;
+    background: #ff5722 !important;
     color: white !important;
-    border-color: #0284c7 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.2) !important;
+    border-color: #ff5722 !important;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 15px rgba(255, 87, 34, 0.5) !important;
 }
 
-/* RESET BUTTON - SPECIAL ORANGE THEME */
+/* RESET BUTTON - TACTICAL RED THEME */
 div.stButton>button[key*="reset_chat"] {
-    background: rgba(230, 81, 0, 0.08) !important;
-    color: #e65100 !important;
-    border: 1.5px solid rgba(230, 81, 0, 0.3) !important;
+    background: rgba(244, 63, 94, 0.1) !important;
+    color: #f43f5e !important;
+    border: 1.5px solid rgba(244, 63, 94, 0.4) !important;
 }
 
 div.stButton>button[key*="reset_chat"]:hover {
-    background: #e65100 !important;
+    background: #f43f5e !important;
     color: white !important;
-    border-color: #e65100 !important;
-    box-shadow: 0 10px 15px -3px rgba(230, 81, 0, 0.3) !important;
+    border-color: #f43f5e !important;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.5) !important;
 }
 
-/* LANGUAGE TOGGLE - COMPACT GLASS THEME */
+/* LANGUAGE TOGGLE - COMPACT DARK GLASS THEME */
 div.stButton>button[key*="lang_toggle"] {
     border-radius: 20px !important;
     font-size: 14px !important;
     padding: 6px 12px !important;
-    background: rgba(255, 255, 255, 0.6) !important;
-    border: 1px solid rgba(1, 87, 155, 0.2) !important;
-    color: #01579b !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 87, 34, 0.3) !important;
+    color: #e5e7eb !important;
 }
 
 div.stButton>button[key*="lang_toggle"]:hover {
-    background: #01579b !important;
-    color: white !important;
-    border-color: #01579b !important;
-}
-
-/* =======================================
-   CLEAN & BEAUTIFUL CHAT AREA BUBBLES
-   ======================================= */
-
-/* Remove default Streamlit message containers styles */
-[data-testid="stChatMessage"] {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-/* User Message Box */
-.user-msg-box {
-    background: #ffffff !important;
-    border-radius: 18px 18px 0px 18px;
-    border: 1px solid #e5e7eb !important;
-    padding: 14px 18px;
-    color: #1f2937;
-    font-size: 16px;
-    line-height: 1.6;
-    display: inline-block;
-    max-width: 85%;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-}
-
-/* Bot Message Box */
-.bot-msg-box {
-    background: #f0fdf4 !important;
-    /* Soft Green tint for standard operational answers */
-    border-radius: 18px 18px 18px 0px;
-    border: 1.5px solid #bbf7d0 !important;
-    padding: 14px 18px;
-    color: #111827;
-    font-size: 16px;
-    line-height: 1.6;
-    display: inline-block;
-    max-width: 90%;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    background: rgba(255, 87, 34, 0.15) !important;
+    border-color: #ff5722 !important;
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.3) !important;
 }
 
 /* =======================================
    SCROLLABLE CONTAINER & DOCKING INPUT
    ======================================= */
 
-/* Scrollable messages box with top border and top rounded corners */
+/* Scrollable messages box with neon border and rounded top corners */
 div[data-testid="stChatMessageContainer"] {
-    border: 2.5px solid #0284c7 !important;
+    border: 2px solid rgba(255, 87, 34, 0.5) !important;
     border-bottom: none !important;
     border-radius: 16px 16px 0 0 !important;
-    background: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(10px);
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(12px);
     padding: 20px !important;
-    box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
     overflow-y: auto !important;
     margin-bottom: 0px !important;
 }
@@ -226,7 +197,8 @@ div[data-testid="stChatMessageContainer"] {
 /* Chat Input docked directly below the messages container, forming a unified border */
 [data-testid="stBottom"] {
     position: fixed !important;
-    bottom: 55px !important; /* aligned directly above fixed footer */
+    bottom: 55px !important;
+    /* aligned directly above fixed footer */
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 100% !important;
@@ -237,16 +209,80 @@ div[data-testid="stChatMessageContainer"] {
 }
 
 [data-testid="stChatInput"] {
-    border: 2.5px solid #0284c7 !important;
-    border-top: 1px solid rgba(2, 132, 199, 0.15) !important;
+    border: 2px solid rgba(255, 87, 34, 0.5) !important;
+    border-top: 1px solid rgba(255, 87, 34, 0.15) !important;
     border-radius: 0 0 16px 16px !important;
-    background: white !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
-    padding: 4px 8px !important;
+    background: rgba(17, 24, 39, 0.95) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    padding: 4px 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Input Focus outline and glow */
+[data-testid="stChatInput"]:focus-within {
+    border-color: #ff5722 !important;
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.4) !important;
 }
 
 [data-testid="stChatInputTextArea"] {
     font-size: 16px !important;
+    color: #ffffff !important;
+}
+
+/* =======================================
+   CLEAN & FUTURISTIC CHAT BUBBLES
+   ======================================= */
+
+/* Remove default Streamlit message containers styles */
+[data-testid="stChatMessage"] {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Smooth entrance keyframes for bubbles */
+@keyframes bubbleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* User Message Box (Modern iOS/Futuristic Dark Orange tint) */
+.user-msg-box {
+    background: rgba(255, 87, 34, 0.15) !important;
+    border-radius: 18px 18px 0px 18px;
+    border: 1px solid rgba(255, 87, 34, 0.35) !important;
+    padding: 14px 18px;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.6;
+    display: inline-block;
+    max-width: 85%;
+    box-shadow: 0 4px 15px rgba(255, 87, 34, 0.1);
+    backdrop-filter: blur(4px);
+    animation: bubbleFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Bot Message Box (Tactical Slate/Frosted glass effect) */
+.bot-msg-box {
+    background: rgba(30, 41, 59, 0.45) !important;
+    border-radius: 18px 18px 18px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 14px 18px;
+    color: #f3f4f6;
+    font-size: 16px;
+    line-height: 1.6;
+    display: inline-block;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+    animation: bubbleFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* FIXED FOOTER anchored at the absolute bottom of viewport */
@@ -256,27 +292,28 @@ div[data-testid="stChatMessageContainer"] {
     left: 0 !important;
     width: 100% !important;
     height: 55px !important;
-    background: #01579b !important;
+    background: #090c15 !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px 10px !important;
     border-radius: 0 !important;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
     z-index: 1001 !important;
     margin-top: 0 !important;
 }
 
 .footer-text-main {
-    color: white !important;
+    color: #e5e7eb !important;
     font-weight: 750;
     font-size: 14px;
     opacity: 0.95;
 }
 
 .footer-text-sub {
-    color: #e0f2fe !important;
+    color: #9ca3af !important;
     margin-top: 2px;
     font-size: 11px;
     font-weight: 500;
