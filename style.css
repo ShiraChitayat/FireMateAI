@@ -35,7 +35,7 @@ body,
 /* MAIN CONTAINER styling */
 .block-container {
     padding-top: 30px !important;
-    padding-bottom: 50px !important;
+    padding-bottom: 220px !important;
     max-width: 850px !important;
 }
 
@@ -206,20 +206,42 @@ div.stButton>button[key*="lang_toggle"]:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 }
 
-/* Chat Input styling overrides */
-[data-testid="stBottom"] {
-    background-color: transparent !important;
+/* =======================================
+   SCROLLABLE CONTAINER & DOCKING INPUT
+   ======================================= */
+
+/* Scrollable messages box with top border and top rounded corners */
+div[data-testid="stChatMessageContainer"] {
+    border: 2.5px solid #0284c7 !important;
+    border-bottom: none !important;
+    border-radius: 16px 16px 0 0 !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px);
+    padding: 20px !important;
+    box-shadow: 0 10px 25px rgba(2, 132, 199, 0.05) !important;
+    overflow-y: auto !important;
+    margin-bottom: 0px !important;
 }
 
-[data-testid="stBottom"]>div {
+/* Chat Input docked directly below the messages container, forming a unified border */
+[data-testid="stBottom"] {
+    position: fixed !important;
+    bottom: 55px !important; /* aligned directly above fixed footer */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 850px !important;
+    padding: 0 15px !important;
     background-color: transparent !important;
+    z-index: 1000 !important;
 }
 
 [data-testid="stChatInput"] {
-    border-radius: 16px !important;
+    border: 2.5px solid #0284c7 !important;
+    border-top: 1px solid rgba(2, 132, 199, 0.15) !important;
+    border-radius: 0 0 16px 16px !important;
     background: white !important;
-    border: 1px solid #cbd5e1 !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
     padding: 4px 8px !important;
 }
 
@@ -227,32 +249,36 @@ div.stButton>button[key*="lang_toggle"]:hover {
     font-size: 16px !important;
 }
 
-/* SCROLLABLE FOOTER styling */
+/* FIXED FOOTER anchored at the absolute bottom of viewport */
 .custom-footer {
-    position: relative;
-    margin-top: 60px;
-    width: 100%;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 55px !important;
     background: #01579b !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 24px 10px;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+    padding: 10px 10px !important;
+    border-radius: 0 !important;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1001 !important;
+    margin-top: 0 !important;
 }
 
 .footer-text-main {
     color: white !important;
     font-weight: 750;
-    font-size: 16px;
+    font-size: 14px;
     opacity: 0.95;
 }
 
 .footer-text-sub {
     color: #e0f2fe !important;
-    margin-top: 4px;
-    font-size: 13px;
+    margin-top: 2px;
+    font-size: 11px;
     font-weight: 500;
     opacity: 0.85;
-}
+} 
