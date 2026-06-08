@@ -1,214 +1,258 @@
 /* Hide Streamlit default elements */
-[data-testid="stSidebarCollapseButton"], 
-[data-testid="stSidebar"] { 
-    display: none !important; 
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebar"] {
+    display: none !important;
 }
 
-#MainMenu, footer, header { 
-    visibility: hidden !important; 
+#MainMenu,
+footer,
+header {
+    visibility: hidden !important;
 }
 
-.stApp > header { 
-    background-color: transparent !important; 
+.stApp>header {
+    background-color: transparent !important;
 }
 
-/* GLOBAL FONT */
+/* GLOBAL FONT & CORE DESIGN */
 * {
     font-family: 'Segoe UI', 'Arial', sans-serif !important;
     box-sizing: border-box;
 }
 
-/* APP BACKGROUND */
-html, body, .stApp {
+/* APP BACKGROUND WITH VIBRANT GRADIENT */
+html,
+body,
+.stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #e1f5fe !important; /* Beautiful Light Azure */
-    direction: rtl !important;
-    text-align: right !important;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%) !important;
     color: #1f2937 !important;
+    min-height: 100vh;
 }
 
-/* MAIN CONTAINER */
+/* MAIN CONTAINER styling */
 .block-container {
-    padding-top: 80px !important;
-    padding-bottom: 50px !important; 
-    max-width: 900px !important;
+    padding-top: 30px !important;
+    padding-bottom: 50px !important;
+    max-width: 850px !important;
 }
 
-/* HEADER */
-.custom-header {
-    background: #01579b !important; /* Dark Blue */
-    padding: 16px 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 99999;
-}
-
-.header-logo {
-    font-size: 26px;
-    font-weight: 800;
-    color: white !important; 
+/* HEADER BRAND LOGO */
+.brand-logo {
+    font-size: 32px;
+    font-weight: 900;
+    color: #01579b !important;
     letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
 }
 
 /* TITLES */
 .main-title {
-    font-size: 64px;
-    font-weight: 900;
+    font-size: 56px;
+    font-weight: 950;
     color: #01579b !important;
-    margin-top: 20px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 2px;
     text-align: center !important;
+    letter-spacing: -0.5px;
 }
 
 .hero-brand-name {
-    font-size: 34px !important;
-    font-weight: 800;
+    font-size: 26px !important;
+    font-weight: 850;
     color: #e65100 !important;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
     text-align: center !important;
 }
 
-/* INFO SECTION */
+/* INFO SECTION WITH PREMIUM GLASSMORPHISM */
 .info-section-transparent {
-    background: transparent !important;
-    margin-bottom: 45px;
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
 }
 
 .info-title-large {
-    font-size: 34px !important;
+    font-size: 24px !important;
     font-weight: 800;
     color: #01579b !important;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     text-align: center !important;
 }
 
 .info-text-large {
-    font-size: 22px !important;
+    font-size: 18px !important;
     font-weight: 500;
-    color: #333333 !important;
-    line-height: 1.8;
+    color: #374151 !important;
+    line-height: 1.7;
     text-align: center !important;
 }
 
-/* SAMPLE TITLE */
-.sample-heading {
-    font-size: 22px !important;
-    color: #01579b !important;
+/* PROGRESS BAR LABEL */
+.progress-label {
+    font-size: 16px;
     font-weight: 700;
-    margin-top: 20px !important;
-    margin-bottom: 25px !important;
+    color: #0284c7;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* SAMPLE HEADINGS */
+.sample-heading {
+    font-size: 18px !important;
+    color: #01579b !important;
+    font-weight: 750;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
     text-align: center !important;
 }
 
-/* BUTTONS */
-div.stButton > button {
+/* STYLISH STREAMLIT BUTTONS */
+div.stButton>button {
     width: 100% !important;
     background: white !important;
-    color: #e65100 !important;
-    border: 2px solid #e65100 !important;
-    border-radius: 22px !important;
-    padding: 14px 18px !important;
-    font-size: 16px !important;
+    color: #0284c7 !important;
+    border: 1.5px solid #e0f2fe !important;
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
+    font-size: 15px !important;
     font-weight: 700 !important;
-    transition: all 0.25s ease !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
 }
 
-div.stButton > button:hover {
+div.stButton>button:hover {
+    background: #0284c7 !important;
+    color: white !important;
+    border-color: #0284c7 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.2) !important;
+}
+
+/* RESET BUTTON - SPECIAL ORANGE THEME */
+div.stButton>button[key*="reset_chat"] {
+    background: rgba(230, 81, 0, 0.08) !important;
+    color: #e65100 !important;
+    border: 1.5px solid rgba(230, 81, 0, 0.3) !important;
+}
+
+div.stButton>button[key*="reset_chat"]:hover {
     background: #e65100 !important;
     color: white !important;
-    transform: translateY(-3px) scale(1.02);
+    border-color: #e65100 !important;
+    box-shadow: 0 10px 15px -3px rgba(230, 81, 0, 0.3) !important;
 }
 
-/* =========================
-   CLEAN CHAT AREA BUBBLES
-========================= */
+/* LANGUAGE TOGGLE - COMPACT GLASS THEME */
+div.stButton>button[key*="lang_toggle"] {
+    border-radius: 20px !important;
+    font-size: 14px !important;
+    padding: 6px 12px !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(1, 87, 155, 0.2) !important;
+    color: #01579b !important;
+}
 
-/* Remove default white sheet container from Streamlit chat rows */
+div.stButton>button[key*="lang_toggle"]:hover {
+    background: #01579b !important;
+    color: white !important;
+    border-color: #01579b !important;
+}
+
+/* =======================================
+   CLEAN & BEAUTIFUL CHAT AREA BUBBLES
+   ======================================= */
+
+/* Remove default Streamlit message containers styles */
 [data-testid="stChatMessage"] {
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
 }
 
-/* User Message Box: Light green background, clean border */
+/* User Message Box */
 .user-msg-box {
-    background-color: #e8f5e9 !important; 
-    border: 1.5px solid #2e7d32 !important; 
-    padding: 15px 20px;
-    border-radius: 14px;
+    background: #ffffff !important;
+    border-radius: 18px 18px 0px 18px;
+    border: 1px solid #e5e7eb !important;
+    padding: 14px 18px;
     color: #1f2937;
-    font-size: 18px;
-    text-align: right;
+    font-size: 16px;
+    line-height: 1.6;
     display: inline-block;
+    max-width: 85%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 }
 
-/* Bot Message Box: Light orange background, clean border */
+/* Bot Message Box */
 .bot-msg-box {
-    background-color: #fff3e0 !important; 
-    border: 1.5px solid #f57c00 !important; 
-    padding: 15px 20px;
-    border-radius: 14px;
-    color: #1f2937;
-    font-size: 18px;
-    text-align: right;
+    background: #f0fdf4 !important;
+    /* Soft Green tint for standard operational answers */
+    border-radius: 18px 18px 18px 0px;
+    border: 1.5px solid #bbf7d0 !important;
+    padding: 14px 18px;
+    color: #111827;
+    font-size: 16px;
+    line-height: 1.6;
     display: inline-block;
+    max-width: 90%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 }
 
-/* CHAT INPUT AREA SETUP */
+/* Chat Input styling overrides */
 [data-testid="stBottom"] {
-    background-color: #e1f5fe !important; 
+    background-color: transparent !important;
 }
-[data-testid="stBottom"] > div {
-    background-color: #e1f5fe !important; 
+
+[data-testid="stBottom"]>div {
+    background-color: transparent !important;
 }
 
 [data-testid="stChatInput"] {
-    direction: rtl !important;
-    text-align: right !important;
-    border-radius: 24px !important;
-    background: #e1f5fe !important; 
-    border: 1.5px solid #01579b !important; 
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+    border-radius: 16px !important;
+    background: white !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03) !important;
+    padding: 4px 8px !important;
 }
 
 [data-testid="stChatInputTextArea"] {
-    direction: rtl !important;
-    text-align: right !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
 }
 
-/* DYNAMIC SCROLL FOOTER (Appears at the absolute bottom) */
+/* SCROLLABLE FOOTER styling */
 .custom-footer {
-    position: relative; 
-    margin-top: 80px; 
+    position: relative;
+    margin-top: 60px;
     width: 100%;
-    background: #01579b !important; 
+    background: #01579b !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px 10px;
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+    padding: 24px 10px;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .footer-text-main {
     color: white !important;
-    font-weight: 800;
-    font-size: 18px;
+    font-weight: 750;
+    font-size: 16px;
+    opacity: 0.95;
 }
 
 .footer-text-sub {
-    color: white !important;
-    margin-top: 6px;
-    font-size: 15px;
+    color: #e0f2fe !important;
+    margin-top: 4px;
+    font-size: 13px;
     font-weight: 500;
-} 
+    opacity: 0.85;
+}
