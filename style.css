@@ -1,54 +1,49 @@
-/* Core setup & Hide Streamlit elements */
-[data-testid="stSidebarCollapseButton"], [data-testid="stSidebar"] { display: none !important; }
-#MainMenu, footer, header { visibility: hidden !important; }
-.stApp > header { background-color: transparent !important; }
-
-/* Force standard Segoe UI Font and Right-To-Left Alignment Globally */
-* {
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
+/* Hide Streamlit default elements */
+[data-testid="stSidebarCollapseButton"], 
+[data-testid="stSidebar"] { 
+    display: none !important; 
 }
 
-/* Beautiful Light Blue / Azure Background */
+#MainMenu, footer, header { 
+    visibility: hidden !important; 
+}
+
+.stApp > header { 
+    background-color: transparent !important; 
+}
+
+/* GLOBAL FONT */
+* {
+    font-family: 'Segoe UI', 'Arial', sans-serif !important;
+    box-sizing: border-box;
+}
+
+/* APP BACKGROUND */
 html, body, .stApp {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: #e1f5fe !important; /* תכלת בהיר ומקסים */
+    background-color: #e1f5fe !important; /* Beautiful Light Azure */
     direction: rtl !important;
     text-align: right !important;
-    color: #222222 !important; /* מונע מהטקסט להפוך ללבן גם במובייל */
+    color: #1f2937 !important;
 }
 
-/* Force layout alignment on markdown cells */
-.stMarkdown, .stText, p, div, input, textarea, ul, ol, li {
-    direction: rtl !important;
-    text-align: right !important;
-    color: #222222 !important;
-}
-
-/* Ensure lists (1-4) are perfectly right-aligned with bullets inside */
-ul, ol {
-    list-style-position: inside !important;
-    padding-right: 5px !important;
-    margin-right: 0 !important;
-}
-
+/* MAIN CONTAINER */
 .block-container {
-    direction: rtl !important;
-    text-align: right !important;
-    padding-top: 60px !important;
-    padding-bottom: 150px !important; /* Huge padding so the chat doesn't go under the footer */
-    max-width: 750px !important;
+    padding-top: 80px !important;
+    padding-bottom: 50px !important; 
+    max-width: 900px !important;
 }
 
-/* STICKY HEADER Configuration */
+/* HEADER */
 .custom-header {
-    background: #ffffff;
-    padding: 15px 5%;
+    background: #01579b !important; /* Dark Blue */
+    padding: 16px 5%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
     position: fixed;
     top: 0;
     left: 0;
@@ -57,251 +52,163 @@ ul, ol {
 }
 
 .header-logo {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 800;
-    color: #e65100 !important;
+    color: white !important; 
     letter-spacing: 0.5px;
 }
 
-/* MAIN PAGE TITLE */
+/* TITLES */
 .main-title {
-    font-size: 52px;
+    font-size: 64px;
     font-weight: 900;
     color: #01579b !important;
-    text-align: center !important;
-    width: 100% !important;
+    margin-top: 20px;
     margin-bottom: 5px;
-    margin-top: 15px;
-}
-
-/* Hero Section */
-.hero-section {
-    background-color: transparent !important;
-    padding: 10px 20px;
     text-align: center !important;
-    margin-bottom: 25px;
-    box-shadow: none !important;
 }
 
 .hero-brand-name {
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
-    font-size: 38px !important;
-    font-weight: 700 !important;
+    font-size: 34px !important;
+    font-weight: 800;
     color: #e65100 !important;
-    margin-bottom: 12px;
+    margin-bottom: 35px;
     text-align: center !important;
 }
 
-.hero-subtitle {
-    font-size: 20px !important;
-    font-weight: 600;
-    color: #333333 !important;
-    line-height: 1.5;
-    text-align: center !important;
+/* INFO SECTION */
+.info-section-transparent {
+    background: transparent !important;
+    margin-bottom: 45px;
 }
 
-/* Marketing Info block */
-.info-section {
-    background: #ffffff !important;
-    padding: 25px !important;
-    text-align: center !important;
-    border-radius: 12px !important;
-    color: #333333 !important;
-    font-size: 18px !important;
-    font-weight: 500 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-    margin-bottom: 30px !important;
-}
-
-.info-title {
-    font-family: 'Segoe UI', system-ui, sans-serif !important;
-    font-size: 26px !important;
-    font-weight: 700 !important;
+.info-title-large {
+    font-size: 34px !important;
+    font-weight: 800;
     color: #01579b !important;
+    margin-bottom: 18px;
     text-align: center !important;
-    width: 100% !important;
-    margin-bottom: 12px;
 }
 
+.info-text-large {
+    font-size: 22px !important;
+    font-weight: 500;
+    color: #333333 !important;
+    line-height: 1.8;
+    text-align: center !important;
+}
+
+/* SAMPLE TITLE */
 .sample-heading {
-    font-size: 18px !important;
+    font-size: 22px !important;
     color: #01579b !important;
     font-weight: 700;
-    margin-top: 15px !important;
-    margin-bottom: 15px !important;
-    text-align: right !important;
+    margin-top: 20px !important;
+    margin-bottom: 25px !important;
+    text-align: center !important;
 }
 
-/* Elegant Buttons */
+/* BUTTONS */
 div.stButton > button {
     width: 100% !important;
-    background-color: #ffffff !important;
+    background: white !important;
     color: #e65100 !important;
     border: 2px solid #e65100 !important;
-    border-radius: 20px !important;
-    padding: 12px 15px !important;
+    border-radius: 22px !important;
+    padding: 14px 18px !important;
     font-size: 16px !important;
     font-weight: 700 !important;
-    transition: all 0.3s ease !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.04);
 }
 
 div.stButton > button:hover {
-    background-color: #e65100 !important;
-    color: #ffffff !important;
-    transform: translateY(-2px) !important;
+    background: #e65100 !important;
+    color: white !important;
+    transform: translateY(-3px) scale(1.02);
 }
 
-/* Base Chat Bubbles Styling */
+/* =========================
+   CLEAN CHAT AREA BUBBLES
+========================= */
+
+/* Remove default white sheet container from Streamlit chat rows */
 [data-testid="stChatMessage"] {
-    direction: rtl !important;
-    text-align: right !important;
-    border-radius: 16px !important;
-    padding: 18px !important;
-    margin-bottom: 15px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-    font-size: 16px !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-/* BOT (Assistant) Bubble Color - LIGHT ORANGE WITH FULL DARK ORANGE BORDER */
-[data-testid="stChatMessage"]:has(.bot-msg-flag) {
-    background-color: #fff3e0 !important;
-    border: 3px solid #f57c00 !important;
+/* User Message Box: Light green background, clean border */
+.user-msg-box {
+    background-color: #e8f5e9 !important; 
+    border: 1.5px solid #2e7d32 !important; 
+    padding: 15px 20px;
+    border-radius: 14px;
+    color: #1f2937;
+    font-size: 18px;
+    text-align: right;
+    display: inline-block;
 }
 
-/* USER Bubble Color - LIGHT GREEN WITH FULL DARK GREEN BORDER */
-[data-testid="stChatMessage"]:has(.user-msg-flag) {
-    background-color: #e8f5e9 !important;
-    border: 3px solid #2e7d32 !important;
+/* Bot Message Box: Light orange background, clean border */
+.bot-msg-box {
+    background-color: #fff3e0 !important; 
+    border: 1.5px solid #f57c00 !important; 
+    padding: 15px 20px;
+    border-radius: 14px;
+    color: #1f2937;
+    font-size: 18px;
+    text-align: right;
+    display: inline-block;
 }
 
-/* הפס התחתון הראשי שמכיל את התיבה */
+/* CHAT INPUT AREA SETUP */
 [data-testid="stBottom"] {
-    margin-bottom: 75px !important; 
-    z-index: 100 !important;
-    background-color: #e1f5fe !important; /* רקע תכלת לכל הפס התחתון */
+    background-color: #e1f5fe !important; 
 }
 [data-testid="stBottom"] > div {
-    background-color: transparent !important;
+    background-color: #e1f5fe !important; 
 }
 
-/* המסגרת החיצונית של תיבת ההקלדה - תמיד כתומה */
 [data-testid="stChatInput"] {
-    border: 2px solid #2e7d32 !important;
-    border-radius: 20px !important;
-    background-color: #ffffff !important;
-    overflow: hidden !important;
+    direction: rtl !important;
+    text-align: right !important;
+    border-radius: 24px !important;
+    background: #e1f5fe !important; 
+    border: 1.5px solid #01579b !important; 
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
 }
 
-/* מחיקת הרקע השחור האוטומטי של Streamlit במובייל בתוך התיבה */
-[data-testid="stChatInput"] * {
-    background-color: transparent !important;
-    color: #222222 !important;
+[data-testid="stChatInputTextArea"] {
+    direction: rtl !important;
+    text-align: right !important;
+    font-size: 18px !important;
 }
 
-/* הכרחת התיבה הפנימית ביותר להיות עם רקע לבן וטקסט שחור */
-[data-testid="stChatInputTextArea"], 
-div[data-baseweb="textarea"], 
-[data-testid="stChatInput"] textarea {
-    background-color: #ffffff !important;
-    color: #222222 !important;
-    -webkit-text-fill-color: #222222 !important; /* פקודה מיוחדת שמכריחה סמארטפונים להציג טקסט כהה */
-}
-
-/* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
-div[data-testid="stSpinner"], div.stSpinner, div[data-testid="stAlert"] {
-    background-color: #ffffff !important; /* <--- משנה את הרקע ללבן נקי (אפשר להחליף לכל צבע) */
-    background: #ffffff !important;
-    border: 1px solid #e0e0e0 !important; /* מסגרת אפורה עדינה */
-    border-radius: 10px !important; /* עיגול פינות שיתאים לצ'אט */
-    padding: 10px !important;
-}
-
-/* מוודא שכל תתי-האלמנטים בפנים יהיו שקופים ולא יקבלו צבע תכלת מובנה */
-div[data-testid="stSpinner"] > div, div.stSpinner > div, div[data-testid="stAlert"] > div {
-    background-color: transparent !important;
-    background: transparent !important;
-}
-
+/* DYNAMIC SCROLL FOOTER (Appears at the absolute bottom) */
 .custom-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative; 
+    margin-top: 80px; 
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    color: #01579b !important;
+    background: #01579b !important; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px 10px;
-    border-top: 1px solid #eeeeee;
-    direction: rtl !important;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-    z-index: 9999;
+    padding: 30px 10px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
 }
 
-.custom-footer div {
-    color: #01579b !important;
-    text-align: center !important;
-    width: 100% !important;
+.footer-text-main {
+    color: white !important;
+    font-weight: 800;
+    font-size: 18px;
 }
 
-
-/* =========================================
-   התאמה למסכים קטנים ומובייל (רספונסיביות)
-   ========================================= */
-@media (max-width: 768px) {
-    /* הקטנת כותרות ראשיות */
-    .main-title {
-        font-size: 32px !important;
-        margin-top: 25px !important;
-    }
-    .hero-brand-name {
-        font-size: 24px !important;
-    }
-    .hero-subtitle {
-        font-size: 16px !important;
-    }
-    
-    /* הקטנת קוביית המידע (אזור מיושב | תעשייתי | פתוח) */
-    .info-section {
-        padding: 15px !important;
-        font-size: 13px !important;
-        line-height: 1.8 !important;
-    }
-    .info-title {
-        font-size: 20px !important;
-    }
-    
-    /* כיווץ כפתורים והוראות - מניעת ירידת שורה */
-    .sample-heading {
-        font-size: 12.5px !important;
-        white-space: nowrap !important;
-        text-align: center !important;
-    }
-    div.stButton > button {
-        font-size: 14px !important;
-        padding: 8px 10px !important;
-    }
-    
-    /* הקטנת בועות הצ'אט כדי שיתאימו למסך צר */
-    [data-testid="stChatMessage"] {
-        font-size: 15px !important;
-        padding: 12px !important;
-        margin-bottom: 10px !important;
-    }
-    
-    /* סידור ההאדר (הפס העליון) */
-    .custom-header {
-        padding: 10px 5% !important;
-    }
-    .header-logo {
-        font-size: 20px !important;
-    }
-
-    .custom-footer div {
-        font-size: 12px !important;
-        white-space: nowrap !important;
-    }
-}
+.footer-text-sub {
+    color: white !important;
+    margin-top: 6px;
+    font-size: 15px;
+    font-weight: 500;
+} 
