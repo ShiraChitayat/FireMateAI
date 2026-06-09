@@ -20,16 +20,21 @@ if not api_key:
         api_key = ""
 
 system_instruction = """
-אתה FireMate AI, סוכן חכם תומך החלטות לניהול אירועי חירום ושריפות בזמן אמת. פעל תמיד כמוקדן חירום אנושי, מקצועי וטבעי (ולא כבוט רובוטי מבוסס חוקים).
+אתה FireMate AI, סוכן חכם תומך החלטות לניהול אירועי חירום ושריפות בזמן אמת. פעל תמיד כמוקדן חירום אנושי, מקצועי וטבעי.
 
-הנחיות הפעולה שלך:
-1. איסוף נתונים שיחתי: עליך לנהל שיחה טבעית וזורמת עם המשתמש כדי לאסוף מידע חיוני (תוואי שטח, גודל השריפה, מיקום האירוע, סיבה להתפרצות). קריטי: שאל רק שאלה אחת בכל פעם, והמתן לתשובת המשתמש. אל תציג "הודעות שגיאה" על מידע חסר, אלא שאל בנימוס ובאופן טבעי להשלמת הפרטים.
-2. התאמה חכמה והיסטורית: לאחר איסוף כלל הנתונים, הפק תוכנית פעולה טקטית ומותאמת אישית (מבוססת על דמיון קוסינוס לאירועי עבר). עליך לציין למה הפרוטוקול מותאם ספציפית למיקום ולשטח (למשל סכנות כימיות בחיפה לעומת בעיות לחץ מים בירושלים).
-3. שימוש בבסיס ידע לטלפונים: שלב בתוכנית הפעולה את מספרי החירום המתאימים לתוואי השטח:
+חובה עליך לאסוף את 4 הנתונים הבאים מהמשתמש לפני מתן ההנחיות הסופיות:
+1. תוואי שטח (מגורים, תעשייה, או שטח פתוח)
+2. גודל השריפה (קטנה, בינונית, גדולה, ענקית)
+3. מיקום מדויק (עיר/אזור)
+4. סיבה להתפרצות (אם ידועה)
+
+כללים קריטיים לניהול השיחה:
+- שאל רק שאלה אחת בכל פעם, והמתן לתשובת המשתמש.
+- בשום פנים ואופן אל תפיק את תוכנית הפעולה הסופית עד שכל 4 הנתונים נאספו.
+- לאחר שכל הנתונים נאספו, הפק תוכנית פעולה טקטית ומותאמת אישית (מבוססת על דמיון קוסינוס לאירועי עבר), ושלב את בסיס הידע של הטלפונים:
    - מגורים 🏘️: משטרה (100), מד"א (101), מוקד עירוני (106), חברת חשמל (103), פיקוד העורף (104).
    - תעשייה 🏭: משטרה (100), מד"א (101), מוקד עירוני (106), חומ"ס (*6911), חברת חשמל (103).
-   - שטח פתוח 🌲: משטרה (100), מד"א (101), מוקד עירוני (106), מוקד קק"ל (1-800-350-550), רשות הטבע והגנים (*3639).
-4. שפה ותיקון שגיאות: הבן שגיאות כתיב וערבוב שפות (עברית ואנגלית). ענה תמיד בעברית רהוטה ומקצועית.
+   - שטח פתוח 🌲: משטרה (100), מד"א (101), מוקד עירוני (106), מוקד קק"ל (1-800-350-550), רט"ג (*3639).
 """
 
 class FireMateAgent:
@@ -57,7 +62,7 @@ class FireMateAgent:
                 self.model = genai.GenerativeModel(best_model)
                 self.chat = self.model.start_chat(history=[
                     {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות?"]},
-                    {"role": "model", "parts": ["הבנתי. אני FireMate AI, מוכן ומזומן לפעול כמוקדן חירום אנושי ומקצועי בעברית, לשאול שאלות אחת-אחת, ולהפיק תוכנית פעולה טקטית לפי ההנחיות."]}
+                    {"role": "model", "parts": ["הבנתי. אני FireMate AI, מוכן ומזומן לפעול כמוקדן חירום אנושי ומקצועי בעברית, לשאול שאלות אחת-אחת, ולהפיק תוכנית פעולה טקטית רק לאחר שכל המידע נאסף."]}
                 ])
         except Exception as e:
             self.chat = None
@@ -70,7 +75,10 @@ class FireMateAgent:
             response = self.chat.send_message(user_input)
             return response.text
         except Exception as e:
-            return f"שגיאה בתקשורת עם השרת: {str(e)}"
+            err_str = str(e)
+            if "429" in err_str or "Quota" in err_str:
+                return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** בגלל שזו גרסה חינמית של המודל, אנא המתן דקה אחת ושלח את ההודעה שוב."
+            return f"שגיאה בתקשורת עם השרת: {err_str}"
 
 # --- Page Configuration ---
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
@@ -86,7 +94,7 @@ except Exception:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# פתרון השכחה: שמירת הסוכן בזיכרון של המערכת כדי שלא ייווצר מחדש בכל הודעה
+# פתרון השכחה: שמירת הסוכן בזיכרון של המערכת
 if "firemate_agent" not in st.session_state:
     st.session_state.firemate_agent = FireMateAgent(api_key, system_instruction)
 
@@ -94,41 +102,41 @@ agent = st.session_state.firemate_agent
 
 # App Header / Hero Section
 st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
-st.markdown("<div class='hero-brand-name'>יש שריפה באזורך? 🔥</div>", unsafe_allow_html=True)
+st.markdown("<div class='hero-brand-name'>יש שריפה באזור? דיווח מבצעי מהיר 🔥</div>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="info-section-transparent">
     <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
     <div class="info-text-large">
         מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות אופרטיביות לפי שלושה אזורים:<br>
-        <b>מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
+        <b>שריפה בשטח בנוי 🏘️ &nbsp;|&nbsp; שריפה באזור תעשייה 🏭 &nbsp;|&nbsp; שריפה בשטח פתוח 🌲</b>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # Welcome Message Initialization
 if not st.session_state.messages:
-    st.session_state.messages = [{"role": "assistant", "content": "שלום, אני סוכן FireMate AI שלך ואשאל אותך מספר שאלות קצרות כדי לסייע לך היום"}]
+    st.session_state.messages = [{"role": "assistant", "content": "שלום, אני סוכן FireMate AI שלך ואשאל אותך מספר שאלות קצרות כדי לסייע לך היום."}]
 
-# Quick-start preset buttons (Examples)
+# Quick-start preset buttons - יופיעו רק בתחילת השיחה!
 click_query = ""
-st.markdown("<div class='sample-heading'>בחר תרחיש לדוגמה להתחלה:</div>", unsafe_allow_html=True)
-c1, c2, c3 = st.columns(3)
-with c1:
-    if st.button("🏘️ שריפה בשטח בנוי", key="btn_urban"):
-        click_query = "היי, יש שריפה בירושלים"
-with c2:
-    if st.button("🏭 שריפה באזור תעשייה", key="btn_industrial"):
-        click_query = "היי, יש שריפה בחיפה"
-with c3:
-    if st.button("🌲 שריפה בשטח פתוח", key="btn_wildfire"):
-        click_query = "היי, יש שריפת יער בכרמל"
+if len(st.session_state.messages) == 1:
+    st.markdown("<div class='sample-heading'>התחילו לדבר עם הסוכן החכם, לנוחיותכם דוגמאות לדיווחים שתוכלו להזין:</div>", unsafe_allow_html=True)
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        if st.button("🏘️ שריפה בשטח בנוי", key="btn_urban"):
+            click_query = "היי, יש שריפה בדירה בקריית אונו"
+    with c2:
+        if st.button("🏭 שריפה באזטר תעשייה", key="btn_industrial"):
+            click_query = "שלום, יש שריפה באזור התעשייה בחיפה"
+    with c3:
+        if st.button("🌲 שריפה בשטח פתוח", key="btn_wildfire"):
+            click_query = "היי, יש שריפה ביערות הכרמל"
 
 # Reset Chat Button
 st.markdown("<br>", unsafe_allow_html=True)
 if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
     st.session_state.messages = []
-    # מחיקת הסוכן הקיים ויצירת אחד חדש כדי למחוק לו את הזיכרון
     if "firemate_agent" in st.session_state:
         del st.session_state.firemate_agent
     st.rerun()
@@ -141,7 +149,7 @@ for message in st.session_state.messages:
         st.markdown(f"<div class='{css_class}'></div> {message['content']}", unsafe_allow_html=True)
 
 # User Input Processing
-user_query = st.chat_input("הקלד את הדיווח שלך (זכור לכלול: תוואי שטח, גודל, מיקום, סיבה)...")
+user_query = st.chat_input("הקלד את הדיווח שלך או ענה לסוכן כאן...")
 if click_query:
     user_query = click_query
 
@@ -155,7 +163,7 @@ if user_query:
         # 2. Typing indicator (Bot thinking)
         with st.chat_message("assistant", avatar="🤖"):
             with st.spinner("הסוכן מנתח נתונים ומקליד תשובה... 💬"):
-                time.sleep(1.5)  # Slight pause to simulate thinking
+                time.sleep(1.5)
                 response = agent.generate_tactical_response(user_query)
                 st.markdown(f"<div class='bot-msg-flag'></div> {response}", unsafe_allow_html=True)
 
