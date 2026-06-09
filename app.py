@@ -143,23 +143,34 @@ if st.session_state.lang == "en":
         </style>
     """, unsafe_allow_html=True)
 
-# --- Language Switcher Button (floating on top left) ---
-if st.session_state.lang == "he":
-    lang_btn_text = "English 🌐"
-else:
-    lang_btn_text = "עברית 🌐"
+# --- Header Buttons (Language Switcher & Reset Button) ---
+col_left, col_right = st.columns([1, 1])
 
-st.markdown('<div class="lang-toggle-marker"></div>', unsafe_allow_html=True)
-if st.button(lang_btn_text, key="lang_toggle"):
+with col_left:
     if st.session_state.lang == "he":
-        st.session_state.lang = "en"
+        lang_btn_text = "English 🌐"
     else:
-        st.session_state.lang = "he"
-    
-    current_instruction = system_instruction if st.session_state.lang == "he" else system_instruction_en
-    st.session_state.firemate_agent = FireMateAgent(current_instruction)
-    st.session_state.messages = []
-    st.rerun()
+        lang_btn_text = "עברית 🌐"
+    st.markdown('<div class="lang-toggle-marker"></div>', unsafe_allow_html=True)
+    if st.button(lang_btn_text, key="lang_toggle"):
+        if st.session_state.lang == "he":
+            st.session_state.lang = "en"
+        else:
+            st.session_state.lang = "he"
+        current_instruction = system_instruction if st.session_state.lang == "he" else system_instruction_en
+        st.session_state.firemate_agent = FireMateAgent(current_instruction)
+        st.session_state.messages = []
+        st.rerun()
+
+with col_right:
+    reset_btn_text = "התחל דיווח חדש 🔄" if st.session_state.lang == "he" else "Start New Report 🔄"
+    st.markdown('<div class="reset-marker"></div>', unsafe_allow_html=True)
+    if st.button(reset_btn_text, key="reset_chat"):
+        st.session_state.messages = []
+        if "firemate_agent" in st.session_state:
+            del st.session_state.firemate_agent
+        st.rerun()
+
 
 # App Header / Hero Section
 st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
@@ -229,15 +240,6 @@ if len(st.session_state.messages) == 1:
         with c3:
             if st.button("🌲 Open Area / Carmel", key="btn_wildfire"):
                 click_query = "Hi, there is a forest fire in Carmel"
-
-# כפתור האיפוס מחדש - ממוקם במרכז ומעוצב באמצעות CSS
-reset_btn_text = "התחל דיווח חדש 🔄" if st.session_state.lang == "he" else "Start New Report 🔄"
-st.markdown('<div class="reset-marker"></div>', unsafe_allow_html=True)
-if st.button(reset_btn_text, key="reset_chat"):
-    st.session_state.messages = []
-    if "firemate_agent" in st.session_state:
-        del st.session_state.firemate_agent
-    st.rerun()
 
 # Display Chat History
 for message in st.session_state.messages:

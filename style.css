@@ -185,11 +185,11 @@ div.stButton>button:hover {
 
 /* מיקום ועיצוב כפתור האיפוס - כחול כהה עבה וצף בצד ימין בשוליים */
 div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton {
-    position: absolute !important; /* ברירת מחדל לנייד - יגלול עם הדף */
-    right: 10px !important;
-    top: 15px !important;
-    z-index: 999999 !important;
-    width: auto !important;
+    position: static !important; /* ברירת מחדל לנייד - יגלול עם הדף */
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    margin-top: 10px !important;
 }
 
 div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton>button {
@@ -216,11 +216,11 @@ div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stEl
 
 /* כפתור מעבר שפה צף בצד שמאל בשוליים החיצוניים */
 div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid="stElementContainer"] div.stButton {
-    position: absolute !important; /* ברירת מחדל לנייד - יגלול עם הדף */
-    left: 10px !important;
-    top: 15px !important;
-    z-index: 999999 !important;
-    width: auto !important;
+    position: static !important; /* ברירת מחדל לנייד - יגלול עם הדף */
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    margin-top: 10px !important;
 }
 
 div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid="stElementContainer"] div.stButton>button {
@@ -250,12 +250,16 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
         position: fixed !important;
         left: 20px !important;
         top: 25px !important;
+        z-index: 999999 !important;
+        width: auto !important;
     }
 
     div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton {
         position: fixed !important;
         right: 20px !important;
         top: 25px !important;
+        z-index: 999999 !important;
+        width: auto !important;
     }
 }
 
@@ -341,7 +345,7 @@ div[data-baseweb="textarea"],
     -webkit-text-fill-color: #222222 !important;
 }
 
-/* שינוי צבע הרקע של תיבת הטעינה */
+/* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
 div[data-testid="stSpinner"],
 div.stSpinner,
 div[data-testid="stAlert"] {
