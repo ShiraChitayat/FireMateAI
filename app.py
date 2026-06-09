@@ -93,12 +93,15 @@ agent = st.session_state.firemate_agent
 st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
 st.markdown("<div class='hero-brand-name'>יש שריפה באזור?</div>", unsafe_allow_html=True)
 
+# קוביית המידע המרכזית המשודרגת
 st.markdown("""
 <div class="info-section-transparent">
     <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
     <div class="info-text-large">
         מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
-        <b>מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
+        <span style="display: inline-block; margin-top: 10px;">
+            <b>מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
+        </span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -122,15 +125,16 @@ if len(st.session_state.messages) == 1:
         if st.button("🌲 שטח פתוח / כרמל", key="btn_wildfire"):
             click_query = "היי יש שריפת יער בכרמל"
 
-# Reset Chat Button
-st.markdown("<br>", unsafe_allow_html=True)
+# קונטיינר מיוחד למרכוז ועיצוב כפתור האיפוס מחדש
+st.markdown('<div class="center-reset-container">', unsafe_allow_html=True)
 if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
     st.session_state.messages = []
     if "firemate_agent" in st.session_state:
         del st.session_state.firemate_agent
     st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
-# Display Chat History (שימוש באימוג'ים קבועים כדי למנוע את באג הטקסט הדיפולטיבי)
+# Display Chat History
 for message in st.session_state.messages:
     css_class = "user-msg-flag" if message["role"] == "user" else "bot-msg-flag"
     avatar = "🧑" if message["role"] == "user" else "🤖"
