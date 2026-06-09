@@ -341,7 +341,7 @@ div[data-baseweb="textarea"],
     -webkit-text-fill-color: #222222 !important;
 }
 
-/* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
+/* שינוי צבע הרקע של תיבת הטעינה */
 div[data-testid="stSpinner"],
 div.stSpinner,
 div[data-testid="stAlert"] {
