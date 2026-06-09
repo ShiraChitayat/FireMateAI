@@ -209,6 +209,36 @@ div.stButton>button:hover {
     color: #64748b !important;
 }
 
+/* 1. העלמת הסימון/האייקון של הסוכן (והמשתמש) לחלוטין */
+[data-testid="chatAvatarIcon-user"], 
+[data-testid="chatAvatarIcon-assistant"],
+[data-testid="stChatMessage"] svg,
+[data-testid="stChatMessage"] > div:first-child {
+    display: none !important;
+}
+
+/* 2. עיגול פינות מושלם (כולל הפינה הימנית) לכל בועות הצ'אט, כולל המשתמש */
+[data-testid="stChatMessage"] {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+}
+
+[data-testid="stChatMessage"][data-testid="chat-message-user"] {
+    border-radius: 15px !important;
+}
+
+/* 3. עיצוב בועת המלל החופשי (האינפוט): גבול כתום, עבה ובולט */
+[data-testid="stChatInput"] {
+    border: 3px solid #FF9800 !important;
+    border-radius: 15px !important;
+}
+
+/* הדגשת בועת המלל החופשי באותו צבע כשלוחצים עליה וכותבים */
+[data-testid="stChatInput"]:focus-within {
+    border: 3px solid #FF9800 !important;
+    box-shadow: 0px 0px 10px rgba(255, 152, 0, 0.3) !important;
+} 
+
 /* =========================================================
    6. RESPONSIVENESS & MOBILE OPTIMIZATION
    ========================================================= */
