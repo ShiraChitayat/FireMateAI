@@ -185,7 +185,7 @@ div.stButton>button:hover {
 
 /* מיקום ועיצוב כפתור האיפוס - כחול כהה עבה וצף בצד ימין בשוליים */
 div:has(.reset-marker)+div div.stButton {
-    position: fixed !important;
+    position: absolute !important;
     right: 20px !important;
     top: 25px !important;
     z-index: 999999 !important;
@@ -215,7 +215,7 @@ div:has(.reset-marker)+div div.stButton>button:hover {
 
 /* כפתור מעבר שפה צף בצד שמאל בשוליים החיצוניים */
 div:has(.lang-toggle-marker)+div div.stButton {
-    position: fixed !important;
+    position: absolute !important;
     left: 20px !important;
     top: 25px !important;
     z-index: 999999 !important;
@@ -431,4 +431,4 @@ div[data-testid="stAlert"]>div {
         font-size: 12px !important;
         white-space: nowrap !important;
     }
-} 
+}
