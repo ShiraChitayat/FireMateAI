@@ -125,15 +125,15 @@ ol {
     text-align: center !important;
 }
 
-/* קוביית המידע המרכזית - אלגנטית, נקייה ותואמת לחלוטין לגופן האתר */
+/* שדרוג קוביית המידע המרכזית - אלגנטית, נקייה ותואמת לגופן האתר */
 .info-section-transparent {
-    background-color: #ffffff !important;
+    background: #ffffff !important;
     padding: 25px !important;
     text-align: center !important;
     border-radius: 16px !important;
-    box-shadow: 0 4px 15px rgba(1, 87, 155, 0.06) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
     margin-bottom: 30px !important;
-    border: 1px solid #b3e5fc !important;
+    border: 1px solid #b3e5fc !important; /* מסגרת כחלחלה עדינה מאוד */
 }
 
 .info-title-large {
@@ -142,6 +142,7 @@ ol {
     font-weight: 700 !important;
     color: #01579b !important;
     text-align: center !important;
+    width: 100% !important;
     margin-bottom: 12px !important;
 }
 
@@ -151,14 +152,6 @@ ol {
     color: #374151 !important;
     line-height: 1.7 !important;
     text-align: center !important;
-}
-
-.info-sectors-chips {
-    display: block !important;
-    margin-top: 12px !important;
-    font-weight: 700 !important;
-    color: #01579b !important;
-    font-size: 16px !important;
 }
 
 .sample-heading {
@@ -171,7 +164,7 @@ ol {
 }
 
 /* עיצוב כפתורי התרחישים המקוריים (כתומים) */
-div.stButton>button {
+[data-testid="column"] div.stButton>button {
     width: 100% !important;
     background-color: #ffffff !important;
     color: #e65100 !important;
@@ -183,47 +176,41 @@ div.stButton>button {
     transition: all 0.3s ease !important;
 }
 
-div.stButton>button:hover {
+[data-testid="column"] div.stButton>button:hover {
     background-color: #e65100 !important;
     color: #ffffff !important;
     transform: translateY(-2px) !important;
 }
 
-/* =========================================================
-   מנגנון מרכוז ועיצוב בלעדי לכפתור "התחל דיווח חדש" (כחול כהה עבה)
-   ========================================================= */
-/* מרכוז הקונטיינר של כפתור האיפוס */
-div:has(> #reset-button-hook) + div {
+/* מרכוז ועיצוב כפתור האיפוס - כחול כהה עבה וממורכז */
+div.stButton:not([data-testid="column"] *) {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
-    margin-top: 10px !important;
-    margin-bottom: 20px !important;
+    margin-top: 15px !important;
+    margin-bottom: 25px !important;
 }
 
-/* החלת הגדרות כחולות ועבות אך ורק על כפתור האיפוס */
-div:has(> #reset-button-hook) + div div.stButton > button {
-    background-color: #ffffff !important;
-    color: #01579b !important; /* כחול כהה */
-    border: 4px solid #01579b !important; /* מסגרת כחולה עבה בולטת */
+div.stButton:not([data-testid="column"] *) > button {
+    color: #01579b !important;
+    border: 3.5px solid #01579b !important; /* מסגרת כחולה במקום כתום, עבה יותר */
     border-radius: 20px !important;
-    padding: 12px 40px !important;
+    background-color: #ffffff !important;
     font-size: 16px !important;
     font-weight: 700 !important;
     width: auto !important;
-    min-width: 260px !important;
-    margin: 0 auto !important;
+    min-width: 250px !important;
     transition: all 0.3s ease !important;
 }
 
-/* אפקט Hover: נצבע בכחול כהה מלא בעת מעבר סמן */
-div:has(> #reset-button-hook) + div div.stButton > button:hover {
-    background-color: #01579b !important; 
-    color: #ffffff !important;
+div.stButton:not([data-testid="column"] *) > button:hover {
+    background-color: #e1f5fe !important; /* גוון כחלחל בעת מעבר עכבר */
+    color: #01579b !important;
     border-color: #01579b !important;
     transform: translateY(-2px) !important;
 }
+
 
 /* Base Chat Bubbles Styling */
 [data-testid="stChatMessage"] {
@@ -366,7 +353,7 @@ div[data-testid="stAlert"]>div {
     }
 
     .info-text-large {
-        font-size: 15px !important;
+        font-size: 14px !important;
     }
 
     .sample-heading {
@@ -378,12 +365,6 @@ div[data-testid="stAlert"]>div {
     div.stButton>button {
         font-size: 14px !important;
         padding: 8px 10px !important;
-    }
-
-    div:has(> #reset-button-hook) + div div.stButton > button {
-        font-size: 14px !important;
-        padding: 8px 20px !important;
-        min-width: 180px !important;
     }
 
     [data-testid="stChatMessage"] {
