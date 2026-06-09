@@ -28,11 +28,11 @@ body,
     width: 100%;
     overflow-x: hidden !important;
     background-color: #e1f5fe !important;
-    /* תכלת בהיר ומקסים */
+    /* Light blue background */
     direction: rtl !important;
     text-align: right !important;
     color: #222222 !important;
-    /* מונע מהטקסט להפוך ללבן גם במובייל */
+    /* Prevents text from turning white on mobile dark mode */
 }
 
 /* Force layout alignment on markdown cells */
@@ -126,7 +126,7 @@ ol {
     text-align: center !important;
 }
 
-/* שדרוג קוביית המידע המרכזית - אלגנטית, נקייה ותואמת לגופן האתר */
+/* Centered information card layout */
 .info-section-transparent {
     background: #ffffff !important;
     padding: 25px !important;
@@ -135,7 +135,7 @@ ol {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
     margin-bottom: 30px !important;
     border: 1px solid #b3e5fc !important;
-    /* מסגרת כחלחלה עדינה מאוד */
+    /* Subtle light blue border */
 }
 
 .info-title-large {
@@ -165,7 +165,7 @@ ol {
     text-align: right !important;
 }
 
-/* עיצוב כפתורי התרחישים המקוריים (כתומים) */
+/* Scenario suggestion buttons styling */
 div.stButton>button {
     width: 100% !important;
     background-color: #ffffff !important;
@@ -184,19 +184,20 @@ div.stButton>button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* מיקום ועיצוב כפתור האיפוס - כחול כהה עבה וצף בצד ימין בשוליים */
-div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton {
-    position: static !important; /* ברירת מחדל לנייד - יגלול עם הדף */
+/* Reset button styling and positioning */
+div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton {
+    position: static !important;
+    /* Default for mobile - flows with page scroll */
     width: 100% !important;
     display: flex !important;
     justify-content: flex-end !important;
     margin-top: 10px !important;
 }
 
-div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton>button {
+div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton>button {
     color: #01579b !important;
     border: 3.5px solid #01579b !important;
-    /* מסגרת כחולה במקום כתום, עבה יותר */
+    /* Thick blue border instead of orange */
     border-radius: 20px !important;
     background-color: #ffffff !important;
     font-size: 16px !important;
@@ -207,24 +208,25 @@ div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stEl
     transition: all 0.3s ease !important;
 }
 
-div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton>button:hover {
+div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton>button:hover {
     background-color: #e1f5fe !important;
-    /* גוון כחלחל בעת מעבר עכבר */
+    /* Light blue hover tint */
     color: #01579b !important;
     border-color: #01579b !important;
     transform: translateY(-2px) !important;
 }
 
-/* כפתור מעבר שפה צף בצד שמאל בשוליים החיצוניים */
-div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid="stElementContainer"] div.stButton {
-    position: static !important; /* ברירת מחדל לנייד - יגלול עם הדף */
+/* Language toggle button styling and positioning */
+div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="stElementContainer"] div.stButton {
+    position: static !important;
+    /* Default for mobile - flows with page scroll */
     width: 100% !important;
     display: flex !important;
     justify-content: flex-start !important;
     margin-top: 10px !important;
 }
 
-div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid="stElementContainer"] div.stButton>button {
+div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="stElementContainer"] div.stButton>button {
     background-color: #ffffff !important;
     color: #01579b !important;
     border: 2px solid #01579b !important;
@@ -238,16 +240,15 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
     width: auto !important;
 }
 
-div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid="stElementContainer"] div.stButton>button:hover {
+div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="stElementContainer"] div.stButton>button:hover {
     background-color: #e1f5fe !important;
     color: #01579b !important;
     border-color: #01579b !important;
     transform: translateY(-1px) !important;
 }
 
-/* התאמה למחשב שולחני בלבד - קיבוע הכפתורים בצדדים */
 @media (min-width: 769px) {
-    div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid="stElementContainer"] div.stButton {
+    div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="stElementContainer"] div.stButton {
         position: fixed !important;
         left: 20px !important;
         top: 25px !important;
@@ -255,7 +256,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
         width: auto !important;
     }
 
-    div[data-testid="stElementContainer"]:has(.reset-marker) + div[data-testid="stElementContainer"] div.stButton {
+    div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton {
         position: fixed !important;
         right: 20px !important;
         top: 25px !important;
@@ -278,7 +279,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
     border: none !important;
 }
 
-/* BOT (Assistant) Bubble Color - Gemini Official UI Style */
+/* BOT (Assistant) Bubble Color */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
     background-color: transparent !important;
     border: 2px solid #2e7d32 !important;
@@ -300,7 +301,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
     vertical-align: middle;
 }
 
-/* USER Bubble Color - Modern Chat Bubble */
+/* USER Bubble Color - Chat Bubble */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
     background-color: #f0f4f9 !important;
     /* Modern Google grey */
@@ -312,7 +313,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
     /* Modern bubble tail */
 }
 
-/* הפס התחתון הראשי שמכיל את התיבה */
+/* Main bottom container of the chat input */
 [data-testid="stBottom"] {
     margin-bottom: 75px !important;
     z-index: 100 !important;
@@ -323,7 +324,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
     background-color: transparent !important;
 }
 
-/* המסגרת החיצונית של תיבת ההקלדה - גבול כתום, עבה ובולט */
+/* Outer container of the chat input - thick orange border */
 [data-testid="stChatInput"] {
     border: 4px solid #f57c00 !important;
     border-radius: 20px !important;
@@ -331,13 +332,13 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker) + div[data-testid
     overflow: hidden !important;
 }
 
-/* מחיקת הרקע השחור האוטומטי של Streamlit במובייל בתוך התיבה */
+/* Clear Streamlit default dark mobile background in chat input */
 [data-testid="stChatInput"] * {
     background-color: transparent !important;
     color: #222222 !important;
 }
 
-/* הכרחת התיבה הפנימית ביותר להיות עם רקע לבן וטקסט שחור */
+/* Force chat input text field to have a white background and dark text */
 [data-testid="stChatInputTextArea"],
 div[data-baseweb="textarea"],
 [data-testid="stChatInput"] textarea {
@@ -346,7 +347,7 @@ div[data-baseweb="textarea"],
     -webkit-text-fill-color: #222222 !important;
 }
 
-/* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
+/* Loading spinner and alert component styling */
 div[data-testid="stSpinner"],
 div.stSpinner,
 div[data-testid="stAlert"] {
@@ -389,9 +390,7 @@ div[data-testid="stAlert"]>div {
     width: 100% !important;
 }
 
-/* =========================================
-   התאמה למסכים קטנים ומובייל (רספונסיביות)
-   ========================================= */
+/* Mobile responsiveness adjustments (max-width: 768px) */
 @media (max-width: 768px) {
     .main-title {
         font-size: 32px !important;
@@ -456,8 +455,8 @@ div[data-testid="stAlert"]>div {
         width: 100% !important;
         gap: 10px !important;
     }
-    
-    div[data-testid="stHorizontalBlock"]:has(.lang-toggle-marker) > div[data-testid="column"] {
+
+    div[data-testid="stHorizontalBlock"]:has(.lang-toggle-marker)>div[data-testid="column"] {
         width: auto !important;
         min-width: 0 !important;
         flex: 1 1 0% !important;
