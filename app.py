@@ -34,9 +34,9 @@ if api_key:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": 0.3}
     
-    # Using gemini-pro as it's universally available on all free tiers
-    best_model = "gemini-pro"
-    
+    # gemini-2.0-flash is the current stable model for Google AI Studio free tier
+    best_model = "gemini-2.0-flash"
+
     gemini_model = genai.GenerativeModel(best_model, generation_config=generation_config)
 else:
     gemini_model = None
