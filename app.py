@@ -7,13 +7,26 @@ import random
 import os
 import google.generativeai as genai
 
-# Setup Gemini API
-api_key = os.environ.get("GEMINI_API_KEY")
+HAS_GEMINI = True
+
+# --- LLM API Setup ---
+api_key = os.getenv("GEMINI_API_KEY", "").strip()
+
+# אם המפתח לא נמצא בסביבת הענן (Render), ננסה לקחת אותו מהסיקרטס המקומיים
 if not api_key:
     try:
         api_key = st.secrets["GEMINI_API_KEY"]
     except Exception:
-        api_key = None
+        api_key = ""
+
+model = None
+if HAS_GEMINI and len(api_key) > 10:
+    try:
+        genai.configure(api_key=api_key)
+        # שימוש בשם המלא והבטוח ביותר כדי למנוע שגיאות 404
+        model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
+    except Exception:
+        model = None
 
 system_instruction = """
 אתה FireMate AI, סוכן חכם תומך החלטות לניהול אירועי חירום ושריפות בזמן אמת. פעל תמיד כמוקדן חירום אנושי, מקצועי וטבעי (ולא כבוט רובוטי מבוסס חוקים).
@@ -30,16 +43,7 @@ system_instruction = """
 5. השב תמיד, וללא יוצא מן הכלל, בעברית רהוטה וזורמת.
 """
 
-if api_key:
-    genai.configure(api_key=api_key)
-    generation_config = {"temperature": 0.3}
-    
-    # gemini-1.5-flash-8b has the most generous free-tier quota (1500 req/day)
-    best_model = "gemini-1.5-flash-8b"
-
-    gemini_model = genai.GenerativeModel(best_model, generation_config=generation_config)
-else:
-    gemini_model = None
+gemini_model = model
 
 # 1. Page Configuration
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
