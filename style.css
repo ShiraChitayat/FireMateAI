@@ -133,12 +133,12 @@ ol {
     border-radius: 16px !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
     margin-bottom: 30px !important;
-    border: 1px solid #b3e5fc !important; /* מסגרת כחלחלה עדינה מאוד */
+    border: 1px solid #b3e5fc !important;
 }
 
 .info-title-large {
     font-family: 'Segoe UI', system-ui, sans-serif !important;
-    font-size: 24px !important;
+    font-size: 26px !important;
     font-weight: 700 !important;
     color: #01579b !important;
     text-align: center !important;
@@ -148,9 +148,9 @@ ol {
 
 .info-text-large {
     font-family: 'Segoe UI', system-ui, sans-serif !important;
-    font-size: 17px !important;
-    color: #374151 !important;
-    line-height: 1.7 !important;
+    font-size: 18px !important;
+    color: #333333 !important;
+    line-height: 1.6 !important;
     text-align: center !important;
 }
 
@@ -182,8 +182,10 @@ div.stButton>button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* מרכוז ועיצוב כפתור האיפוס - כחול כהה עבה וממורכז */
-.center-reset-container {
+/* =========================================================
+   עיצוב ומרכוז כפתור איפוס הדיווח - כחול, ממורכז ועבה
+   ========================================================= */
+.my-reset-btn {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -192,23 +194,27 @@ div.stButton>button:hover {
     margin-bottom: 25px !important;
 }
 
-.center-reset-container div.stButton {
+.my-reset-btn div.stButton {
     width: auto !important;
-    min-width: 250px !important;
 }
 
-.center-reset-container div.stButton>button {
-    color: #01579b !important;
-    border: 3.5px solid #01579b !important; /* מסגרת כחולה כהה עבה יותר */
-    border-radius: 20px !important;
+.my-reset-btn div.stButton > button {
     background-color: #ffffff !important;
+    color: #0066cc !important; /* גוון כחול נקי */
+    border: 3.5px solid #0066cc !important; /* מסגרת כחולה עבה בולטת */
+    border-radius: 20px !important;
+    padding: 12px 35px !important;
     font-size: 16px !important;
     font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+    width: auto !important;
 }
 
-.center-reset-container div.stButton>button:hover {
-    background-color: #01579b !important;
+/* אפקט ה-Hover: נצבע בכחול מלא בעת מעבר סמן */
+.my-reset-btn div.stButton > button:hover {
+    background-color: #0066cc !important; 
     color: #ffffff !important;
+    border-color: #0066cc !important;
     transform: translateY(-2px) !important;
 }
 
@@ -363,7 +369,7 @@ div[data-testid="stAlert"]>div {
     }
 
     div.stButton>button,
-    .center-reset-container div.stButton>button {
+    .my-reset-btn div.stButton>button {
         font-size: 14px !important;
         padding: 8px 10px !important;
     }
