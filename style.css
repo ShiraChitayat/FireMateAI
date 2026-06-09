@@ -183,14 +183,13 @@ div.stButton>button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* מרכוז ועיצוב כפתור האיפוס - כחול כהה עבה וממורכז */
+/* מיקום ועיצוב כפתור האיפוס - כחול כהה עבה וצף בצד ימין בשוליים */
 div:has(.reset-marker)+div div.stButton {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin-top: 15px !important;
-    margin-bottom: 25px !important;
+    position: fixed !important;
+    right: 20px !important;
+    top: 25px !important;
+    z-index: 999999 !important;
+    width: auto !important;
 }
 
 div:has(.reset-marker)+div div.stButton>button {
@@ -202,7 +201,7 @@ div:has(.reset-marker)+div div.stButton>button {
     font-size: 16px !important;
     font-weight: 700 !important;
     width: auto !important;
-    min-width: 250px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
     transition: all 0.3s ease !important;
 }
 
@@ -406,6 +405,11 @@ div[data-testid="stAlert"]>div {
 
     div:has(.lang-toggle-marker)+div div.stButton {
         left: 10px !important;
+        top: 15px !important;
+    }
+
+    div:has(.reset-marker)+div div.stButton {
+        right: 10px !important;
         top: 15px !important;
     }
 
