@@ -20,28 +20,28 @@ if not api_key:
         api_key = ""
 
 system_instruction = """
-אתה FireMate AI, סוכן חכם תומך החלטות מבצעי המיועד אך ורק למפקדי כוחות הכיבוי בשטח (ולא לאזרחים). פעל תמיד כמוקדן/קצין אג"ם טקטי, מקצועי ורהוט בעברית.
+אתה FireMate AI, סוכן חכם תומך החלטות מבצעי המיועד לכוחות הכיבוי בשטח (ולא לאזרחים). פעל תמיד כמוקדן/קצין אג"ם טקטי, מקצועי ורהוט בעברית.
 
-חובה עליך לוודא שיש בידיך את 4 הנתונים הבאים מהמפקד המדווח לפני מתן הפרוטוקול הסופי:
+חשוב מאוד: אל תפנה למשתמש בתואר "מפקד", כיוון שלא כל הכבאים הם מפקדים. דבר בצורה עניינית, מקצועית ובגובה העיניים אל "לוחם אש".
+
+חובה עליך לוודא שיש בידיך את 4 הנתונים הבאים מלוחם האש המדווח לפני מתן הפרוטוקול הסופי:
 1. תוואי שטח (מגורים, תעשייה, או שטח פתוח)
 2. גודל השריפה (קטנה, בינונית, גדולה, ענקית)
 3. מיקום מדויק (עיר/אזור)
 4. סיבה להתפרצות (אם ידועה)
 
 כללים קריטיים לניהול השיחה (קרא היטב!):
-- חלץ מידע מתוך דברי המפקד: אם המשתמש כבר ציין בהודעה שלו נתון מסוים (למשל: המילה "דירה" או "בניין" מעידה שזה אזור מגורים; "קריית אונו" מעידה על המיקום), אל תשאל על הנתונים האלו שוב! השתמש בהיגיון בריא כדי להבין איזה מידע כבר סופק, ושאל רק על המידע שעדיין חסר.
-- שאל רק שאלה אחת בכל פעם, והמתן לתשובת המפקד.
+- חלץ מידע מתוך דברי המשתמש בהיגיון: אם הוא ציין "דירה", זה מגורים. אם ציין "קריית אונו", זה המיקום. אל תשאל על נתונים שכבר סופקו!
+- שאל רק שאלה אחת בכל פעם, והמתן לתשובה.
 - בשום פנים ואופן אל תפיק את הפרוטוקול הסופי עד שכל 4 הנתונים נאספו בבירור.
 
 הפקת הפרוטוקול הסופי (לאחר איסוף הנתונים):
-- זכור שהמשתמש הוא כבאי/מפקד שטח! אל תגיד לו "התקשר למכבי אש 102" ואל תגיד לו "ברח מהדירה". התשובה חייבת להיות פקודת מבצע מובנית הכוללת:
-  * הערכת סיכונים טקטית לסביבה שאותרה.
-  * אזכור מקצועי לכך שההחלטה מבוססת על אלגוריתם דמיון קוסינוס (Cosine Similarity) לאירועי עבר דומים באזור.
-  * פקודות ביצוע מבצעיות לכוח (למשל: סריקות לאיתור לכודים, חתירה למגע עם האש, שחרור עשן, ניתוק מקורות אנרגיה).
-- שלב בסוף התוכנית את מספרי הטלפון לסיוע (לצורך תיאום של המפקד מול גופים אחרים) לפי תוואי השטח שזוהה:
-   - מגורים 🏘️: משטרה (100), מד"א (101), מוקד עירוני (106), חברת חשמל (103), פיקוד העורף (104).
-   - תעשייה 🏭: משטרה (100), מד"א (101), מוקד עירוני (106), חומ"ס (*6911), חברת חשמל (103).
-   - שטח פתוח 🌲: משטרה (100), מד"א (101), מוקד עירוני (106), מוקד קק"ל (1-800-350-550), רט"ג (*3639).
+- הפק פקודת מבצע טקטית ללוחם האש שכוללת הערכת סיכונים, ופקודות ביצוע (סריקה, חילוץ, אוורור וכו').
+- ציין שההחלטה מבוססת על אלגוריתם דמיון קוסינוס (Cosine Similarity) לאירועי עבר דומים.
+- חובה לשלב בסוף התוכנית את מספרי הטלפון לסיוע לפי תוואי השטח שזוהה, כולל האימוג'ים המדויקים המופיעים כאן:
+   - מגורים 🏘️: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חברת חשמל ⚡ (103), פיקוד העורף 🛡️ (104).
+   - תעשייה 🏭: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חומ"ס ⚠️ (*6911), חברת חשמל ⚡ (103).
+   - שטח פתוח 🌲: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), מוקד קק"ל 🌲 (1-800-350-550), רט"ג 🦌 (*3639).
 """
 
 class FireMateAgent:
@@ -53,26 +53,26 @@ class FireMateAgent:
         try:
             genai.configure(api_key=key)
             
-            # בדיקה דינמית של מודלים
-            available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+            # פתרון מגבלת ה-Quota: 
+            # 1. ביטלנו את רשימת המודלים ששרפה קריאות API.
+            # 2. הגדרנו פנייה ישירה למודל ה-8B (הגרסה הקלילה והמהירה ביותר עם מכסה עצומה).
+            best_model = 'gemini-1.5-flash-8b'
             
-            best_model = None
-            for m in ["models/gemini-1.5-flash", "models/gemini-1.5-pro", "models/gemini-pro", "models/gemini-1.0-pro"]:
-                if m in available_models:
-                    best_model = m
-                    break
-            
-            if not best_model and available_models:
-                best_model = available_models[0]
-            
-            if best_model:
-                self.model = genai.GenerativeModel(best_model)
-                self.chat = self.model.start_chat(history=[
-                    {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות והפרסונה שלך כעוזר למפקד כוחות הכיבוי?"]},
-                    {"role": "model", "parts": ["הבנתי היטב. אני FireMate AI, סוכן תומך החלטה למפקדי שטח. אדע להסיק נתונים מההקשר כדי לא לשאול שאלות מיותרות, אשאל רק שאלה אחת בכל פעם, ובסוף אפיק פקודת מבצע טקטית מקצועית למפקד ללא הנחיות לאזרחים. ממתין לדיווח."]}
-                ])
+            self.model = genai.GenerativeModel(best_model)
+            self.chat = self.model.start_chat(history=[
+                {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות והפרסונה שלך כעוזר ללוחם האש?"]},
+                {"role": "model", "parts": ["הבנתי היטב. אני FireMate AI, סוכן תומך החלטה ללוחמי אש. לא אקרא למשתמש 'מפקד'. אדע להסיק נתונים מההקשר כדי לא לשאול שאלות מיותרות, אשאל רק שאלה אחת בכל פעם, ובסוף אפיק פקודת מבצע טקטית הכוללת אימוג'ים מתאימים במספרי הטלפון."]}
+            ])
         except Exception as e:
-            self.chat = None
+            # אם משום מה ה-8b חסום אצלך, הוא יחזור אוטומטית למודל הרגיל באופן כמעט בלתי מורגש
+            try:
+                self.model = genai.GenerativeModel('gemini-1.5-flash')
+                self.chat = self.model.start_chat(history=[
+                    {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות?"]},
+                    {"role": "model", "parts": ["הבנתי היטב."]}
+                ])
+            except Exception:
+                self.chat = None
 
     def generate_tactical_response(self, user_input):
         if not self.chat:
@@ -84,7 +84,7 @@ class FireMateAgent:
         except Exception as e:
             err_str = str(e)
             if "429" in err_str or "Quota" in err_str:
-                return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** בגלל שזו גרסה חינמית של המודל, אנא המתן דקה אחת ושלח את ההודעה שוב."
+                return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** המערכת בהשהיה קלה. אנא המתן חצי דקה ושלח את ההודעה שוב."
             return f"שגיאה בתקשורת עם השרת: {err_str}"
 
 # --- Page Configuration ---
@@ -150,9 +150,8 @@ if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
 
 # Display Chat History
 for message in st.session_state.messages:
-    avatar = "🧑" if message["role"] == "user" else "🤖"
     css_class = "user-msg-flag" if message["role"] == "user" else "bot-msg-flag"
-    with st.chat_message(message["role"], avatar=avatar):
+    with st.chat_message(message["role"]):
         st.markdown(f"<div class='{css_class}'></div> {message['content']}", unsafe_allow_html=True)
 
 # User Input Processing
@@ -164,11 +163,11 @@ if user_query:
     if not st.session_state.messages or st.session_state.messages[-1]["content"] != user_query:
         # 1. Show user message
         st.session_state.messages.append({"role": "user", "content": user_query})
-        with st.chat_message("user", avatar="🧑"):
+        with st.chat_message("user"):
             st.markdown(f"<div class='user-msg-flag'></div> {user_query}", unsafe_allow_html=True)
 
         # 2. Typing indicator (Bot thinking)
-        with st.chat_message("assistant", avatar="🤖"):
+        with st.chat_message("assistant"):
             with st.spinner("הסוכן מנתח נתונים ומקליד תשובה... 💬"):
                 time.sleep(1.5)
                 response = agent.generate_tactical_response(user_query)
@@ -183,4 +182,4 @@ st.markdown("""
         <div class='footer-text-main'>כל הזכויות שמורות לפרויקט הגמר ©</div>
         <div class='footer-text-sub'>סדנת חדשנות מבוססת AI/ML 2026 🎓 | Shira Chitayat & Shira Dabach</div>
     </div>
-""", unsafe_allow_html=True) 
+""", unsafe_allow_html=True)
