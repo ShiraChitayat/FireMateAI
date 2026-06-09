@@ -148,11 +148,11 @@ if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
         del st.session_state.firemate_agent
     st.rerun()
 
-# Display Chat History (We remove the default avatar icon here completely!)
+# Display Chat History
 for message in st.session_state.messages:
     css_class = "user-msg-flag" if message["role"] == "user" else "bot-msg-flag"
-    # שמנו במכוון 'None' לאווטאר כדי שהתמונות הדיפולטיביות של סטרימליט ייעלמו
-    with st.chat_message(message["role"], avatar=""):
+    # הסרנו לחלוטין את השימוש ב-avatar פה כדי למנוע קריסות!
+    with st.chat_message(message["role"]):
         st.markdown(f"<div class='{css_class}'></div> {message['content']}", unsafe_allow_html=True)
 
 # User Input Processing
@@ -164,11 +164,11 @@ if user_query:
     if not st.session_state.messages or st.session_state.messages[-1]["content"] != user_query:
         # 1. Show user message
         st.session_state.messages.append({"role": "user", "content": user_query})
-        with st.chat_message("user", avatar=""):
+        with st.chat_message("user"):
             st.markdown(f"<div class='user-msg-flag'></div> {user_query}", unsafe_allow_html=True)
 
         # 2. Typing indicator (Bot thinking)
-        with st.chat_message("assistant", avatar=""):
+        with st.chat_message("assistant"):
             with st.spinner("הסוכן מנתח נתונים ומקליד תשובה... 💬"):
                 time.sleep(1.5)
                 response = agent.generate_tactical_response(user_query)
