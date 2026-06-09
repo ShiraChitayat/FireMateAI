@@ -28,11 +28,10 @@ system_instruction = """
 
 הפקת הפרוטוקול הסופי (לאחר איסוף הנתונים):
 - הפק פקודת מבצע טקטית ללוחם האש שכוללת הערכת סיכונים, ופקודות ביצוע (סריקה, חילוץ, אוורור וכו').
-- ציין שההחלטה מבוססת על אלגוריתם דמיון קוסינוס (Cosine Similarity) לאירועי עבר דומים.
 - חובה לשלב בסוף התוכנית את מספרי הטלפון לסיוע לפי תוואי השטח שזוהה, כולל האימוג'ים המדויקים המופיעים כאן:
-   - מגורים 🏘️: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חברת חשמל ⚡ (103), פיקוד העורף 🛡️ (104).
-   - תעשייה 🏭: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חומ"ס ⚠️ (*6911), חברת חשמל ⚡ (103).
-   - שטח פתוח 🌲: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), מוקד קק"ל 🌲 (1-800-350-550), רט"ג 🦌 (*3639).
+   - שטח בנוי 🏘️: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חברת חשמל ⚡ (103), פיקוד העורף 🛡️ (104).
+   - אזור תעשייה 🏭: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), מוקד חומרים מסוכנים ⚠️ (6911*), חברת חשמל ⚡ (103).
+   - שטח פתוח 🌲: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), מוקד קק"ל 🌲 (1-800-350-550), רשות הטבע והגנים 🦌 (3639*).
 """
 
 system_instruction_en = """
@@ -53,10 +52,9 @@ Critical rules for managing the conversation:
 
 Generating the final protocol (after collecting the data):
 - Generate a tactical operational order in English for the firefighter that includes risk assessment, and execution orders (scanning, rescue, ventilation, etc.).
-- Note that the decision is based on a Cosine Similarity algorithm to similar past events.
 - You must integrate at the end of the program the assistance phone numbers according to the identified terrain type, including the exact emojis shown here:
    - Residential 🏘️: Police 🚓 (100), MADA 🚑 (101), Municipal Hotline 🏢 (106), Electricity Company ⚡ (103), Home Front Command 🛡️ (104).
-   - Industrial 🏭: Police 🚓 (100), MADA 🚑 (101), Municipal Hotline 🏢 (106), Hazmat ⚠️ (*6911), Electricity Company ⚡ (103).
+   - Industrial 🏭: Police 🚓 (100), MADA 🚑 (101), Municipal Hotline 🏢 (106), Hazardous Materials ⚠️ (*6911), Electricity Company ⚡ (103).
    - Open Area 🌲: Police 🚓 (100), MADA 🚑 (101), Municipal Hotline 🏢 (106), KKL Hotline 🌲 (1-800-350-550), Nature and Parks Authority 🦌 (*3639).
 """
 
@@ -92,7 +90,7 @@ class FireMateAgent:
         except Exception as e:
             err_str = str(e)
             if "429" in err_str or "Quota" in err_str:
-                return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** המערכת בהשהיה קלה כדי לשמור על יציבות המכסה. אנא המתן חצי דקה ושלח את ההודעה שוב."
+                return "⚠️ הגענו למגבלת הבקשות (Quota Exceeded). המערכת בהשהיה קלה כדי לשמור על יציבות המכסה. אנא המתן חצי דקה ושלח את ההודעה שוב."
             return f"שגיאה בתקשורת עם השרת: {err_str}"
 
 # Page Configuration
@@ -185,9 +183,9 @@ if st.session_state.lang == "he":
     <div class="info-section-transparent">
         <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
         <div class="info-text-large">
-            מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
+            סוכן חכם המבוסס על מודל שפה מתקדם ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
             <span style="display: inline-block; margin-top: 10px;">
-                <b>מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
+                <b>שטח בנוי 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
             </span>
         </div>
     </div>
@@ -208,37 +206,37 @@ else:
 # Welcome Message Initialization
 if not st.session_state.messages:
     if st.session_state.lang == "he":
-        welcome_msg = "שלום, אני סוכן FireMate AI שלך ואשאל אותך מספר שאלות קצרות כדי לסייע לך היום."
+        welcome_msg = "שלום, כאן סוכן FireMate AI כעת אשאל אותך מספר שאלות על מנת לסייע לך היום."
     else:
-        welcome_msg = "Hello, I am your FireMate AI agent and I will ask you a few short questions to assist you today."
+        welcome_msg = "Hello, I am FireMate AI agent and I will ask you a few short questions to assist you today."
     st.session_state.messages = [{"role": "assistant", "content": welcome_msg}]
 
 # Quick-start Preset Buttons (visible only at the start of the conversation)
 click_query = "" 
 if len(st.session_state.messages) == 1:
     if st.session_state.lang == "he":
-        st.markdown("<div class='sample-heading'>בחר תרחיש לדוגמה להתחלה:</div>", unsafe_allow_html=True)
+        st.markdown("<div class='sample-heading'> תרחיש לדוגמה להתחלה:</div>", unsafe_allow_html=True)
         c1, c2, c3 = st.columns(3)
         with c1:
-            if st.button("🏘️ אש במגורים / קריית אונו", key="btn_urban"):
+            if st.button("🏘️ שריפה בשטח בנוי", key="btn_urban"):
                 click_query = "היי יש שריפה בדירה בקריית אונו"
         with c2:
-            if st.button("🏭 אזור תעשייה / חיפה", key="btn_industrial"):
+            if st.button("🏭 שריפה באזור תעשייה", key="btn_industrial"):
                 click_query = "שלום יש שריפה באזור התעשייה בחיפה"
         with c3:
-            if st.button("🌲 שטח פתוח / כרמל", key="btn_wildfire"):
+            if st.button("🌲 שריפה בשטח פתוח", key="btn_wildfire"):
                 click_query = "היי יש שריפת יער בכרמל"
     else:
         st.markdown("<div class='sample-heading'>Choose a sample scenario to start:</div>", unsafe_allow_html=True)
         c1, c2, c3 = st.columns(3)
         with c1:
-            if st.button("🏘️ Residential Fire / Kiryat Ono", key="btn_urban"):
+            if st.button("🏘️ Residential Fire", key="btn_urban"):
                 click_query = "Hi, there is a fire in an apartment in Kiryat Ono"
         with c2:
-            if st.button("🏭 Industrial Zone / Haifa", key="btn_industrial"):
+            if st.button("🏭 Industrial Fire", key="btn_industrial"):
                 click_query = "Hello, there is a fire in the industrial zone in Haifa"
         with c3:
-            if st.button("🌲 Open Area / Carmel", key="btn_wildfire"):
+            if st.button("🌲 Open Fire", key="btn_wildfire"):
                 click_query = "Hi, there is a forest fire in Carmel"
 
 # Display Chat History
@@ -249,7 +247,7 @@ for message in st.session_state.messages:
         st.markdown(f"<div class='{css_class}'></div> {message['content']}", unsafe_allow_html=True)
 
 # User Input Processing
-chat_placeholder = "הקלד את הדיווח שלך או ענה לסוכן כאן..." if st.session_state.lang == "he" else "Type your report or answer the agent here..."
+chat_placeholder = "הקלד את הדיווח שלך או ענה לסוכן כאן..." if st.session_state.lang == "he" else "Type your report or answer FireMate AI here..."
 user_query = st.chat_input(chat_placeholder)
 if click_query:
     user_query = click_query
