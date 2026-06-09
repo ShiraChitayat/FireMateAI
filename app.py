@@ -15,10 +15,7 @@ if not api_key:
     except Exception:
         api_key = None
 
-if api_key:
-    genai.configure(api_key=api_key)
-    generation_config = {"temperature": 0.3}
-    gemini_model = genai.GenerativeModel("gemini-1.5-pro", generation_config=generation_config, system_instruction="""
+system_instruction = """
 אתה FireMate AI, סוכן חכם תומך החלטות לניהול אירועי חירום ושריפות בזמן אמת. פעל תמיד כמוקדן חירום אנושי, מקצועי וטבעי (ולא כבוט רובוטי מבוסס חוקים).
 
 הנחיות הפעולה שלך:
@@ -31,7 +28,23 @@ if api_key:
    - בשטח פתוח/יערות: הוסף מוקד קק"ל 1-800-350-550, רשות הטבע והגנים *3639.
 4. הבן בסובלנות שגיאות כתיב והקלדה. עליך להבין את כוונת המשתמש בין אם כתב בעברית, אנגלית או שילוב של שתיהן.
 5. השב תמיד, וללא יוצא מן הכלל, בעברית רהוטה וזורמת.
-""")
+"""
+
+if api_key:
+    genai.configure(api_key=api_key)
+    generation_config = {"temperature": 0.3}
+    
+    # Dynamically find an available model to avoid 404 errors
+    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    
+    best_model = "gemini-pro" # Safe fallback
+    # Prefer 1.5 flash, then 1.5 pro, then fallback to gemini-pro
+    for m in ["models/gemini-1.5-flash", "models/gemini-1.5-flash-latest", "models/gemini-1.5-pro", "models/gemini-1.5-pro-latest", "models/gemini-pro"]:
+        if m in available_models:
+            best_model = m.replace("models/", "")
+            break
+
+    gemini_model = genai.GenerativeModel(best_model, generation_config=generation_config)
 else:
     gemini_model = None
 
@@ -121,6 +134,11 @@ class FireMateIntelligenceEngine:
             try:
                 # Use Gemini API to generate response
                 history = []
+                
+                # Inject System Instructions into the chat history for full compatibility
+                history.append({"role": "user", "parts": [f"System Instructions (Follow these strictly):\n{system_instruction}"]})
+                history.append({"role": "model", "parts": ["הבנתי. אפעל בדיוק לפי ההנחיות הללו כסוכן FireMate AI."]})
+
                 # Pass previous messages (excluding the current one which is at the end of session_state.messages)
                 for msg in st.session_state.messages[:-1]:
                     role = "model" if msg["role"] == "assistant" else "user"
