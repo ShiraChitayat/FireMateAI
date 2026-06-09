@@ -426,7 +426,7 @@ div[data-testid="stAlert"]>div {
 
     .custom-footer div {
         font-size: 12px !important;
-        white-space: nowrap !important;
+        white-space: normal !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.lang-toggle-marker) {
@@ -439,9 +439,34 @@ div[data-testid="stAlert"]>div {
         gap: 10px !important;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.lang-toggle-marker)>div[data-testid="column"] {
-        width: auto !important;
+    div[data-testid="stHorizontalBlock"]:has(.lang-toggle-marker)>div {
+        width: 50% !important;
         min-width: 0 !important;
-        flex: 1 1 0% !important;
+        flex: 1 1 50% !important;
+    }
+
+    div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton>button,
+    div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="stElementContainer"] div.stButton>button {
+        font-size: 13px !important;
+        padding: 6px 10px !important;
+    }
+
+    html,
+    body,
+    .stApp,
+    .stAppViewContainer,
+    .main,
+    .block-container,
+    .custom-header,
+    .custom-footer {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .block-container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
     }
 }

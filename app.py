@@ -181,7 +181,7 @@ else:
 if st.session_state.lang == "he":
     st.markdown("""
     <div class="info-section-transparent">
-        <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
+        <div class="info-title-large"> איך ניתן לעזור לכוחות בשטח</div>
         <div class="info-text-large">
             סוכן חכם המבוסס על מודל שפה מתקדם ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
             <span style="display: inline-block; margin-top: 10px;">
@@ -189,11 +189,11 @@ if st.session_state.lang == "he":
             </span>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True) 
 else:
     st.markdown("""
     <div class="info-section-transparent">
-        <div class="info-title-large">⚡ How to assist forces in the field</div>
+        <div class="info-title-large"> How to assist forces in the field</div>
         <div class="info-text-large">
             A smart system based on a language model and NASA satellite data to receive guidelines for three zones:<br>
             <span style="display: inline-block; margin-top: 10px;">
@@ -274,15 +274,15 @@ if user_query:
 if st.session_state.lang == "he":
     st.markdown("""
         <div class='custom-footer'>
-            <div class='footer-text-main'>כל הזכויות שמורות ©</div>
             <div class='footer-text-sub'>AI/ML סדנת חדשנות מבוססת 2026 | Shira Chitayat & Shira Dabach</div>
+            <div class='footer-text-main'>כל הזכויות שמורות ©</div>
         </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown("""
-        <div class='custom-footer'>
-            <div class='footer-text-main'>All rights reserved ©</div>
+        <div class='custom-footer'> 
             <div class='footer-text-sub'>AI/ML Innovation Workshop 2026 | Shira Chitayat & Shira Dabach</div>
+            <div class='footer-text-main'>All rights reserved ©</div>
         </div>
     """, unsafe_allow_html=True)
  
