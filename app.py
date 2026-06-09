@@ -41,24 +41,20 @@ class FireMateAgent:
         try:
             genai.configure(api_key=key)
             
-            # בדיקה דינמית של מודלים כדי למנוע שגיאת 404 בוודאות
+            # בדיקה דינמית של מודלים
             available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
             
             best_model = None
-            # מחפשים את המודל החינמי הטוב והמעודכן ביותר שזמין עבורך אישית
             for m in ["models/gemini-1.5-flash", "models/gemini-1.5-pro", "models/gemini-pro", "models/gemini-1.0-pro"]:
                 if m in available_models:
                     best_model = m
                     break
             
-            # אם שום מודל מהרשימה לא נמצא, ניקח את הראשון שזמין (רשת ביטחון)
             if not best_model and available_models:
                 best_model = available_models[0]
             
             if best_model:
                 self.model = genai.GenerativeModel(best_model)
-                
-                # פתרון קסם: הזרקת הנחיות המערכת בתור "היסטוריה" כדי לעקוף באגים של ספריית פייתון
                 self.chat = self.model.start_chat(history=[
                     {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות?"]},
                     {"role": "model", "parts": ["הבנתי. אני FireMate AI, מוכן ומזומן לפעול כמוקדן חירום אנושי ומקצועי בעברית, לשאול שאלות אחת-אחת, ולהפיק תוכנית פעולה טקטית לפי ההנחיות."]}
@@ -76,9 +72,6 @@ class FireMateAgent:
         except Exception as e:
             return f"שגיאה בתקשורת עם השרת: {str(e)}"
 
-# Initialize Agent
-agent = FireMateAgent(api_key, system_instruction)
-
 # --- Page Configuration ---
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
 
@@ -89,13 +82,19 @@ try:
 except Exception:
     pass
 
-# --- Session State ---
+# --- Session State Initialization ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# פתרון השכחה: שמירת הסוכן בזיכרון של המערכת כדי שלא ייווצר מחדש בכל הודעה
+if "firemate_agent" not in st.session_state:
+    st.session_state.firemate_agent = FireMateAgent(api_key, system_instruction)
+
+agent = st.session_state.firemate_agent
+
 # App Header / Hero Section
 st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
-st.markdown("<div class='hero-brand-name'>יש שריפה באזור? דיווח מבצעי מהיר 🔥</div>", unsafe_allow_html=True)
+st.markdown("<div class='hero-brand-name'>יש שריפה באזורך? 🔥</div>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="info-section-transparent">
@@ -109,26 +108,29 @@ st.markdown("""
 
 # Welcome Message Initialization
 if not st.session_state.messages:
-    st.session_state.messages = [{"role": "assistant", "content": "היי, אני הסוכן שלך ואשאל אותך מספר שאלות קצרות כדי לסייע לך היום"}]
+    st.session_state.messages = [{"role": "assistant", "content": "שלום, אני סוכן FireMate AI שלך ואשאל אותך מספר שאלות קצרות כדי לסייע לך היום"}]
 
 # Quick-start preset buttons (Examples)
 click_query = ""
 st.markdown("<div class='sample-heading'>בחר תרחיש לדוגמה להתחלה:</div>", unsafe_allow_html=True)
 c1, c2, c3 = st.columns(3)
 with c1:
-    if st.button("🏘️ אש במגורים / ירושלים", key="btn_urban"):
-        click_query = "היי, יש שריפה בחיפה"
+    if st.button("🏘️ שריפה בשטח בנוי", key="btn_urban"):
+        click_query = "היי, יש שריפה בירושלים"
 with c2:
-    if st.button("🏭 אזור תעשייה / חיפה", key="btn_industrial"):
+    if st.button("🏭 שריפה באזור תעשייה", key="btn_industrial"):
         click_query = "היי, יש שריפה בחיפה"
 with c3:
-    if st.button("🌲 שטח פתוח / כרמל", key="btn_wildfire"):
-        click_query = "היי, יש שריפה בחיפה"
+    if st.button("🌲 שריפה בשטח פתוח", key="btn_wildfire"):
+        click_query = "היי, יש שריפת יער בכרמל"
 
 # Reset Chat Button
 st.markdown("<br>", unsafe_allow_html=True)
 if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
     st.session_state.messages = []
+    # מחיקת הסוכן הקיים ויצירת אחד חדש כדי למחוק לו את הזיכרון
+    if "firemate_agent" in st.session_state:
+        del st.session_state.firemate_agent
     st.rerun()
 
 # Display Chat History
