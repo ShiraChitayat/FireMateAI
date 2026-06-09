@@ -6,18 +6,9 @@ import time
 import random
 import os
 import google.generativeai as genai
+import config  # ייבוא קובץ ההגדרות החדש שייצרת
 
 HAS_GEMINI = True
-
-# --- LLM API Setup ---
-api_key = os.getenv("GEMINI_API_KEY", "").strip()
-
-# אם המפתח לא נמצא בסביבת הענן (Render), ננסה לקחת אותו מהסיקרטס המקומיים
-if not api_key:
-    try:
-        api_key = st.secrets["GEMINI_API_KEY"]
-    except Exception:
-        api_key = ""
 
 system_instruction = """
 אתה FireMate AI, סוכן חכם תומך החלטות מבצעי המיועד לכוחות הכיבוי בשטח (ולא לאזרחים). פעל תמיד כמוקדן/קצין אג"ם טקטי, מקצועי ורהוט בעברית.
@@ -45,38 +36,30 @@ system_instruction = """
 """
 
 class FireMateAgent:
-    def __init__(self, key, prompt):
+    def __init__(self, prompt):
         self.chat = None
-        if not key or len(key) < 5:
-            return
-        
         try:
-            genai.configure(api_key=key)
+            # הגדרת מפתח ה-API מתוך קובץ הקונפיגורציה המרוחק
+            genai.configure(api_key=config.GEMINI_API_KEY)
             
-            # פתרון מגבלת ה-Quota: 
-            # 1. ביטלנו את רשימת המודלים ששרפה קריאות API.
-            # 2. הגדרנו פנייה ישירה למודל ה-8B (הגרסה הקלילה והמהירה ביותר עם מכסה עצומה).
-            best_model = 'gemini-1.5-flash-8b'
-            
-            self.model = genai.GenerativeModel(best_model)
-            self.chat = self.model.start_chat(history=[
-                {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות והפרסונה שלך כעוזר ללוחם האש?"]},
-                {"role": "model", "parts": ["הבנתי היטב. אני FireMate AI, סוכן תומך החלטה ללוחמי אש. לא אקרא למשתמש 'מפקד'. אדע להסיק נתונים מההקשר כדי לא לשאול שאלות מיותרות, אשאל רק שאלה אחת בכל פעם, ובסוף אפיק פקודת מבצע טקטית הכוללת אימוג'ים מתאימים במספרי הטלפון."]}
-            ])
+            # בניית המודל תוך שימוש בפרמטרים המדויקים מתוך קובץ הקונפיגורציה
+            self.model = genai.GenerativeModel(
+                model_name=config.GEMINI_MODEL,
+                generation_config={
+                    "temperature": config.GEMINI_TEMPERATURE,
+                    "max_output_tokens": config.GEMINI_MAX_OUTPUT_TOKENS,
+                },
+                system_instruction=prompt
+            )
+            # פתיחת שיחת צ'אט בעלת זיכרון רציף לניהול השאלות והתשובות
+            self.chat = self.model.start_chat(history=[])
         except Exception as e:
-            # אם משום מה ה-8b חסום אצלך, הוא יחזור אוטומטית למודל הרגיל באופן כמעט בלתי מורגש
-            try:
-                self.model = genai.GenerativeModel('gemini-1.5-flash')
-                self.chat = self.model.start_chat(history=[
-                    {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות?"]},
-                    {"role": "model", "parts": ["הבנתי היטב."]}
-                ])
-            except Exception:
-                self.chat = None
+            st.error(f"שגיאה באתחול הסוכן: {str(e)}")
+            self.chat = None
 
     def generate_tactical_response(self, user_input):
         if not self.chat:
-            return "שגיאה: מערכת ה-AI אינה מוגדרת או שאין חיבור ל-API. אנא בדוק את מפתח ה-API שלך."
+            return "שגיאה: מערכת ה-AI אינה מוגדרת או שאין חיבור ל-API. אנא בדוק את הגדרות השרת."
         
         try:
             response = self.chat.send_message(user_input)
@@ -84,7 +67,7 @@ class FireMateAgent:
         except Exception as e:
             err_str = str(e)
             if "429" in err_str or "Quota" in err_str:
-                return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** המערכת בהשהיה קלה. אנא המתן חצי דקה ושלח את ההודעה שוב."
+                return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** המערכת בהשהיה קלה כדי לשמור על יציבות המכסה. אנא המתן חצי דקה ושלח את ההודעה שוב."
             return f"שגיאה בתקשורת עם השרת: {err_str}"
 
 # --- Page Configuration ---
@@ -101,21 +84,20 @@ except Exception:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# פתרון השכחה: שמירת הסוכן בזיכרון של המערכת
 if "firemate_agent" not in st.session_state:
-    st.session_state.firemate_agent = FireMateAgent(api_key, system_instruction)
+    st.session_state.firemate_agent = FireMateAgent(system_instruction)
 
 agent = st.session_state.firemate_agent
 
 # App Header / Hero Section
 st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
-st.markdown("<div class='hero-brand-name'>יש שריפה באזור? דיווח מבצעי מהיר 🔥</div>", unsafe_allow_html=True)
+st.markdown("<div class='hero-brand-name'>יש שריפה באזור?</div>", unsafe_allow_html=True)
 
 st.markdown("""
 <div class="info-section-transparent">
     <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
     <div class="info-text-large">
-        מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות אופרטיביות לפי שלושה אזורים:<br>
+        מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
         <b>מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
     </div>
 </div>
@@ -148,7 +130,7 @@ if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
         del st.session_state.firemate_agent
     st.rerun()
 
-# Display Chat History
+# Display Chat History (ללא פרמטר avatar בקוד פייתון - הכל מנוהל דרך ה-CSS החדש שלנו!)
 for message in st.session_state.messages:
     css_class = "user-msg-flag" if message["role"] == "user" else "bot-msg-flag"
     with st.chat_message(message["role"]):
@@ -182,4 +164,4 @@ st.markdown("""
         <div class='footer-text-main'>כל הזכויות שמורות לפרויקט הגמר ©</div>
         <div class='footer-text-sub'>סדנת חדשנות מבוססת AI/ML 2026 🎓 | Shira Chitayat & Shira Dabach</div>
     </div>
-""", unsafe_allow_html=True)
+""", unsafe_allow_html=True) 
