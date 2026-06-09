@@ -125,27 +125,33 @@ ol {
     text-align: center !important;
 }
 
-/* Marketing Info block */
-.info-section {
+/* שדרוג קוביית המידע המרכזית - אלגנטית, נקייה ותואמת לגופן האתר */
+.info-section-transparent {
     background: #ffffff !important;
     padding: 25px !important;
     text-align: center !important;
-    border-radius: 12px !important;
-    color: #333333 !important;
-    font-size: 18px !important;
-    font-weight: 500 !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
     margin-bottom: 30px !important;
+    border: 1px solid #b3e5fc !important; /* מסגרת כחלחלה עדינה מאוד */
 }
 
-.info-title {
+.info-title-large {
     font-family: 'Segoe UI', system-ui, sans-serif !important;
-    font-size: 26px !important;
+    font-size: 24px !important;
     font-weight: 700 !important;
     color: #01579b !important;
     text-align: center !important;
     width: 100% !important;
-    margin-bottom: 12px;
+    margin-bottom: 12px !important;
+}
+
+.info-text-large {
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
+    font-size: 17px !important;
+    color: #374151 !important;
+    line-height: 1.7 !important;
+    text-align: center !important;
 }
 
 .sample-heading {
@@ -157,7 +163,7 @@ ol {
     text-align: right !important;
 }
 
-/* Elegant Buttons */
+/* עיצוב כפתורי התרחישים המקוריים (כתומים) */
 div.stButton>button {
     width: 100% !important;
     background-color: #ffffff !important;
@@ -176,6 +182,36 @@ div.stButton>button:hover {
     transform: translateY(-2px) !important;
 }
 
+/* מרכוז ועיצוב כפתור האיפוס - כחול כהה עבה וממורכז */
+.center-reset-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+    margin-bottom: 25px !important;
+}
+
+.center-reset-container div.stButton {
+    width: auto !important;
+    min-width: 250px !important;
+}
+
+.center-reset-container div.stButton>button {
+    color: #01579b !important;
+    border: 3.5px solid #01579b !important; /* מסגרת כחולה כהה עבה יותר */
+    border-radius: 20px !important;
+    background-color: #ffffff !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+}
+
+.center-reset-container div.stButton>button:hover {
+    background-color: #01579b !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
 /* Base Chat Bubbles Styling */
 [data-testid="stChatMessage"] {
     direction: rtl !important;
@@ -184,7 +220,7 @@ div.stButton>button:hover {
     margin-bottom: 20px !important;
     font-size: 16px !important;
     line-height: 1.6 !important;
-    font-family: 'Google Sans', 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
     border: none !important;
 }
 
@@ -223,7 +259,6 @@ div.stButton>button:hover {
     margin-bottom: 75px !important;
     z-index: 100 !important;
     background-color: #e1f5fe !important;
-    /* רקע תכלת לכל הפס התחתון */
 }
 
 [data-testid="stBottom"]>div {
@@ -251,7 +286,6 @@ div[data-baseweb="textarea"],
     background-color: #ffffff !important;
     color: #222222 !important;
     -webkit-text-fill-color: #222222 !important;
-    /* פקודה מיוחדת שמכריחה סמארטפונים להציג טקסט כהה */
 }
 
 /* שינוי צבע הרקע של תיבת הטעינה (Spinner) */
@@ -259,16 +293,12 @@ div[data-testid="stSpinner"],
 div.stSpinner,
 div[data-testid="stAlert"] {
     background-color: #ffffff !important;
-    /* משנה את הרקע ללבן נקי */
     background: #ffffff !important;
     border: 1px solid #e0e0e0 !important;
-    /* מסגרת אפורה עדינה */
     border-radius: 10px !important;
-    /* עיגול פינות שיתאים לצ'אט */
     padding: 10px !important;
 }
 
-/* מוודא שכל תתי-האלמנטים בפנים יהיו שקופים ולא יקבלו צבע תכלת מובנה */
 div[data-testid="stSpinner"]>div,
 div.stSpinner>div,
 div[data-testid="stAlert"]>div {
@@ -301,13 +331,10 @@ div[data-testid="stAlert"]>div {
     width: 100% !important;
 }
 
-
 /* =========================================
    התאמה למסכים קטנים ומובייל (רספונסיביות)
    ========================================= */
 @media (max-width: 768px) {
-
-    /* הקטנת כותרות ראשיות */
     .main-title {
         font-size: 32px !important;
         margin-top: 25px !important;
@@ -317,41 +344,36 @@ div[data-testid="stAlert"]>div {
         font-size: 24px !important;
     }
 
-    .hero-subtitle {
-        font-size: 16px !important;
-    }
-
-    /* הקטנת קוביית המידע (אזור מיושב | תעשייתי | פתוח) */
-    .info-section {
+    .info-section-transparent {
         padding: 15px !important;
-        font-size: 13px !important;
-        line-height: 1.8 !important;
     }
 
-    .info-title {
+    .info-title-large {
         font-size: 20px !important;
     }
 
-    /* כיווץ כפתורים והוראות - מניעת ירידת שורה */
+    .info-text-large {
+        font-size: 14px !important;
+    }
+
     .sample-heading {
         font-size: 12.5px !important;
         white-space: nowrap !important;
         text-align: center !important;
     }
 
-    div.stButton>button {
+    div.stButton>button,
+    .center-reset-container div.stButton>button {
         font-size: 14px !important;
         padding: 8px 10px !important;
     }
 
-    /* הקטנת בועות הצ'אט כדי שיתאימו למסך צר */
     [data-testid="stChatMessage"] {
         font-size: 15px !important;
         padding: 12px !important;
         margin-bottom: 10px !important;
     }
 
-    /* סידור ההאדר (הפס העליון) */
     .custom-header {
         padding: 10px 5% !important;
     }
