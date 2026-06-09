@@ -1,4 +1,4 @@
-/* Core setup & Hide Streamlit elements */
+/* Core Setup & Hide Streamlit Elements */
 [data-testid="stSidebarCollapseButton"],
 [data-testid="stSidebar"] {
     display: none !important;
@@ -14,12 +14,12 @@ header {
     background-color: transparent !important;
 }
 
-/* Force standard Segoe UI Font and Right-To-Left Alignment Globally */
+/* Force Standard Segeoe UI Font and Right-To-Left Alignment Globally */
 * {
     font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
-/* Beautiful Light Blue / Azure Background */
+/* Light Blue Background */
 html,
 body,
 .stApp {
@@ -28,14 +28,12 @@ body,
     width: 100%;
     overflow-x: hidden !important;
     background-color: #e1f5fe !important;
-    /* Light blue background */
     direction: rtl !important;
     text-align: right !important;
     color: #222222 !important;
-    /* Prevents text from turning white on mobile dark mode */
 }
 
-/* Force layout alignment on markdown cells */
+/* Force Layout Alignment on Markdown Cells */
 .stMarkdown,
 .stText,
 p,
@@ -50,7 +48,7 @@ li {
     color: #222222 !important;
 }
 
-/* Ensure lists (1-4) are perfectly right-aligned with bullets inside */
+/* Ensure lists (1-4) are right-aligned with bullets inside */
 ul,
 ol {
     list-style-position: inside !important;
@@ -63,11 +61,10 @@ ol {
     text-align: right !important;
     padding-top: 60px !important;
     padding-bottom: 150px !important;
-    /* Huge padding so the chat doesn't go under the footer */
     max-width: 750px !important;
 }
 
-/* STICKY HEADER Configuration */
+/* Sticky Header */
 .custom-header {
     background: #ffffff;
     padding: 15px 5%;
@@ -89,7 +86,7 @@ ol {
     letter-spacing: 0.5px;
 }
 
-/* MAIN PAGE TITLE */
+/* Main Page Title */
 .main-title {
     font-size: 52px;
     font-weight: 900;
@@ -126,7 +123,7 @@ ol {
     text-align: center !important;
 }
 
-/* Centered information card layout */
+/* Centered Information Card */
 .info-section-transparent {
     background: #ffffff !important;
     padding: 25px !important;
@@ -135,7 +132,6 @@ ol {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
     margin-bottom: 30px !important;
     border: 1px solid #b3e5fc !important;
-    /* Subtle light blue border */
 }
 
 .info-title-large {
@@ -165,7 +161,7 @@ ol {
     text-align: right !important;
 }
 
-/* Scenario suggestion buttons styling */
+/* Scenario Suggestion Buttons */
 div.stButton>button {
     width: 100% !important;
     background-color: #ffffff !important;
@@ -184,10 +180,9 @@ div.stButton>button:hover {
     transform: translateY(-2px) !important;
 }
 
-/* Reset button styling and positioning */
+/* Reset Button */
 div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton {
     position: static !important;
-    /* Default for mobile - flows with page scroll */
     width: 100% !important;
     display: flex !important;
     justify-content: flex-end !important;
@@ -197,7 +192,6 @@ div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElem
 div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton>button {
     color: #01579b !important;
     border: 3.5px solid #01579b !important;
-    /* Thick blue border instead of orange */
     border-radius: 20px !important;
     background-color: #ffffff !important;
     font-size: 16px !important;
@@ -210,16 +204,14 @@ div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElem
 
 div[data-testid="stElementContainer"]:has(.reset-marker)+div[data-testid="stElementContainer"] div.stButton>button:hover {
     background-color: #e1f5fe !important;
-    /* Light blue hover tint */
     color: #01579b !important;
     border-color: #01579b !important;
     transform: translateY(-2px) !important;
 }
 
-/* Language toggle button styling and positioning */
+/* Language Toggle Button */
 div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="stElementContainer"] div.stButton {
     position: static !important;
-    /* Default for mobile - flows with page scroll */
     width: 100% !important;
     display: flex !important;
     justify-content: flex-start !important;
@@ -265,9 +257,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="
     }
 }
 
-
-
-/* Base Chat Bubbles Styling */
+/* Chat Bubbles */
 [data-testid="stChatMessage"] {
     direction: rtl !important;
     text-align: right !important;
@@ -279,17 +269,16 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="
     border: none !important;
 }
 
-/* BOT (Assistant) Bubble Color */
+/* Bot (Assistant) Bubble Color */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
     background-color: transparent !important;
     border: 2px solid #2e7d32 !important;
-    /* Green wrapper/border */
     box-shadow: none !important;
     border-radius: 24px !important;
     color: #1f1f1f !important;
 }
 
-/* Add Gemini Sparkle via the flag */
+/* Gemini Sparkle Icon */
 .bot-msg-flag {
     display: inline-block;
     width: 22px;
@@ -301,19 +290,16 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="
     vertical-align: middle;
 }
 
-/* USER Bubble Color - Chat Bubble */
+/* User Bubble Color */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
     background-color: #f0f4f9 !important;
-    /* Modern Google grey */
     border: 2px solid #f57c00 !important;
-    /* Orange wrapper/border */
     box-shadow: none !important;
     color: #1f1f1f !important;
     border-radius: 28px 28px 4px 28px !important;
-    /* Modern bubble tail */
 }
 
-/* Main bottom container of the chat input */
+/* Main Bottom Container */
 [data-testid="stBottom"] {
     margin-bottom: 75px !important;
     z-index: 100 !important;
@@ -324,7 +310,7 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="
     background-color: transparent !important;
 }
 
-/* Outer container of the chat input - thick orange border */
+/* Outer Container of Chat Input */
 [data-testid="stChatInput"] {
     border: 4px solid #f57c00 !important;
     border-radius: 20px !important;
@@ -332,13 +318,13 @@ div[data-testid="stElementContainer"]:has(.lang-toggle-marker)+div[data-testid="
     overflow: hidden !important;
 }
 
-/* Clear Streamlit default dark mobile background in chat input */
+/* Clear Streamlit Default Dark Mobile Background in Chat Input */
 [data-testid="stChatInput"] * {
     background-color: transparent !important;
     color: #222222 !important;
 }
 
-/* Force chat input text field to have a white background and dark text */
+/* Force Chat Input Text Field to Have a White Background and Dark Text */
 [data-testid="stChatInputTextArea"],
 div[data-baseweb="textarea"],
 [data-testid="stChatInput"] textarea {
@@ -347,7 +333,7 @@ div[data-baseweb="textarea"],
     -webkit-text-fill-color: #222222 !important;
 }
 
-/* Loading spinner and alert component styling */
+/* Loading Spinner and Alert Component Styling */
 div[data-testid="stSpinner"],
 div.stSpinner,
 div[data-testid="stAlert"] {
@@ -390,7 +376,7 @@ div[data-testid="stAlert"]>div {
     width: 100% !important;
 }
 
-/* Mobile responsiveness adjustments (max-width: 768px) */
+/* Mobile Responsiveness Adjustments */
 @media (max-width: 768px) {
     .main-title {
         font-size: 32px !important;
@@ -424,8 +410,6 @@ div[data-testid="stAlert"]>div {
         padding: 8px 10px !important;
     }
 
-    /* Removed duplicate mobile rules */
-
     [data-testid="stChatMessage"] {
         font-size: 15px !important;
         padding: 12px !important;
@@ -445,7 +429,6 @@ div[data-testid="stAlert"]>div {
         white-space: nowrap !important;
     }
 
-    /* Keep language and reset buttons in the same row on mobile */
     div[data-testid="stHorizontalBlock"]:has(.lang-toggle-marker) {
         display: flex !important;
         flex-direction: row !important;

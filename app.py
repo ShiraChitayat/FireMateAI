@@ -6,7 +6,7 @@ import time
 import random
 import os
 import google.generativeai as genai
-import config  # ייבוא קובץ ההגדרות החדש שייצרת
+import config
 
 HAS_GEMINI = True
 
@@ -64,10 +64,10 @@ class FireMateAgent:
     def __init__(self, prompt):
         self.chat = None
         try:
-            # הגדרת מפתח ה-API מתוך קובץ הקונפיגורציה המרוחק
+            # Configure Gemini API key from settings file
             genai.configure(api_key=config.GEMINI_API_KEY)
             
-            # בניית המודל תוך שימוש בפרמטרים המדויקים מתוך קובץ הקונפיגורציה
+            # Initialize the generative model with parameters from config
             self.model = genai.GenerativeModel(
                 model_name=config.GEMINI_MODEL,
                 generation_config={
@@ -76,7 +76,7 @@ class FireMateAgent:
                 },
                 system_instruction=prompt
             )
-            # פתיחת שיחת צ'אט בעלת זיכרון רציף לניהול השאלות והתשובות
+            # Start a chat session with history capability
             self.chat = self.model.start_chat(history=[])
         except Exception as e:
             st.error(f"שגיאה באתחול הסוכן: {str(e)}")
@@ -95,17 +95,17 @@ class FireMateAgent:
                 return "⚠️ **הגענו למגבלת הבקשות (Quota Exceeded).** המערכת בהשהיה קלה כדי לשמור על יציבות המכסה. אנא המתן חצי דקה ושלח את ההודעה שוב."
             return f"שגיאה בתקשורת עם השרת: {err_str}"
 
-# --- Page Configuration ---
+# Page Configuration
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
 
-# --- Load External CSS ---
+# Load External CSS
 try:
     with open("style.css", "r", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 except Exception:
     pass
 
-# --- Session State Initialization ---
+# Session State Initialization
 if "lang" not in st.session_state:
     st.session_state.lang = "he"
 
@@ -118,7 +118,7 @@ if "firemate_agent" not in st.session_state:
 
 agent = st.session_state.firemate_agent
 
-# --- CSS Language Override (LTR for English) ---
+# CSS Language Override (LTR for English)
 if st.session_state.lang == "en":
     st.markdown("""
         <style>
@@ -143,7 +143,7 @@ if st.session_state.lang == "en":
         </style>
     """, unsafe_allow_html=True)
 
-# --- Header Buttons (Language Switcher & Reset Button) ---
+# Header Buttons (Language Switcher & Reset Button)
 col_left, col_right = st.columns([1, 1])
 
 with col_left:
@@ -179,7 +179,7 @@ if st.session_state.lang == "he":
 else:
     st.markdown("<div class='hero-brand-name'>Is there a fire in the area?</div>", unsafe_allow_html=True)
 
-# קוביית המידע המרכזית המשודרגת
+# Centered Main Information Box
 if st.session_state.lang == "he":
     st.markdown("""
     <div class="info-section-transparent">
@@ -213,8 +213,8 @@ if not st.session_state.messages:
         welcome_msg = "Hello, I am your FireMate AI agent and I will ask you a few short questions to assist you today."
     st.session_state.messages = [{"role": "assistant", "content": welcome_msg}]
 
-# Quick-start preset buttons - יופיעו רק בתחילת השיחה!
-click_query = ""
+# Quick-start Preset Buttons (visible only at the start of the conversation)
+click_query = "" 
 if len(st.session_state.messages) == 1:
     if st.session_state.lang == "he":
         st.markdown("<div class='sample-heading'>בחר תרחיש לדוגמה להתחלה:</div>", unsafe_allow_html=True)
@@ -256,12 +256,12 @@ if click_query:
 
 if user_query:
     if not st.session_state.messages or st.session_state.messages[-1]["content"] != user_query:
-        # 1. Show user message
+        # 1. Show User Message
         st.session_state.messages.append({"role": "user", "content": user_query})
         with st.chat_message("user", avatar="🧑"):
             st.markdown(f"<div class='user-msg-flag'></div> {user_query}", unsafe_allow_html=True)
 
-        # 2. Typing indicator (Bot thinking)
+        # 2. Typing Indicator (Bot thinking)
         with st.chat_message("assistant", avatar="🤖"):
             spinner_text = "הסוכן מנתח נתונים ומקליד תשובה... 💬" if st.session_state.lang == "he" else "The agent is analyzing data and typing a response... 💬"
             with st.spinner(spinner_text):
@@ -272,19 +272,19 @@ if user_query:
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()
 
-# Fixed bottom footer
+# Fixed Bottom Footer
 if st.session_state.lang == "he":
     st.markdown("""
         <div class='custom-footer'>
-            <div class='footer-text-main'>כל הזכויות שמורות לפרויקט הגמר ©</div>
-            <div class='footer-text-sub'>סדנת חדשנות מבוססת AI/ML 2026 🎓 | Shira Chitayat & Shira Dabach</div>
+            <div class='footer-text-main'>כל הזכויות שמורות ©</div>
+            <div class='footer-text-sub'>סדנת חדשנות מבוססת AI/ML 2026 | Shira Chitayat & Shira Dabach</div>
         </div>
     """, unsafe_allow_html=True)
 else:
     st.markdown("""
         <div class='custom-footer'>
-            <div class='footer-text-main'>All rights reserved to the final project ©</div>
-            <div class='footer-text-sub'>AI/ML Innovation Workshop 2026 🎓 | Shira Chitayat & Shira Dabach</div>
+            <div class='footer-text-main'>All rights reserved ©</div>
+            <div class='footer-text-sub'>AI/ML Innovation Workshop 2026 | Shira Chitayat & Shira Dabach</div>
         </div>
     """, unsafe_allow_html=True)
  
