@@ -301,6 +301,35 @@ div[data-testid="stAlert"]>div {
     width: 100% !important;
 }
 
+/* =========================================================
+   שיפורים ויזואליים: בועות, אייקונים ותיבת טקסט
+   ========================================================= */
+
+/* 1. העלמה מוחלטת של הסימון/האייקון הכחול והאדום הדיפולטיבי של Streamlit */
+[data-testid="chatAvatarIcon-assistant"], 
+[data-testid="chatAvatarIcon-user"] {
+    display: none !important;
+}
+
+/* 2. עיגול כל הפינות (כולל הפינה הימנית) של בועות הצ'אט כדי שייראו נקיות */
+[data-testid="stChatMessage"] {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+}
+
+/* 3. עיצוב תיבת הטקסט החופשי: גבול כתום בולט, עבה ומעוגל */
+[data-testid="stChatInput"] {
+    border: 3px solid #FF9800 !important;
+    border-radius: 15px !important;
+    background-color: #ffffff !important;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* הדגשה כתומה בעת לחיצה על תיבת ההקלדה */
+[data-testid="stChatInput"]:focus-within {
+    border: 3px solid #E65100 !important;
+    box-shadow: 0px 0px 12px rgba(255, 152, 0, 0.4) !important;
+} 
 
 /* =========================================
    התאמה למסכים קטנים ומובייל (רספונסיביות)
