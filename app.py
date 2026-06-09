@@ -34,7 +34,8 @@ if api_key:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": 0.3}
     
-    best_model = "gemini-1.5-flash"
+    # Using gemini-pro as it's universally available on all free tiers
+    best_model = "gemini-pro"
     
     gemini_model = genai.GenerativeModel(best_model, generation_config=generation_config)
 else:
