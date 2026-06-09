@@ -108,7 +108,7 @@ st.markdown("""
 <div class="info-section-transparent">
     <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
     <div class="info-text-large">
-        מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות אופרטיביות לפי שלושה אזורים:<br>
+        מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
         <b>שריפה בשטח בנוי 🏘️ &nbsp;|&nbsp; שריפה באזור תעשייה 🏭 &nbsp;|&nbsp; שריפה בשטח פתוח 🌲</b>
     </div>
 </div>
