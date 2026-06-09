@@ -275,7 +275,7 @@ if st.session_state.lang == "he":
     st.markdown("""
         <div class='custom-footer'>
             <div class='footer-text-main'>כל הזכויות שמורות ©</div>
-            <div class='footer-text-sub'>סדנת חדשנות מבוססת AI/ML 2026 | Shira Chitayat & Shira Dabach</div>
+            <div class='footer-text-sub'>AI/ML סדנת חדשנות מבוססת 2026 | Shira Chitayat & Shira Dabach</div>
         </div>
     """, unsafe_allow_html=True)
 else:
