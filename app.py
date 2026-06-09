@@ -30,7 +30,7 @@ system_instruction = """
 - הפק פקודת מבצע טקטית ללוחם האש שכוללת הערכת סיכונים, ופקודות ביצוע (סריקה, חילוץ, אוורור וכו').
 - ציין שההחלטה מבוססת על אלגוריתם דמיון קוסינוס (Cosine Similarity) לאירועי עבר דומים.
 - חובה לשלב בסוף התוכנית את מספרי הטלפון לסיוע לפי תוואי השטח שזוהה, כולל האימוג'ים המדויקים המופיעים כאן:
-   - מגורים 🏘️: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חברת חשמל ⚡ (103), פיקוד העורף 🛡️ (104).
+   - מגורים 👑: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חברת חשמל ⚡ (103), פיקוד העורף 🛡️ (104).
    - תעשייה 🏭: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חומ"ס ⚠️ (*6911), חברת חשמל ⚡ (103).
    - שטח פתוח 🌲: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), מוקד קק"ל 🌲 (1-800-350-550), רט"ג 🦌 (*3639).
 """
@@ -93,14 +93,14 @@ agent = st.session_state.firemate_agent
 st.markdown("<div class='main-title'>🔥 FireMate AI</div>", unsafe_allow_html=True)
 st.markdown("<div class='hero-brand-name'>יש שריפה באזור?</div>", unsafe_allow_html=True)
 
-# קוביית המידע המרכזית המשודרגת
+# קוביית המידע המרכזית המשודרגת והאלגנטית בתוך הקונטיינר הייעודי
 st.markdown("""
 <div class="info-section-transparent">
     <div class="info-title-large">⚡ איך ניתן לעזור לכוחות בשטח</div>
     <div class="info-text-large">
         מערכת חכמה המבוססת על מודל שפה ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
-        <span style="display: inline-block; margin-top: 10px;">
-            <b>מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
+        <span style="display: inline-block; margin-top: 8px; font-weight: 700; color: #01579b;">
+            מגורים 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲
         </span>
     </div>
 </div>
@@ -125,8 +125,8 @@ if len(st.session_state.messages) == 1:
         if st.button("🌲 שטח פתוח / כרמל", key="btn_wildfire"):
             click_query = "היי יש שריפת יער בכרמל"
 
-# קונטיינר מיוחד למרכוז ועיצוב כפתור האיפוס מחדש
-st.markdown('<div class="center-reset-container">', unsafe_allow_html=True)
+# כפתור התחל דיווח חדש - עטוף בקלאס ייעודי למרכוז ועיצוב כחול עבה
+st.markdown('<div class="my-reset-btn">', unsafe_allow_html=True)
 if st.button("התחל דיווח חדש 🔄", key="reset_chat"):
     st.session_state.messages = []
     if "firemate_agent" in st.session_state:
