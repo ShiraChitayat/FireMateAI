@@ -32,28 +32,42 @@ system_instruction = """
 4. שפה ותיקון שגיאות: הבן שגיאות כתיב וערבוב שפות (עברית ואנגלית). ענה תמיד בעברית רהוטה ומקצועית.
 """
 
-model = None
-if HAS_GEMINI and len(api_key) > 10:
-    try:
-        genai.configure(api_key=api_key)
-        # תיקון שם המודל ל-gemini-1.5-flash והעברת הנחיות המערכת בצורה תקנית
-        model = genai.GenerativeModel(model_name='gemini-1.5-flash', system_instruction=system_instruction)
-    except Exception:
-        model = None
-
 class FireMateAgent:
-    def __init__(self, gemini_model, system_prompt):
-        self.model = gemini_model
-        self.system_prompt = system_prompt
+    def __init__(self, key, prompt):
         self.chat = None
-        if self.model:
-            try:
-                self.chat = self.model.start_chat(history=[])
-            except Exception:
-                self.chat = None
+        if not key or len(key) < 5:
+            return
+        
+        try:
+            genai.configure(api_key=key)
+            
+            # בדיקה דינמית של מודלים כדי למנוע שגיאת 404 בוודאות
+            available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+            
+            best_model = None
+            # מחפשים את המודל החינמי הטוב והמעודכן ביותר שזמין עבורך אישית
+            for m in ["models/gemini-1.5-flash", "models/gemini-1.5-pro", "models/gemini-pro", "models/gemini-1.0-pro"]:
+                if m in available_models:
+                    best_model = m
+                    break
+            
+            # אם שום מודל מהרשימה לא נמצא, ניקח את הראשון שזמין (רשת ביטחון)
+            if not best_model and available_models:
+                best_model = available_models[0]
+            
+            if best_model:
+                self.model = genai.GenerativeModel(best_model)
+                
+                # פתרון קסם: הזרקת הנחיות המערכת בתור "היסטוריה" כדי לעקוף באגים של ספריית פייתון
+                self.chat = self.model.start_chat(history=[
+                    {"role": "user", "parts": [f"System Instruction: {prompt}\n\nהאם הבנת את ההנחיות?"]},
+                    {"role": "model", "parts": ["הבנתי. אני FireMate AI, מוכן ומזומן לפעול כמוקדן חירום אנושי ומקצועי בעברית, לשאול שאלות אחת-אחת, ולהפיק תוכנית פעולה טקטית לפי ההנחיות."]}
+                ])
+        except Exception as e:
+            self.chat = None
 
     def generate_tactical_response(self, user_input):
-        if not self.model or not self.chat:
+        if not self.chat:
             return "שגיאה: מערכת ה-AI אינה מוגדרת או שאין חיבור ל-API. אנא בדוק את מפתח ה-API שלך."
         
         try:
@@ -63,7 +77,7 @@ class FireMateAgent:
             return f"שגיאה בתקשורת עם השרת: {str(e)}"
 
 # Initialize Agent
-agent = FireMateAgent(model, system_instruction)
+agent = FireMateAgent(api_key, system_instruction)
 
 # --- Page Configuration ---
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
