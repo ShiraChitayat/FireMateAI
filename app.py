@@ -18,7 +18,7 @@ if not api_key:
 if api_key:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": 0.3}
-    gemini_model = genai.GenerativeModel("gemini-1.5-flash", generation_config=generation_config, system_instruction="""
+    gemini_model = genai.GenerativeModel("gemini-1.5-pro", generation_config=generation_config, system_instruction="""
 אתה FireMate AI, סוכן חכם תומך החלטות לניהול אירועי חירום ושריפות בזמן אמת. פעל תמיד כמוקדן חירום אנושי, מקצועי וטבעי (ולא כבוט רובוטי מבוסס חוקים).
 
 הנחיות הפעולה שלך:
@@ -157,13 +157,13 @@ col1, col2, col3 = st.columns(3)
 click_query = ""
 with col1:
     if st.button("🏘️ שריפה בשטח בנוי"):
-        click_query = "אני בשטח עירוני בתל אביב, ישראל, ויש שריפה ענקית של בניין מגורים כתוצאה מקצר חשמלי. מה לעשות?"
+        click_query = "היי, זיהיתי שריפה באזור מגורים בתל אביב."
 with col2:
     if st.button("🏭 שריפה באזור תעשייה"):
-        click_query = "פרצה אש נרחבת במחסן לוגיסטי בתוך אזור התעשייה בחיפה, ישראל, בגלל פיצוץ בלון גז. יש חשש להימצאות חומרים מסוכנים."
+        click_query = "שלום, פרצה שריפה באזור תעשייה בחיפה."
 with col3:
     if st.button("🌲 שריפה בשטח פתוח"):
-        click_query = "זיהינו להבות בגובה 10 מטר בלב היער בשטח פתוח בצפון ישראל. סיבת הדליקה לא ידועה, השריפה מתפשטת אופקית וגדולה מאוד."
+        click_query = "היי, יש שריפת יער גדולה בשטח פתוח בצפון."
 
 # Chat & Form Persistent State Initialization
 

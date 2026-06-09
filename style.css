@@ -191,8 +191,9 @@ div.stButton>button:hover {
 /* BOT (Assistant) Bubble Color - Gemini Official UI Style */
 [data-testid="stChatMessage"]:has(.bot-msg-flag) {
     background-color: transparent !important;
+    border: 2px solid #2e7d32 !important; /* Green wrapper/border */
     box-shadow: none !important;
-    border-radius: 0 !important;
+    border-radius: 24px !important;
     color: #1f1f1f !important;
 }
 
@@ -210,12 +211,11 @@ div.stButton>button:hover {
 
 /* USER Bubble Color - Modern Chat Bubble */
 [data-testid="stChatMessage"]:has(.user-msg-flag) {
-    background-color: #f0f4f9 !important;
-    /* Modern Google grey */
+    background-color: #f0f4f9 !important; /* Modern Google grey */
+    border: 2px solid #f57c00 !important; /* Orange wrapper/border */
     box-shadow: none !important;
     color: #1f1f1f !important;
-    border-radius: 28px 28px 4px 28px !important;
-    /* Modern bubble tail */
+    border-radius: 28px 28px 4px 28px !important; /* Modern bubble tail */
 }
 
 /* הפס התחתון הראשי שמכיל את התיבה */
