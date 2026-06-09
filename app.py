@@ -34,16 +34,8 @@ if api_key:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": 0.3}
     
-    # Dynamically find an available model to avoid 404 errors
-    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+    best_model = "gemini-1.5-flash"
     
-    best_model = "gemini-pro" # Safe fallback
-    # Prefer 1.5 flash, then 1.5 pro, then fallback to gemini-pro
-    for m in ["models/gemini-1.5-flash", "models/gemini-1.5-flash-latest", "models/gemini-1.5-pro", "models/gemini-1.5-pro-latest", "models/gemini-pro"]:
-        if m in available_models:
-            best_model = m.replace("models/", "")
-            break
-
     gemini_model = genai.GenerativeModel(best_model, generation_config=generation_config)
 else:
     gemini_model = None
