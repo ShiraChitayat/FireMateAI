@@ -34,8 +34,8 @@ if api_key:
     genai.configure(api_key=api_key)
     generation_config = {"temperature": 0.3}
     
-    # gemini-2.0-flash is the current stable model for Google AI Studio free tier
-    best_model = "gemini-2.0-flash"
+    # gemini-1.5-flash-8b has the most generous free-tier quota (1500 req/day)
+    best_model = "gemini-1.5-flash-8b"
 
     gemini_model = genai.GenerativeModel(best_model, generation_config=generation_config)
 else:
@@ -132,8 +132,9 @@ class FireMateIntelligenceEngine:
                 history.append({"role": "user", "parts": [f"System Instructions (Follow these strictly):\n{system_instruction}"]})
                 history.append({"role": "model", "parts": ["הבנתי. אפעל בדיוק לפי ההנחיות הללו כסוכן FireMate AI."]})
 
-                # Pass previous messages (excluding the current one which is at the end of session_state.messages)
-                for msg in st.session_state.messages[:-1]:
+                # Pass only the last 6 messages to minimize token usage on free tier
+                recent_msgs = st.session_state.messages[:-1][-6:]
+                for msg in recent_msgs:
                     role = "model" if msg["role"] == "assistant" else "user"
                     history.append({"role": role, "parts": [msg["content"]]})
                 
