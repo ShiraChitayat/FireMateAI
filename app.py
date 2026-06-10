@@ -181,9 +181,9 @@ else:
 if st.session_state.lang == "he":
     st.markdown("""
     <div class="info-section-transparent">
-        <div class="info-title-large"> איך ניתן לעזור לכוחות בשטח</div>
+        <div class="info-title-large"> הגעת לזירה. אני כאן כדי לתת גיבוי. </div>
         <div class="info-text-large">
-            סוכן חכם המבוסס על מודל שפה מתקדם ונתוני לוויין NASA לקבלת הנחיות לפי שלושה אזורים:<br>
+            אני FireMate AI, סוכן ה-AI המבצעי שלך. בעזרת נתוני לוויין של NASA, אני מנתח את הזירה ומרכיב עבורך פקודת מבצע טקטית בזמן אמת. המערכת שלי ערוכה לספק מענה מדויק לפי שלושה אזורים:<br>
             <span style="display: inline-block; margin-top: 10px;">
                 <b>שטח בנוי 🏘️ &nbsp;|&nbsp; תעשייה ומפעלים 🏭 &nbsp;|&nbsp; שטח פתוח ויערות 🌲</b>
             </span>
@@ -193,9 +193,9 @@ if st.session_state.lang == "he":
 else:
     st.markdown("""
     <div class="info-section-transparent">
-        <div class="info-title-large"> How to assist forces in the field</div>
+        <div class="info-title-large"> You are on scene. I'm here for backup. </div>
         <div class="info-text-large">
-            A smart system based on a language model and NASA satellite data to receive guidelines for three zones:<br>
+            I am FireMate AI, your operational AI agent. Using NASA satellite data, I analyze the scene and formulate a real-time tactical operation order for you. My system is equipped to provide a precise response across three distinct zones:<br>
             <span style="display: inline-block; margin-top: 10px;">
                 <b>Residential 🏘️ &nbsp;|&nbsp; Industry & Factories 🏭 &nbsp;|&nbsp; Open Area & Forests 🌲</b>
             </span>
