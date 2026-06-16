@@ -27,7 +27,12 @@ system_instruction = """
 - בשום פנים ואופן אל תפיק את הפרוטוקול הסופי עד שכל 4 הנתונים נאספו בבירור.
 
 הפקת הפרוטוקול הסופי (לאחר איסוף הנתונים):
-- הפק פקודת מבצע טקטית ללוחם האש שכוללת הערכת סיכונים, ופקודות ביצוע (סריקה, חילוץ, אוורור וכו').
+- הפק פקודת מבצע טקטית ללוחם האש שכוללת הערכת סיכונים ופקודות ביצוע (סריקה, חילוץ, אוורור וכו').
+- חובה לעטוף את כל המלל והתוכן של הערכת הסיכונים (ולא את פקודות הביצוע) בתג <risk_assessment>...</risk_assessment> באופן הבא:
+  <risk_assessment>
+  - [תוכן הערכת הסיכונים]
+  </risk_assessment>
+  שים לב: אל תכלול את הכותרת "הערכת סיכונים" בתוך התג או מחוצה לו, כיוון שהיא תיווצר אוטומטית על גבי הכפתור.
 - חובה לשלב בסוף התוכנית את מספרי הטלפון לסיוע לפי תוואי השטח שזוהה, כולל האימוג'ים המדויקים המופיעים כאן:
    - שטח בנוי 🏘️: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), חברת החשמל ⚡ (103), פיקוד העורף 🛡️ (104).
    - אזור תעשייה 🏭: משטרה 🚓 (100), מד"א 🚑 (101), מוקד עירוני 🏢 (106), מוקד חומרים מסוכנים ⚠️ (6911*), חברת החשמל ⚡ (103).
@@ -52,6 +57,11 @@ Critical rules for managing the conversation:
 
 Generating the final protocol (after collecting the data):
 - Generate a tactical operational order in English for the firefighter that includes risk assessment, and execution orders (scanning, rescue, ventilation, etc.).
+- You must wrap all the text and content of the risk assessment (and not the execution orders) in a <risk_assessment>...</risk_assessment> tag as follows:
+  <risk_assessment>
+  - [Risk assessment content]
+  </risk_assessment>
+  Note: Do not include the title "Risk Assessment" inside or outside the tag, as it will be generated automatically on the button.
 - You must integrate at the end of the program the assistance phone numbers according to the identified terrain type, including the exact emojis shown here:
    - Residential 🏘️: Police 🚓 (100), MADA 🚑 (101), Municipal Hotline 🏢 (106), Electricity Company ⚡ (103), Home Front Command 🛡️ (104).
    - Industrial 🏭: Police 🚓 (100), MADA 🚑 (101), Municipal Hotline 🏢 (106), Hazardous Materials ⚠️ (*6911), Electricity Company ⚡ (103).
@@ -92,6 +102,96 @@ class FireMateAgent:
             if "429" in err_str or "Quota" in err_str:
                 return "⚠️ הגענו למגבלת הבקשות (Quota Exceeded). המערכת בהשהיה קלה כדי לשמור על יציבות המכסה. אנא המתן חצי דקה ושלח את ההודעה שוב."
             return f"שגיאה בתקשורת עם השרת: {err_str}"
+
+
+def format_risk_text_to_html(text):
+    # Split text into lines to process each line individually
+    lines = text.strip().split('\n')
+    html_lines = []
+    in_list = False
+    list_type = None  # Tracks 'ul' or 'ol'
+    
+    for line in lines:
+        line_stripped = line.strip()
+        if not line_stripped:
+            continue
+            
+        # Identify bullet and numbered list items
+        is_bullet = line_stripped.startswith('- ') or line_stripped.startswith('* ')
+        is_numbered = line_stripped.split('.')[0].isdigit() and line_stripped.startswith(line_stripped.split('.')[0] + '. ')
+        
+        if is_bullet:
+            if not in_list or list_type != 'ul':
+                if in_list:
+                    html_lines.append(f'</{list_type}>')
+                html_lines.append('<ul style="margin: 0; padding-right: 20px; padding-left: 20px;">')
+                in_list = True
+                list_type = 'ul'
+            content = line_stripped[2:].strip()
+            # Replace basic markdown bold notation with html tags
+            content = parse_bold_markdown(content)
+            html_lines.append(f'<li style="margin-bottom: 5px;">{content}</li>')
+        elif is_numbered:
+            if not in_list or list_type != 'ol':
+                if in_list:
+                    html_lines.append(f'</{list_type}>')
+                html_lines.append('<ol style="margin: 0; padding-right: 20px; padding-left: 20px;">')
+                in_list = True
+                list_type = 'ol'
+            prefix = line_stripped.split('.')[0] + '. '
+            content = line_stripped[len(prefix):].strip()
+            content = parse_bold_markdown(content)
+            html_lines.append(f'<li style="margin-bottom: 5px;">{content}</li>')
+        else:
+            if in_list:
+                html_lines.append(f'</{list_type}>')
+                in_list = False
+                list_type = None
+            content = parse_bold_markdown(line_stripped)
+            html_lines.append(f'<p style="margin: 8px 0;">{content}</p>')
+            
+    if in_list:
+        html_lines.append(f'</{list_type}>')
+        
+    return '\n'.join(html_lines)
+
+
+def parse_bold_markdown(text):
+    # Replace markdown **bold** syntax with HTML <b> tags
+    parts = text.split('**')
+    new_parts = []
+    for idx, part in enumerate(parts):
+        if idx % 2 == 1:
+            new_parts.append(f'<b>{part}</b>')
+        else:
+            new_parts.append(part)
+    return ''.join(new_parts)
+
+
+def format_assistant_message(content, lang):
+    # Locate and extract the risk_assessment tags to replace them with a styled HTML details button
+    if "<risk_assessment>" in content and "</risk_assessment>" in content:
+        parts = content.split("<risk_assessment>")
+        before = parts[0]
+        rest = parts[1].split("</risk_assessment>")
+        risk_text = rest[0].strip()
+        after = rest[1]
+        
+        # Parse markdown formatting of the risk text
+        formatted_risk = format_risk_text_to_html(risk_text)
+        
+        # Determine the button text depending on current language
+        btn_text = "הערכת סיכונים ⚠️" if lang == "he" else "Risk Assessment ⚠️"
+        
+        details_html = (
+            f'<details class="risk-details">'
+            f'<summary class="risk-summary">{btn_text}</summary>'
+            f'<div class="risk-content">{formatted_risk}</div>'
+            f'</details>'
+        )
+        return before + details_html + after
+    return content
+
 
 # Page Configuration
 st.set_page_config(page_title="FireMate AI", page_icon="🔥", layout="centered", initial_sidebar_state="collapsed")
@@ -244,7 +344,11 @@ for message in st.session_state.messages:
     css_class = "user-msg-flag" if message["role"] == "user" else "bot-msg-flag"
     avatar = "🧑" if message["role"] == "user" else "🤖"
     with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(f"<div class='{css_class}'></div> {message['content']}", unsafe_allow_html=True)
+        content = message["content"]
+        # Format assistant messages to handle interactive elements like risk assessment buttons
+        if message["role"] == "assistant":
+            content = format_assistant_message(content, st.session_state.lang)
+        st.markdown(f"<div class='{css_class}'></div> {content}", unsafe_allow_html=True)
 
 # User Input Processing
 chat_placeholder = "הקלד את הדיווח שלך או ענה לסוכן כאן..." if st.session_state.lang == "he" else "Type your report or answer FireMate AI here..."
@@ -265,7 +369,8 @@ if user_query:
             with st.spinner(spinner_text):
                 time.sleep(1.5)
                 response = agent.generate_tactical_response(user_query)
-                st.markdown(f"<div class='bot-msg-flag'></div> {response}", unsafe_allow_html=True)
+                display_content = format_assistant_message(response, st.session_state.lang)
+                st.markdown(f"<div class='bot-msg-flag'></div> {display_content}", unsafe_allow_html=True)
 
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.rerun()

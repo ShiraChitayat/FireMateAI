@@ -470,3 +470,50 @@ div[data-testid="stAlert"]>div {
         padding-right: 10px !important;
     }
 }
+
+/* Styled Details/Summary for Risk Assessment */
+details.risk-details {
+    margin: 15px 0 !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+summary.risk-summary {
+    display: inline-block !important;
+    background-color: #ffffff !important;
+    color: #e65100 !important;
+    border: 2px solid #e65100 !important;
+    border-radius: 20px !important;
+    padding: 10px 20px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    transition: all 0.3s ease !important;
+    list-style: none !important;
+    /* Hide default arrow */
+    text-align: center !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+summary.risk-summary::-webkit-details-marker {
+    display: none !important;
+    /* Hide default arrow in webkit */
+}
+
+summary.risk-summary:hover {
+    background-color: #e65100 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+}
+
+.risk-content {
+    margin-top: 15px !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    background-color: #fff3e0 !important;
+    border-inline-start: 4px solid #e65100 !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    color: #222222 !important;
+}
