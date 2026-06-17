@@ -169,6 +169,12 @@ def parse_bold_markdown(text):
 
 
 def format_assistant_message(content, lang):
+    # Remove the specific intro sentence if it exists
+    for phrase in ["הנתונים התקבלו. להלן פקודת המבצע הטקטית לאירוע:", "הנתונים התקבלו. להלן פקודת המבצע הטקטית לאירוע"]:
+        if phrase in content:
+            content = content.replace(phrase, "")
+    content = content.lstrip()
+
     # Locate and extract the risk_assessment tags to replace them with a styled HTML details button
     if "<risk_assessment>" in content and "</risk_assessment>" in content:
         parts = content.split("<risk_assessment>")
