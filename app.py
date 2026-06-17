@@ -23,11 +23,13 @@ system_instruction = """
 
 כללים קריטיים לניהול השיחה (קרא היטב!):
 - חלץ מידע מתוך דברי המשתמש בהיגיון: אם הוא ציין "דירה", זה מגורים. אם ציין עיר או יישוב (למשל "רמת גן", "קריית אונו", "חיפה" וכו'), זה המיקום וזה גם מעיד שתוואי השטח הוא מגורים/שטח בנוי. אל תשאל שוב על נתונים שכבר סופקו או שניתן להסיקם בהיגיון!
+- במהלך איסוף הנתונים (לפני הפרוטוקול הסופי), לאחר כל תשובה של המשתמש, אל תפרט או תחזור על הנתונים שנאספו (אל תגיד למשל "קיבלתי. שריפה קטנה בפתח תקווה"), אלא פשוט כתוב "קיבלתי" ושאל מיד את השאלה המנחה הבאה.
 - שאל רק שאלה אחת בכל פעם, והמתן לתשובה.
 - בשום פנים ואופן אל תפיק את הפרוטוקול הסופי עד שכל 4 הנתונים נאספו בבירור.
 
 הפקת הפרוטוקול הסופי (לאחר איסוף הנתונים):
 - הפק פקודת מבצע טקטית ללוחם האש שכוללת הערכת סיכונים ופקודות ביצוע (סריקה, חילוץ, אוורור וכו').
+- בשום פנים ואופן אל תכתוב פתיח או משפטים מקדימים כגון "הנתונים הושלמו" או "הנתונים התקבלו" או "להלן פקודת המבצע" לפני תג ה- <risk_assessment>, אלא התחל ישירות בתג ה- <risk_assessment>.
 - חובה לעטוף את כל המלל והתוכן של הערכת הסיכונים (ולא את פקודות הביצוע) בתג <risk_assessment>...</risk_assessment> באופן הבא:
   <risk_assessment>
   - [תוכן הערכת הסיכונים]
@@ -52,11 +54,13 @@ You must verify that you have the following 4 pieces of data from the reporting 
 
 Critical rules for managing the conversation:
 - Logically extract information from the user's words (they might write in English or Hebrew): if they mention "apartment" or "דירה", it's residential. If they mention a city or town (like "Ramat Gan", "Kiryat Ono", "Haifa", etc.), it is the location and it also indicates that the terrain type is residential/built area. Do not ask for data that has already been provided or can be logically inferred!
+- During the data collection phase (before the final protocol), after each user response, do not summarize or repeat the collected data (e.g., do not say "Received. Small fire in Petah Tikva"), but simply write "Received" and immediately ask the next guiding question.
 - Ask only one question at a time, and wait for the response.
 - Under no circumstances generate the final protocol until all 4 pieces of data have been clearly collected.
 
 Generating the final protocol (after collecting the data):
 - Generate a tactical operational order in English for the firefighter that includes risk assessment, and execution orders (scanning, rescue, ventilation, etc.).
+- Under no circumstances write any introductory phrases like "Data received", "Data completed" or "Here is the tactical operational order" before the <risk_assessment> tag. Start directly with the <risk_assessment> tag.
 - You must wrap all the text and content of the risk assessment (and not the execution orders) in a <risk_assessment>...</risk_assessment> tag as follows:
   <risk_assessment>
   - [Risk assessment content]
@@ -170,10 +174,9 @@ def parse_bold_markdown(text):
 
 def format_assistant_message(content, lang):
     # Remove the specific intro sentence if it exists
-    for phrase in ["הנתונים התקבלו. להלן פקודת המבצע הטקטית לאירוע:", "הנתונים התקבלו. להלן פקודת המבצע הטקטית לאירוע"]:
-        if phrase in content:
-            content = content.replace(phrase, "")
-    content = content.lstrip()
+    import re
+    pattern = r'(הנתונים|התקבלו הנתונים|הנתונים התקבלו|הנתונים הושלמו)\s*[\.\,\-]?\s*להלן פקודת\s*(המבצע|מבצע)\s*הטקטית\s*לאירוע\s*:?'
+    content = re.sub(pattern, "", content).lstrip()
 
     # Locate and extract the risk_assessment tags to replace them with a styled HTML details button
     if "<risk_assessment>" in content and "</risk_assessment>" in content:
